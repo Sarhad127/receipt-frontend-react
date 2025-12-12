@@ -4,20 +4,38 @@ import "./style/UploadReceipt.css";
 function UploadReceipt() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [ocrData, setOcrData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
         setSelectedImage(URL.createObjectURL(file));
+        setOcrData(null);
+        setError("");
+        setLoading(true);
 
-        // Placeholder for OCR
-        setOcrData({
-            store: "ICA Maxi",
-            date: "2024-02-16",
-            total: "152.90 kr",
-            items: ["Mjölk 20.90", "Pasta 15.00", "Kaffe 79.00", "Bananer 38.00"]
-        });
+        try {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const response = await fetch("http://127.0.0.1:8000/ocr", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("OCR-förfrågan misslyckades");
+            }
+
+            const data = await response.json();
+            setOcrData(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -37,6 +55,12 @@ function UploadReceipt() {
                     <p>Klicka här eller dra in ett kvitto</p>
                 </div>
             </label>
+
+            {/* Loading */}
+            {loading && <p>Läser av kvittot...</p>}
+
+            {/* Error */}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             {/* Preview */}
             {selectedImage && (
@@ -62,12 +86,16 @@ function UploadReceipt() {
                         <li>
                             <strong>Artiklar:</strong>
                             <ul className="item-list">
-                                {ocrData.items.map((item, index) => (
+                                {ocrData.items && ocrData.items.map((item, index) => (
                                     <li key={index}>{item}</li>
                                 ))}
                             </ul>
                         </li>
                     </ul>
+
+                    {/* Visa hela JSON-responsen */}
+                    <h4>Full JSON:</h4>
+                    <pre>{JSON.stringify(ocrData, null, 2)}</pre>
                 </div>
             )}
         </div>
