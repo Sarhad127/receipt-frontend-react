@@ -1,0 +1,75 @@
+.upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.upload-box {
+    border: 2px dashed #b8b8b8;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+    background: #fafafa;
+}
+
+.upload-box:hover {
+    background: #f1f1f1;
+    border-color: #8e8e8e;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.preview-section {
+    text-align: center;
+}
+
+.receipt-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.ocr-wrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.ocr-list {
+    list-style: none;
+    padding: 0;
+    font-size: 16px;
+}
+
+.ocr-list > li {
+    margin-bottom: 10px;
+}
+
+.item-list {
+    margin-top: 5px;
+    margin-left: 20px;
+    list-style: disc;
+}
