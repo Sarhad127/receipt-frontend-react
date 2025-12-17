@@ -1,13 +1,11 @@
 import React from "react";
-import UploadReceipt from "./components/UploadReceipt";
 import "./app.css";
+import LoginPage from "./components/LoginPage.jsx"; // make sure the path is correct
 
 function App() {
     return (
-        <div className="app-container">
-            <div className="app-content">
-                <UploadReceipt />
-            </div>
+        <div className="app">
+            <LoginPage />
         </div>
     );
 }
