@@ -27,7 +27,6 @@ function LoginPage() {
 
             const data = await response.json();
             localStorage.setItem("jwt", data.token);
-            console.log("Role:", data.role);
             alert("Logged in successfully!");
         } catch (err) {
             alert(err.message);
