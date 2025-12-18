@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./style/LoginPage.css";
 import RegisterPage from "./RegisterPage";
+import {useNavigate} from "react-router-dom";
 
 function LoginPage() {
+    const navigate = useNavigate();
     const [showRegister, setShowRegister] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
 
     if (showRegister) {
         return <RegisterPage onBack={() => setShowRegister(false)} />;
@@ -26,10 +29,16 @@ function LoginPage() {
             }
 
             const data = await response.json();
-            localStorage.setItem("jwt", data.token);
-            alert("Logged in successfully!");
+
+            if (rememberMe) {
+                localStorage.setItem("jwt", data.token);
+            } else {
+                sessionStorage.setItem("jwt", data.token);
+            }
+            console.log("Logged in successfully!");
+            navigate("/home");
         } catch (err) {
-            alert(err.message);
+            console.log(err.message);
         }
     };
 
@@ -51,6 +60,14 @@ function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    Kom ihåg mig
+                </label>
                 <button type="submit">Login</button>
             </form>
             <button className="register-btn" onClick={() => setShowRegister(true)}>

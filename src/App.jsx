@@ -1,12 +1,15 @@
-import React from "react";
-import "./app.css";
-import LoginPage from "./components/LoginPage.jsx"; // make sure the path is correct
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./components/LoginPage.jsx";
+import HomePage from "./components/HomePage.jsx";
 
 function App() {
     return (
-        <div className="app">
-            <LoginPage />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/home" element={<HomePage />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

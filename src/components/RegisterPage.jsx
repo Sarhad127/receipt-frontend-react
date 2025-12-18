@@ -10,7 +10,7 @@ function RegisterPage({ onBack }) {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            console.log("Passwords do not match!");
             return;
         }
 
@@ -30,10 +30,10 @@ function RegisterPage({ onBack }) {
                 throw new Error("Registration failed");
             }
 
-            alert("Registered successfully!");
+            console.log("Registered successfully!");
             onBack();
         } catch (err) {
-            alert(err.message);
+            console.log(err.message);
         }
     };
 
