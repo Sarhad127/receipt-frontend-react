@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import "./style/HomePage.css";
 
 function HomePage() {
     const [username, setUsername] = useState("");
@@ -41,9 +42,8 @@ function HomePage() {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>Welcome, {username || "User"}!</h1>
-            <p>You have successfully logged in.</p>
+        <div className="page-container">
+            <h1>Welcome, {username}!</h1>
             <button onClick={handleLogout}>Logout</button>
         </div>
     );
