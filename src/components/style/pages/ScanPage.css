@@ -34,3 +34,16 @@
 .upload-section input[type="file"]::file-selector-button {
     display: none;
 }
+
+.info-section pre {
+    font-size: 12px;
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
