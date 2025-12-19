@@ -17,7 +17,7 @@ function ScanPage() {
             if (!token) { navigate("/"); return; }
 
             try {
-                const response = await fetch("http://localhost:8080/home", {
+                const response = await fetch("http://localhost:8080/skanna", {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
                 if (!response.ok) throw new Error("Unauthorized");
