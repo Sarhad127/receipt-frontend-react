@@ -83,7 +83,7 @@ function ScanPage() {
                     <div className="info-section">
                         <h2>Skannad information</h2>
                         {ocrData ? (
-                            <pre>{JSON.stringify(ocrData, null, 2)}</pre>
+                            <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
                         ) : (
                             <p>Här visas all OCR-skannad information från kvittot.</p>
                         )}
