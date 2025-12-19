@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/SavedPage.css";
+import "./style/pages/SavedPage.css";
+import "./style/AppLayout.css";
 
 function SavedPage() {
     const navigate = useNavigate();

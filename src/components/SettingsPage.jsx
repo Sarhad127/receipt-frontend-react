@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/SettingsPage.css";
+import "./style/pages/SettingsPage.css";
+import "./style/AppLayout.css";
 
 function SettingsPage() {
     const navigate = useNavigate();

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/HistoryPage.css";
+import "./style/pages/HistoryPage.css";
+import "./style/AppLayout.css";
 
 function HistoryPage() {
     const navigate = useNavigate();

@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/HomePage.css";
+import "./style/pages/ScanPage.css";
+import "./style/AppLayout.css";
 
-function HomePage() {
+function ScanPage() {
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
     const effectRan = useRef(false);
@@ -67,4 +68,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default ScanPage;
