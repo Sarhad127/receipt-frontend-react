@@ -1,32 +1,67 @@
+.page-wrapper {
+    min-height: 100vh;
+    background-color: #1f1f1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.page-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 0;
+    z-index: 2;
+    position: relative;
+}
+
+.tab {
+    padding: 10px 22px;
+    background-color: #2a2a2a;
+    color: #bbb;
+    border: 1px solid #4a4a4a;
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    position: relative;
+    top: 0;
+}
+
+.tab.active {
+    background-color: #3a3a3a;
+    color: white;
+    border: none;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: -1px;
+    z-index: 2;
+}
+
+.tab:not(.active):hover {
+    background-color: #333;
+}
+
 .page-container {
-    margin: 40px;
-    padding: 40px 20px;
+    position: relative;
+    width: calc(100% - 100px);
+    max-width: 1300px;
+    height: calc(100vh - 100px);
     background-color: #3a3a3a;
     border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    width: calc(100% - 80px);
-    height: calc(100vh - 80px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     box-sizing: border-box;
-    transition: background-color 0.3s;
+    z-index: 1;
 }
 
-.page-container button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    background-color: #5a5a5a;
-    color: white;
-    transition: background-color 0.2s;
-}
-
-.page-container button:hover {
-    background-color: #7a7a7a;
+.page-content {
+    flex: 1;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }

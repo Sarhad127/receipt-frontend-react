@@ -42,9 +42,19 @@ function HomePage() {
     };
 
     return (
-        <div className="page-container">
-            <h1>Welcome, {username}!</h1>
-            <button onClick={handleLogout}>Logout</button>
+        <div className="page-wrapper">
+            <div className="page-tabs">
+                <button className="tab active">Overview</button>
+                <button className="tab">Receipts</button>
+                <button className="tab">Stats</button>
+                <button className="tab">Settings</button>
+            </div>
+
+            <div className="page-container">
+                <div className="page-content">
+                    <h1>Welcome!</h1>
+                </div>
+            </div>
         </div>
     );
 }
