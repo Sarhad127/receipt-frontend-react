@@ -35,24 +35,32 @@ function HomePage() {
         fetchHome();
     }, [navigate]);
 
-    const handleLogout = () => {
-        localStorage.removeItem("jwt");
-        sessionStorage.removeItem("jwt");
-        navigate("/");
-    };
+    // const handleLogout = () => {
+    //     localStorage.removeItem("jwt");
+    //     sessionStorage.removeItem("jwt");
+    //     navigate("/");
+    // };
 
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
-                <button className="tab active">Overview</button>
-                <button className="tab">Receipts</button>
-                <button className="tab">Stats</button>
-                <button className="tab">Settings</button>
+                <button className="tab active">Skanna</button>
+                <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
+                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
+                <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
             </div>
 
             <div className="page-container">
-                <div className="page-content">
-                    <h1>Welcome!</h1>
+                <div className="page-content scan-content">
+                    <div className="upload-section">
+                        <h2>Ladda upp kvitto</h2>
+                        <input type="file" accept="image/*" />
+                        <p>Dra och släpp fil här eller klicka för att välja bild</p>
+                    </div>
+                    <div className="info-section">
+                        <h2>Skannad information</h2>
+                        <p>Här visas all OCR-skannad information från kvittot.</p>
+                    </div>
                 </div>
             </div>
         </div>
