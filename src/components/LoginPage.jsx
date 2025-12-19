@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./style/LoginPage.css";
+import "./style/AppLayout.css";
+import "./style/pages/LoginPage.css";
 import RegisterPage from "./RegisterPage";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -16,7 +17,6 @@ function LoginPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const response = await fetch("http://localhost:8080/authenticate", {
                 method: "POST",
@@ -35,7 +35,7 @@ function LoginPage() {
             } else {
                 sessionStorage.setItem("jwt", data.token);
             }
-            console.log("Logged in successfully!");
+
             navigate("/home");
         } catch (err) {
             console.log(err.message);
@@ -43,36 +43,43 @@ function LoginPage() {
     };
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    Kom ihåg mig
-                </label>
-                <button type="submit">Login</button>
-            </form>
-            <button className="register-btn" onClick={() => setShowRegister(true)}>
-                Register
-            </button>
+        <div className="page-wrapper">
+            <div className="page-content">
+                <div className="login-form-container">
+                    <h2>Login</h2>
+                    <form className="login-form" onSubmit={handleLogin}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            Kom ihåg mig
+                        </label>
+                        <button type="submit">Login</button>
+                    </form>
+                    <button
+                        className="register-btn"
+                        onClick={() => setShowRegister(true)}
+                    >
+                        Register
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

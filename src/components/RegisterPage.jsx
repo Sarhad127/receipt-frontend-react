@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./style/RegisterPage.css";
+import "./style/AppLayout.css";
+import "./style/pages/RegisterPage.css";
 
 function RegisterPage({ onBack }) {
     const [username, setUsername] = useState("");
@@ -17,13 +18,8 @@ function RegisterPage({ onBack }) {
         try {
             const response = await fetch("http://localhost:8080/register/user", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username,
-                    password
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
             });
 
             if (!response.ok) {
@@ -38,39 +34,39 @@ function RegisterPage({ onBack }) {
     };
 
     return (
-        <div className="register-container">
-            <h2>Register</h2>
-            <form onSubmit={handleRegister}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                />
-
-                <button type="submit">Register</button>
-            </form>
-
-            <button className="back-btn" onClick={onBack}>
-                Back to Login
-            </button>
+        <div className="page-wrapper">
+            <div className="page-content">
+                <div className="register-form-container">
+                    <h2>Register</h2>
+                    <form className="register-form" onSubmit={handleRegister}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                        <button type="submit">Register</button>
+                    </form>
+                    <button className="back-btn" onClick={onBack}>
+                        Back to Login
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
