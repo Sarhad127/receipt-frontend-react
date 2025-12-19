@@ -9,9 +9,10 @@ function HistoryPage() {
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
-                <button className="tab" onClick={() => navigate("/home")}>Skanna</button>
+                <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
                 <button className="tab active">Historik</button>
                 <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
+                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
                 <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
             </div>
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
+import "./style/pages/StatisticsPage.css"
 
-function SavedPage() {
+function StatisticsPage() {
     const navigate = useNavigate();
 
     return (
@@ -11,19 +11,19 @@ function SavedPage() {
             <div className="page-tabs">
                 <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
                 <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
-                <button className="tab active">Sparade</button>
-                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
+                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
+                <button className="tab active">Statistik</button>
                 <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
             </div>
 
             <div className="page-container">
                 <div className="page-content">
-                    <h1>Sparade</h1>
-                    <p>Här visas alla sparade kvitton och skanningar.</p>
+                    <h1>Staistik</h1>
+                    <p>Här visas olika former av information om alla sparande kvitton.</p>
                 </div>
             </div>
         </div>
     );
 }
 
-export default SavedPage;
+export default StatisticsPage;

@@ -48,6 +48,7 @@ function ScanPage() {
                 <button className="tab active">Skanna</button>
                 <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
                 <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
+                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
                 <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
             </div>
 

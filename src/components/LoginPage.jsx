@@ -36,7 +36,7 @@ function LoginPage() {
                 sessionStorage.setItem("jwt", data.token);
             }
 
-            navigate("/home");
+            navigate("/skanna");
         } catch (err) {
             console.log(err.message);
         }
