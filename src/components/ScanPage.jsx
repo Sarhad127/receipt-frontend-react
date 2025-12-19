@@ -8,10 +8,13 @@ function ScanPage() {
     const [ocrData, setOcrData] = useState(null);
     const navigate = useNavigate();
     const effectRan = useRef(false);
+    const [uploadedImage, setUploadedImage] = useState(null);
 
     const handleUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
+        setUploadedImage(URL.createObjectURL(file));
 
         const formData = new FormData();
         formData.append("file", file);
@@ -79,7 +82,16 @@ function ScanPage() {
                         <h2>Ladda upp kvitto</h2>
                         <input type="file" accept="image/*" onChange={handleUpload} />
                         <p>Dra och släpp fil här eller klicka för att välja bild</p>
+
+                        {uploadedImage && (
+                            <img
+                                src={uploadedImage}
+                                alt="Uploaded receipt"
+                                className="uploaded-image"
+                            />
+                        )}
                     </div>
+
                     <div className="info-section">
                         <h2>Skannad information</h2>
                         {ocrData ? (
