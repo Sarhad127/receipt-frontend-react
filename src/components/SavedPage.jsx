@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
+import {
+    fetchSavedReceipts,
+    fetchReceiptImage
+} from "./api/apis";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -9,43 +13,28 @@ function SavedPage() {
     const [images, setImages] = useState({});
 
     useEffect(() => {
-        const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-        if (!token) {
-            navigate("/");
-            return;
-        }
-
-        fetch("http://localhost:8080/savings", {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Unauthorized");
-                return res.json();
-            })
-            .then(async data => {
+        const loadReceipts = async () => {
+            try {
+                const data = await fetchSavedReceipts();
                 setReceipts(data);
 
                 const imageMap = {};
                 for (const r of data) {
-                    const imgRes = await fetch(
-                        `http://localhost:8080/savings/images/${r.id}`,
-                        { headers: { "Authorization": `Bearer ${token}` } }
-                    );
-
-                    if (imgRes.ok) {
-                        const blob = await imgRes.blob();
-                        imageMap[r.id] = URL.createObjectURL(blob);
+                    const imgUrl = await fetchReceiptImage(r.id);
+                    if (imgUrl) {
+                        imageMap[r.id] = imgUrl;
                     }
                 }
+
                 setImages(imageMap);
-            })
-            .catch(() => {
+            } catch (err) {
                 localStorage.removeItem("jwt");
                 sessionStorage.removeItem("jwt");
                 navigate("/");
-            });
+            }
+        };
+
+        loadReceipts();
     }, [navigate]);
 
     return (

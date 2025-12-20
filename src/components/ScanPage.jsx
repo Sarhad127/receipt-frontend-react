@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/ScanPage.css";
 import "./style/AppLayout.css";
+import { uploadReceipt } from "./api/apis.jsx";
+import { fetchUserInfo } from "./api/apis.jsx";
 
 function ScanPage() {
     const [username, setUsername] = useState("");
@@ -17,21 +19,8 @@ function ScanPage() {
 
         setUploadedImage(URL.createObjectURL(file));
 
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-
         try {
-            const response = await fetch("http://localhost:8080/upload", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const result = await response.json();
+            const result = await uploadReceipt(file);
             console.log(result);
             setOcrData(result);
         } catch (err) {
@@ -43,17 +32,9 @@ function ScanPage() {
         if (effectRan.current) return;
         effectRan.current = true;
 
-        const fetchHome = async () => {
-            const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-            if (!token) { navigate("/"); return; }
-
+        const loadUser = async () => {
             try {
-                const response = await fetch("http://localhost:8080/skanna", {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
-                if (!response.ok) throw new Error("Unauthorized");
-
-                const data = await response.json();
+                const data = await fetchUserInfo();
                 console.log("User info from /home:", data);
                 setUsername(data.username);
             } catch (err) {
@@ -64,7 +45,7 @@ function ScanPage() {
             }
         };
 
-        fetchHome();
+        loadUser();
     }, [navigate]);
 
     return (
@@ -98,6 +79,17 @@ function ScanPage() {
                     <div className="info-section">
                         <div>
                             <h2>Skannad information</h2>
+                            <div className="action-buttons">
+                                <button className="toggle-btn" onClick={() => {/* Rescan logic */}}>
+                                    Skanna igen
+                                </button>
+                                <button className="toggle-btn" onClick={() => {/* Save logic */}}>
+                                    Spara
+                                </button>
+                                <button className="toggle-btn" onClick={() => {/* Delete logic */}}>
+                                    Radera
+                                </button>
+                            </div>
                             <div className="view-toggle">
                                 <button
                                     className={`toggle-btn ${viewMode === "list" ? "active" : ""}`}

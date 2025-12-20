@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/HistoryPage.css";
 import "./style/AppLayout.css";
+import {
+    fetchHistoryReceipts,
+    fetchHistoryReceiptImage,
+    saveReceipt,
+    deleteHistoryReceipt
+} from "./api/apis";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -12,65 +18,39 @@ function HistoryPage() {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-        if (!token) { navigate("/"); return; }
-
-        fetch("http://localhost:8080/history", {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Unauthorized");
-                return res.json();
-            })
-            .then(async data => {
+        const loadHistory = async () => {
+            try {
+                const data = await fetchHistoryReceipts();
                 setReceipts(data);
 
                 const imageMap = {};
                 for (const r of data) {
-                    const imgRes = await fetch(`http://localhost:8080/receipts/${r.id}/image`, {
-                        headers: { "Authorization": `Bearer ${token}` }
-                    });
-                    if (imgRes.ok) {
-                        const blob = await imgRes.blob();
-                        imageMap[r.id] = URL.createObjectURL(blob);
+                    const imgUrl = await fetchHistoryReceiptImage(r.id);
+                    if (imgUrl) {
+                        imageMap[r.id] = imgUrl;
                     }
                 }
                 setImages(imageMap);
-            })
-            .catch(() => {
+            } catch {
                 localStorage.removeItem("jwt");
                 sessionStorage.removeItem("jwt");
                 navigate("/");
-            });
+            }
+        };
+
+        loadHistory();
     }, [navigate]);
 
     const handleSave = async () => {
         if (!selectedReceiptId || saving) return;
 
-        const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-        if (!token) return;
-
         try {
             setSaving(true);
-
-            const res = await fetch(
-                `http://localhost:8080/savings/${selectedReceiptId}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            );
-
-            if (!res.ok) {
-                throw new Error("Failed to save receipt");
-            }
+            await saveReceipt(selectedReceiptId);
 
             alert("Kvitto sparat!");
             setSelectedImage(null);
             setSelectedReceiptId(null);
-
         } catch (err) {
             console.error(err);
             alert("Kunde inte spara kvittot");
@@ -82,26 +62,16 @@ function HistoryPage() {
     const handleDelete = async () => {
         if (!selectedReceiptId) return;
 
-        const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
-        if (!token) return;
-
         if (!window.confirm("Är du säker på att du vill ta bort detta kvitto?")) return;
 
         try {
-            const res = await fetch(`http://localhost:8080/history/${selectedReceiptId}`, {
-                method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-            if (!res.ok) throw new Error("Failed to delete receipt");
+            await deleteHistoryReceipt(selectedReceiptId);
 
             setReceipts(prev => prev.filter(r => r.id !== selectedReceiptId));
             setImages(prev => {
-                const newImages = { ...prev };
-                delete newImages[selectedReceiptId];
-                return newImages;
+                const updated = { ...prev };
+                delete updated[selectedReceiptId];
+                return updated;
             });
 
             setSelectedImage(null);

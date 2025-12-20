@@ -104,3 +104,32 @@
     color: #fff;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
+
+.action-buttons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: inline-flex;
+    gap: 6px;
+}
+
+.action-buttons .toggle-btn {
+    border: none;
+    background-color: #3a3a3a;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.action-buttons .toggle-btn:hover {
+    background-color: #494949;
+    color: #fff;
+}
+
+.action-buttons .toggle-btn:active {
+    background-color: #1f1f1f;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./style/AppLayout.css";
 import "./style/pages/RegisterPage.css";
+import { registerUser } from "./api/apis";
 
 function RegisterPage({ onBack }) {
     const [username, setUsername] = useState("");
@@ -16,16 +17,7 @@ function RegisterPage({ onBack }) {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/register/user", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Registration failed");
-            }
-
+            await registerUser(username, password);
             console.log("Registered successfully!");
             onBack();
         } catch (err) {

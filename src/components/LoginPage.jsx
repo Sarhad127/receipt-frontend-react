@@ -3,6 +3,7 @@ import "./style/AppLayout.css";
 import "./style/pages/LoginPage.css";
 import RegisterPage from "./RegisterPage";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "./api/apis";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -17,18 +18,9 @@ function LoginPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await fetch("http://localhost:8080/authenticate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Invalid credentials");
-            }
-
-            const data = await response.json();
+            const data = await loginUser(username, password);
 
             if (rememberMe) {
                 localStorage.setItem("jwt", data.token);
