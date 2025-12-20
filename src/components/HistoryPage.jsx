@@ -92,9 +92,7 @@ function HistoryPage() {
             <div className="page-container">
                 <div className="page-content">
 
-                    {receipts.length === 0 ? (
-                        <p>Inga kvitton hittades.</p>
-                    ) : (
+                    {receipts.length === 0 ? null : (
                         <ul className="receipt-list">
                             {receipts.map(r => (
                                 <li key={r.id} className="receipt-item">

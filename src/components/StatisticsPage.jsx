@@ -18,8 +18,7 @@ function StatisticsPage() {
 
             <div className="page-container">
                 <div className="page-content">
-                    <h1>Staistik</h1>
-                    <p>Här visas olika former av information om alla sparande kvitton.</p>
+
                 </div>
             </div>
         </div>

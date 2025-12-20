@@ -24,9 +24,6 @@ function SettingsPage() {
 
             <div className="page-container">
                 <div className="page-content">
-                    <h1>Inställningar</h1>
-                    <p>Här kan användaren ändra inställningar för appen.</p>
-
                     <button className="logout-button" onClick={handleLogout}>
                         Logga ut
                     </button>
