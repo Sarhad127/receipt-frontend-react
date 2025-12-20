@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/ScanPage.css";
 import "./style/AppLayout.css";
-import { uploadReceipt } from "./api/apis.jsx";
+import {rescanReceipt, uploadReceipt} from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 
 function ScanPage() {
@@ -12,21 +12,7 @@ function ScanPage() {
     const effectRan = useRef(false);
     const [uploadedImage, setUploadedImage] = useState(null);
     const [viewMode, setViewMode] = useState("list");
-
-    const handleUpload = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        setUploadedImage(URL.createObjectURL(file));
-
-        try {
-            const result = await uploadReceipt(file);
-            console.log(result);
-            setOcrData(result);
-        } catch (err) {
-            console.error("Upload failed:", err);
-        }
-    };
+    const [uploadedFile, setUploadedFile] = useState(null);
 
     useEffect(() => {
         if (effectRan.current) return;
@@ -47,6 +33,34 @@ function ScanPage() {
 
         loadUser();
     }, [navigate]);
+
+    const handleUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploadedFile(file);
+        setUploadedImage(URL.createObjectURL(file));
+
+        try {
+            const result = await uploadReceipt(file);
+            console.log(result);
+            setOcrData(result);
+        } catch (err) {
+            console.error("Upload failed:", err);
+        }
+    };
+
+    const handleRescan = async () => {
+        if (!uploadedFile) return;
+
+        try {
+            const data = await rescanReceipt(uploadedFile);
+            setOcrData(data);
+        } catch (err) {
+            console.error("Rescan failed:", err);
+        }
+    };
+
 
     return (
         <div className="page-wrapper">
@@ -80,7 +94,7 @@ function ScanPage() {
                         <div>
                             <h2>Skannad information</h2>
                             <div className="action-buttons">
-                                <button className="toggle-btn" onClick={() => {/* Rescan logic */}}>
+                                <button className="toggle-btn" onClick={handleRescan}>
                                     Skanna igen
                                 </button>
                                 <button className="toggle-btn" onClick={() => {/* Save logic */}}>

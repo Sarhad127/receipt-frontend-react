@@ -189,3 +189,25 @@ export async function deleteHistoryReceipt(receiptId) {
         throw new Error("Failed to delete receipt");
     }
 }
+
+export async function rescanReceipt(file) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(`${API_BASE}/rescan`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error("Rescan failed");
+    }
+
+    return response.json();
+}
