@@ -2,17 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/ScanPage.css";
 import "./style/AppLayout.css";
-import {rescanReceipt, uploadReceipt} from "./api/apis.jsx";
+import { rescanReceipt, uploadReceipt, saveReceipt } from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 
 function ScanPage() {
     const [username, setUsername] = useState("");
     const [ocrData, setOcrData] = useState(null);
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const [selectedReceiptId, setSelectedReceiptId] = useState(null);
+    const [saving, setSaving] = useState(false);
+    const [viewMode, setViewMode] = useState("list");
     const navigate = useNavigate();
     const effectRan = useRef(false);
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [viewMode, setViewMode] = useState("list");
-    const [uploadedFile, setUploadedFile] = useState(null);
 
     useEffect(() => {
         if (effectRan.current) return;
@@ -21,7 +23,6 @@ function ScanPage() {
         const loadUser = async () => {
             try {
                 const data = await fetchUserInfo();
-                console.log("User info from /home:", data);
                 setUsername(data.username);
             } catch (err) {
                 console.error("Failed to fetch user info:", err);
@@ -43,8 +44,11 @@ function ScanPage() {
 
         try {
             const result = await uploadReceipt(file);
-            console.log(result);
             setOcrData(result);
+
+            if (result.receiptId) {
+                setSelectedReceiptId(result.receiptId);
+            }
         } catch (err) {
             console.error("Upload failed:", err);
         }
@@ -61,6 +65,25 @@ function ScanPage() {
         }
     };
 
+    const handleSave = async () => {
+        if (!selectedReceiptId || saving) return;
+
+        try {
+            setSaving(true);
+            await saveReceipt(selectedReceiptId);
+
+            alert("Kvitto sparat!");
+            setUploadedFile(null);
+            setUploadedImage(null);
+            setOcrData(null);
+            setSelectedReceiptId(null);
+        } catch (err) {
+            console.error(err);
+            alert("Kunde inte spara kvittot");
+        } finally {
+            setSaving(false);
+        }
+    };
 
     return (
         <div className="page-wrapper">
@@ -97,7 +120,7 @@ function ScanPage() {
                                 <button className="toggle-btn" onClick={handleRescan}>
                                     Skanna igen
                                 </button>
-                                <button className="toggle-btn" onClick={() => {/* Save logic */}}>
+                                <button className="toggle-btn" onClick={handleSave} disabled={saving || !selectedReceiptId}>
                                     Spara
                                 </button>
                                 <button className="toggle-btn" onClick={() => {/* Delete logic */}}>
@@ -124,8 +147,8 @@ function ScanPage() {
                         {ocrData ? (
                             viewMode === "raw" ? (
                                 <pre>
-                            {ocrData.ocr?.ocr_text || "Inget OCR-resultat"}
-                        </pre>
+                                    {ocrData.ocr?.ocr_text || "Inget OCR-resultat"}
+                                </pre>
                             ) : (
                                 <ul>
                                     {ocrData.ocr?.ocr_text
