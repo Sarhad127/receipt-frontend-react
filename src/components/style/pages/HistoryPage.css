@@ -1,0 +1,41 @@
+.receipt-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 20px;
+    color: white;
+    align-self: flex-start;
+}
+
+.receipt-item {
+    background-color: #2a2a2a;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.receipt-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.receipt-image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.receipt-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    word-break: break-word;
+}

@@ -6,6 +6,12 @@ import "./style/AppLayout.css";
 function SettingsPage() {
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.removeItem("jwt");
+        sessionStorage.removeItem("jwt");
+        navigate("/");
+    };
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -20,6 +26,10 @@ function SettingsPage() {
                 <div className="page-content">
                     <h1>Inställningar</h1>
                     <p>Här kan användaren ändra inställningar för appen.</p>
+
+                    <button className="logout-button" onClick={handleLogout}>
+                        Logga ut
+                    </button>
                 </div>
             </div>
         </div>
