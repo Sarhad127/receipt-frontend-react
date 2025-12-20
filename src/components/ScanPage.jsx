@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { rescanReceipt, uploadReceipt, saveReceipt, deleteHistoryReceipt } from "./api/apis.jsx";
+import { fetchUserInfo } from "./api/apis.jsx";
+import { useScan } from "../context/ScanContext.jsx";
+
 import "./style/pages/ScanPage.css";
 import "./style/AppLayout.css";
-import {rescanReceipt, uploadReceipt, saveReceipt, deleteHistoryReceipt} from "./api/apis.jsx";
-import { fetchUserInfo } from "./api/apis.jsx";
 
 function ScanPage() {
+    const { uploadedFile, setUploadedFile, uploadedImage, setUploadedImage, ocrData, setOcrData, selectedReceiptId, setSelectedReceiptId } = useScan();
     const [username, setUsername] = useState("");
-    const [ocrData, setOcrData] = useState(null);
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [selectedReceiptId, setSelectedReceiptId] = useState(null);
     const [saving, setSaving] = useState(false);
     const [viewMode, setViewMode] = useState("list");
     const navigate = useNavigate();
@@ -45,10 +44,7 @@ function ScanPage() {
         try {
             const result = await uploadReceipt(file);
             setOcrData(result);
-
-            if (result.receiptId) {
-                setSelectedReceiptId(result.receiptId);
-            }
+            if (result.receiptId) setSelectedReceiptId(result.receiptId);
         } catch (err) {
             console.error("Upload failed:", err);
         }
@@ -76,6 +72,7 @@ function ScanPage() {
             setUploadedImage(null);
             setOcrData(null);
             setSelectedReceiptId(null);
+
         } catch (err) {
             console.error(err);
             alert("Kunde inte spara kvittot");
@@ -87,8 +84,6 @@ function ScanPage() {
     const handleDelete = async () => {
         if (!selectedReceiptId) return;
 
-        if (!window.confirm("Är du säker på att du vill ta bort detta kvitto?")) return;
-
         try {
             await deleteHistoryReceipt(selectedReceiptId);
 
@@ -97,9 +92,9 @@ function ScanPage() {
             setOcrData(null);
             setSelectedReceiptId(null);
 
-            navigate(0);
         } catch (err) {
             console.error(err);
+            alert("Kunde inte ta bort kvittot.");
         }
     };
 
@@ -135,46 +130,25 @@ function ScanPage() {
                         <div>
                             <h2>Skannad information</h2>
                             <div className="action-buttons">
-                                <button className="toggle-btn" onClick={handleRescan}>
-                                    Skanna igen
-                                </button>
-                                <button className="toggle-btn" onClick={handleSave} disabled={saving || !selectedReceiptId}>
-                                    Spara
-                                </button>
-                                <button className="toggle-btn" onClick={handleDelete}>
-                                    Radera
-                                </button>
+                                <button className="toggle-btn" onClick={handleRescan}>Skanna igen</button>
+                                <button className="toggle-btn" onClick={handleSave} disabled={saving || !selectedReceiptId}>Spara</button>
+                                <button className="toggle-btn" onClick={handleDelete}>Radera</button>
                             </div>
-                            <div className="view-toggle">
-                                <button
-                                    className={`toggle-btn ${viewMode === "list" ? "active" : ""}`}
-                                    onClick={() => setViewMode("list")}
-                                >
-                                    Lista
-                                </button>
 
-                                <button
-                                    className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`}
-                                    onClick={() => setViewMode("raw")}
-                                >
-                                    Raw
-                                </button>
+                            <div className="view-toggle">
+                                <button className={`toggle-btn ${viewMode === "list" ? "active" : ""}`} onClick={() => setViewMode("list")}>Lista</button>
+                                <button className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`} onClick={() => setViewMode("raw")}>Raw</button>
                             </div>
                         </div>
 
                         {ocrData ? (
                             viewMode === "raw" ? (
-                                <pre>
-                                    {ocrData.ocr?.ocr_text || "Inget OCR-resultat"}
-                                </pre>
+                                <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
                             ) : (
                                 <ul>
-                                    {ocrData.ocr?.ocr_text
-                                        ?.split("\n")
-                                        .filter(line => line.trim() !== "")
-                                        .map((line, index) => (
-                                            <li key={index}>{line}</li>
-                                        ))}
+                                    {ocrData.ocr?.ocr_text?.split("\n").filter(line => line.trim() !== "").map((line, index) => (
+                                        <li key={index}>{line}</li>
+                                    ))}
                                 </ul>
                             )
                         ) : (

@@ -47,8 +47,6 @@ function HistoryPage() {
         try {
             setSaving(true);
             await saveReceipt(selectedReceiptId);
-
-            alert("Kvitto sparat!");
             setSelectedImage(null);
             setSelectedReceiptId(null);
         } catch (err) {
@@ -61,8 +59,6 @@ function HistoryPage() {
 
     const handleDelete = async () => {
         if (!selectedReceiptId) return;
-
-        if (!window.confirm("Är du säker på att du vill ta bort detta kvitto?")) return;
 
         try {
             await deleteHistoryReceipt(selectedReceiptId);
