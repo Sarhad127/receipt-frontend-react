@@ -77,7 +77,6 @@ function HistoryPage() {
             setSelectedImage(null);
             setSelectedReceiptId(null);
 
-            alert("Kvitto borttaget!");
         } catch (err) {
             console.error(err);
             alert("Kunde inte ta bort kvittot.");

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/ScanPage.css";
 import "./style/AppLayout.css";
-import { rescanReceipt, uploadReceipt, saveReceipt } from "./api/apis.jsx";
+import {rescanReceipt, uploadReceipt, saveReceipt, deleteHistoryReceipt} from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 
 function ScanPage() {
@@ -72,7 +72,6 @@ function ScanPage() {
             setSaving(true);
             await saveReceipt(selectedReceiptId);
 
-            alert("Kvitto sparat!");
             setUploadedFile(null);
             setUploadedImage(null);
             setOcrData(null);
@@ -82,6 +81,25 @@ function ScanPage() {
             alert("Kunde inte spara kvittot");
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!selectedReceiptId) return;
+
+        if (!window.confirm("Är du säker på att du vill ta bort detta kvitto?")) return;
+
+        try {
+            await deleteHistoryReceipt(selectedReceiptId);
+
+            setUploadedFile(null);
+            setUploadedImage(null);
+            setOcrData(null);
+            setSelectedReceiptId(null);
+
+            navigate(0);
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -123,7 +141,7 @@ function ScanPage() {
                                 <button className="toggle-btn" onClick={handleSave} disabled={saving || !selectedReceiptId}>
                                     Spara
                                 </button>
-                                <button className="toggle-btn" onClick={() => {/* Delete logic */}}>
+                                <button className="toggle-btn" onClick={handleDelete}>
                                     Radera
                                 </button>
                             </div>
