@@ -1,3 +1,4 @@
+/* -------------------------- Container -------------------------- */
 .scan-content {
     display: flex;
     gap: 10px;
@@ -41,7 +42,7 @@
     overflow-y: auto;
 }
 
-.scroll-inner{
+.scroll-inner {
     max-height: 100%;
     overflow-y: auto;
     display: flex;
@@ -49,19 +50,6 @@
     align-items: center;
     gap: 10px;
     padding: 10px 0;
-}
-
-.info-section pre {
-    font-size: 12px;
-    overflow: auto;
-    max-height: 100%;
-    width: 100%;
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
-    color: black;
-    white-space: pre-wrap;
-    word-break: break-word;
 }
 
 .uploaded-image {
@@ -72,16 +60,52 @@
     object-fit: contain;
 }
 
+.info-section {
+    background-color: #2e2e2e;
+    color: #ddd;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', sans-serif;
+}
+
+.info-section pre {
+    font-size: 12px;
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border-radius: 8px;
+    color: #ddd;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.info-section h2 {
+    margin-bottom: 16px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #eee;
+}
+
 .view-toggle {
     position: absolute;
     top: 16px;
     right: 16px;
-
     display: inline-flex;
     background-color: #1f1f1f;
     border-radius: 999px;
     padding: 4px;
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.action-buttons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: inline-flex;
+    gap: 6px;
 }
 
 .toggle-btn {
@@ -100,33 +124,21 @@
 }
 
 .toggle-btn.active {
-    background-color: #2e2e2e;
+    background-color: #3a3a3a;
     color: #fff;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-.action-buttons {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    display: inline-flex;
-    gap: 6px;
-}
-
 .action-buttons .toggle-btn {
-    border: none;
     background-color: #3a3a3a;
     color: #fff;
     padding: 6px 14px;
     border-radius: 999px;
     font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .action-buttons .toggle-btn:hover {
     background-color: #494949;
-    color: #fff;
 }
 
 .action-buttons .toggle-btn:active {
@@ -134,26 +146,66 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-.receipt-dto {
-    background: #1e1e2f;
-    padding: 16px;
+.receipt-dto input {
+    background-color: #3a3a3a;
+    border: none;
+    padding: 6px 10px;
     border-radius: 8px;
-    color: white;
+    color: #ddd;
+    width: 100%;
+    margin-top: 0;
+    font-size: 0.95rem;
+}
+
+.receipt-dto input:focus,
+.receipt-items-table input:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #3a3a3a;
+}
+
+.receipt-dto p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.receipt-dto h3 input {
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .receipt-items-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-}
-
-.receipt-items-table th,
-.receipt-items-table td {
-    border: 1px solid #444;
-    padding: 8px;
-    text-align: left;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 16px;
 }
 
 .receipt-items-table th {
-    background-color: #333;
+    text-align: left;
+    font-weight: 600;
+    padding-bottom: 6px;
+    color: #ccc;
+}
+
+.receipt-items-table td {
+    padding: 6px 0;
+}
+
+.receipt-items-table td:first-child input {
+    width: 180px;
+    background-color: #3a3a3a;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    color: #ddd;
+}
+
+.receipt-items-table td:not(:first-child) input {
+    width: 80px;
+    background-color: #3a3a3a;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    color: #ddd;
 }

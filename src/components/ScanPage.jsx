@@ -14,6 +14,7 @@ function ScanPage() {
     const [viewMode, setViewMode] = useState("dto");
     const navigate = useNavigate();
     const effectRan = useRef(false);
+    const [editableReceipt, setEditableReceipt] = useState(null);
 
     useEffect(() => {
         if (effectRan.current) return;
@@ -33,6 +34,31 @@ function ScanPage() {
 
         loadUser();
     }, [navigate]);
+
+    useEffect(() => {
+        if (ocrData?.receipt) {
+            setEditableReceipt(JSON.parse(JSON.stringify(ocrData.receipt)));
+        }
+    }, [ocrData]);
+
+    const handleInputChange = (field, value) => {
+        setEditableReceipt(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleItemChange = (index, field, value) => {
+        const newItems = [...editableReceipt.items];
+        newItems[index] = {
+            ...newItems[index],
+            [field]: value
+        };
+        setEditableReceipt(prev => ({
+            ...prev,
+            items: newItems
+        }));
+    };
 
     const handleUpload = async (e) => {
         const file = e.target.files[0];
@@ -66,13 +92,13 @@ function ScanPage() {
 
         try {
             setSaving(true);
-            await saveReceipt(selectedReceiptId);
+            await saveReceipt(selectedReceiptId, editableReceipt);
 
             setUploadedFile(null);
             setUploadedImage(null);
             setOcrData(null);
             setSelectedReceiptId(null);
-
+            setEditableReceipt(null);
         } catch (err) {
             console.error(err);
             alert("Kunde inte spara kvittot");
@@ -141,21 +167,27 @@ function ScanPage() {
                             </div>
                         </div>
 
-                        {ocrData ? (
+                        {editableReceipt ? (
                             viewMode === "raw" ? (
                                 <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
                             ) : (
                                 <div className="receipt-dto">
-                                    <h3>{ocrData.receipt?.vendorName || "Okänd butik"}</h3>
-                                    <p><strong>Org.nr:</strong> {ocrData.receipt?.vendorOrgNumber || "-"}</p>
-                                    <p><strong>Adress:</strong> {ocrData.receipt?.vendorAddress || "-"}</p>
-                                    <p><strong>Kvittonr:</strong> {ocrData.receipt?.receiptNumber || "-"}</p>
-                                    <p><strong>Betalmetod:</strong> {ocrData.receipt?.paymentMethod || "-"}</p>
-                                    <p><strong>Valuta:</strong> {ocrData.receipt?.currency || "-"}</p>
-                                    <p><strong>Total:</strong> {ocrData.receipt?.totalAmount ?? "-"}</p>
-                                    <p><strong>Moms:</strong> {ocrData.receipt?.vatAmount ?? "-"}</p>
+                                    <h3>
+                                        <input
+                                            type="text"
+                                            value={editableReceipt.vendorName || ""}
+                                            onChange={e => handleInputChange("vendorName", e.target.value)}
+                                        />
+                                    </h3>
+                                    <p><strong>Org.nr:</strong> <input type="text" value={editableReceipt.vendorOrgNumber || ""} onChange={e => handleInputChange("vendorOrgNumber", e.target.value)} /></p>
+                                    <p><strong>Adress:</strong> <input type="text" value={editableReceipt.vendorAddress || ""} onChange={e => handleInputChange("vendorAddress", e.target.value)} /></p>
+                                    <p><strong>Kvittonr:</strong> <input type="text" value={editableReceipt.receiptNumber || ""} onChange={e => handleInputChange("receiptNumber", e.target.value)} /></p>
+                                    <p><strong>Betalmetod:</strong> <input type="text" value={editableReceipt.paymentMethod || ""} onChange={e => handleInputChange("paymentMethod", e.target.value)} /></p>
+                                    <p><strong>Valuta:</strong> <input type="text" value={editableReceipt.currency || ""} onChange={e => handleInputChange("currency", e.target.value)} /></p>
+                                    <p><strong>Total:</strong> <input type="number" value={editableReceipt.totalAmount ?? ""} onChange={e => handleInputChange("totalAmount", e.target.value)} /></p>
+                                    <p><strong>Moms:</strong> <input type="number" value={editableReceipt.vatAmount ?? ""} onChange={e => handleInputChange("vatAmount", e.target.value)} /></p>
 
-                                    {ocrData.receipt?.items?.length > 0 && (
+                                    {editableReceipt.items?.length > 0 && (
                                         <table className="receipt-items-table">
                                             <thead>
                                             <tr>
@@ -166,12 +198,12 @@ function ScanPage() {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {ocrData.receipt.items.map((item, index) => (
+                                            {editableReceipt.items.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td>{item.itemName}</td>
-                                                    <td>{item.itemQuantity}</td>
-                                                    <td>{item.itemUnitPrice}</td>
-                                                    <td>{item.itemTotalPrice}</td>
+                                                    <td><input type="text" value={item.itemName} onChange={e => handleItemChange(index, "itemName", e.target.value)} /></td>
+                                                    <td><input type="number" value={item.itemQuantity} onChange={e => handleItemChange(index, "itemQuantity", e.target.value)} /></td>
+                                                    <td><input type="number" value={item.itemUnitPrice} onChange={e => handleItemChange(index, "itemUnitPrice", e.target.value)} /></td>
+                                                    <td><input type="number" value={item.itemTotalPrice} readOnly /></td>
                                                 </tr>
                                             ))}
                                             </tbody>

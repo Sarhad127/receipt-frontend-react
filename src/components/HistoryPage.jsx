@@ -16,6 +16,18 @@ function HistoryPage() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedReceiptId, setSelectedReceiptId] = useState(null);
     const [saving, setSaving] = useState(false);
+    const editableReceipt = {
+        vendorName: "",
+        vendorOrgNumber: "",
+        vendorAddress: "",
+        receiptNumber: "",
+        totalAmount: 0,
+        vatAmount: 0,
+        currency: "",
+        paymentMethod: "",
+        notes: "",
+        items: []
+    };
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -46,7 +58,7 @@ function HistoryPage() {
 
         try {
             setSaving(true);
-            await saveReceipt(selectedReceiptId);
+            await saveReceipt(selectedReceiptId, editableReceipt);
             setSelectedImage(null);
             setSelectedReceiptId(null);
         } catch (err) {

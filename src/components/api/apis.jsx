@@ -152,23 +152,29 @@ export async function fetchHistoryReceiptImage(receiptId) {
     return URL.createObjectURL(blob);
 }
 
-export async function saveReceipt(receiptId) {
+export async function saveReceipt(receiptId, editableReceipt) {
     const token = getToken();
     if (!token) throw new Error("No token");
 
-    const res = await fetch(
-        `${API_BASE}/savings/${receiptId}`,
-        {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+    const res1 = await fetch(`${API_BASE}/savings/${receiptId}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-    );
+    });
 
-    if (!res.ok) {
-        throw new Error("Failed to save receipt");
-    }
+    if (!res1.ok) throw new Error("Failed to save receipt image");
+
+    const res2 = await fetch(`${API_BASE}/savings/save-info/${receiptId}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editableReceipt)
+    });
+
+    if (!res2.ok) throw new Error("Failed to save receipt info");
 }
 
 export async function deleteHistoryReceipt(receiptId) {
