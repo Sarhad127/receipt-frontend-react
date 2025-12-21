@@ -5,6 +5,7 @@ import { fetchUserInfo } from "./api/apis.jsx";
 import { useScan } from "../context/ScanContext.jsx";
 
 import "./style/pages/ScanPage.css";
+import "./style/pages/stylingparts/scanRightSide.css";
 import "./style/AppLayout.css";
 
 function ScanPage() {
@@ -155,65 +156,179 @@ function ScanPage() {
                     <div className="info-section">
                         <div>
                             <h2>Skannad information</h2>
+
                             <div className="action-buttons">
                                 <button className="toggle-btn" onClick={handleRescan}>Skanna igen</button>
-                                <button className="toggle-btn" onClick={handleSave} disabled={saving || !selectedReceiptId}>Spara</button>
+                                <button
+                                    className="toggle-btn"
+                                    onClick={handleSave}
+                                    disabled={saving || !selectedReceiptId}
+                                >
+                                    Spara
+                                </button>
                                 <button className="toggle-btn" onClick={handleDelete}>Radera</button>
                             </div>
 
                             <div className="view-toggle">
-                                <button className={`toggle-btn ${viewMode === "dto" ? "active" : ""}`} onClick={() => setViewMode("dto")}>Kvittodetaljer</button>
-                                <button className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`} onClick={() => setViewMode("raw")}>Raw OCR</button>
+                                <button
+                                    className={`toggle-btn ${viewMode === "dto" ? "active" : ""}`}
+                                    onClick={() => setViewMode("dto")}
+                                >
+                                    Kvittodetaljer
+                                </button>
+                                <button
+                                    className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`}
+                                    onClick={() => setViewMode("raw")}
+                                >
+                                    Raw OCR
+                                </button>
                             </div>
                         </div>
 
-                        {editableReceipt ? (
-                            viewMode === "raw" ? (
-                                <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
-                            ) : (
-                                <div className="receipt-dto">
-                                    <h3>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.vendorName || ""}
-                                            onChange={e => handleInputChange("vendorName", e.target.value)}
-                                        />
-                                    </h3>
-                                    <p><strong>Org.nr:</strong> <input type="text" value={editableReceipt.vendorOrgNumber || ""} onChange={e => handleInputChange("vendorOrgNumber", e.target.value)} /></p>
-                                    <p><strong>Adress:</strong> <input type="text" value={editableReceipt.vendorAddress || ""} onChange={e => handleInputChange("vendorAddress", e.target.value)} /></p>
-                                    <p><strong>Kvittonr:</strong> <input type="text" value={editableReceipt.receiptNumber || ""} onChange={e => handleInputChange("receiptNumber", e.target.value)} /></p>
-                                    <p><strong>Betalmetod:</strong> <input type="text" value={editableReceipt.paymentMethod || ""} onChange={e => handleInputChange("paymentMethod", e.target.value)} /></p>
-                                    <p><strong>Valuta:</strong> <input type="text" value={editableReceipt.currency || ""} onChange={e => handleInputChange("currency", e.target.value)} /></p>
-                                    <p><strong>Total:</strong> <input type="number" value={editableReceipt.totalAmount ?? ""} onChange={e => handleInputChange("totalAmount", e.target.value)} /></p>
-                                    <p><strong>Moms:</strong> <input type="number" value={editableReceipt.vatAmount ?? ""} onChange={e => handleInputChange("vatAmount", e.target.value)} /></p>
+                        <div className="info-scroll">
+                            {editableReceipt ? (
+                                viewMode === "raw" ? (
+                                    <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
+                                ) : (
+                                    <div className="receipt-dto">
+                                        <h3>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.vendorName || ""}
+                                                onChange={e =>
+                                                    handleInputChange("vendorName", e.target.value)
+                                                }
+                                            />
+                                        </h3>
 
-                                    {editableReceipt.items?.length > 0 && (
-                                        <table className="receipt-items-table">
-                                            <thead>
-                                            <tr>
-                                                <th>Artikel</th>
-                                                <th>Antal</th>
-                                                <th>Enhetspris</th>
-                                                <th>Totalt</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {editableReceipt.items.map((item, index) => (
-                                                <tr key={index}>
-                                                    <td><input type="text" value={item.itemName} onChange={e => handleItemChange(index, "itemName", e.target.value)} /></td>
-                                                    <td><input type="number" value={item.itemQuantity} onChange={e => handleItemChange(index, "itemQuantity", e.target.value)} /></td>
-                                                    <td><input type="number" value={item.itemUnitPrice} onChange={e => handleItemChange(index, "itemUnitPrice", e.target.value)} /></td>
-                                                    <td><input type="number" value={item.itemTotalPrice} readOnly /></td>
+                                        <p><strong>Org.nr:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.vendorOrgNumber || ""}
+                                                onChange={e =>
+                                                    handleInputChange("vendorOrgNumber", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Adress:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.vendorAddress || ""}
+                                                onChange={e =>
+                                                    handleInputChange("vendorAddress", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Kvittonr:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.receiptNumber || ""}
+                                                onChange={e =>
+                                                    handleInputChange("receiptNumber", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Betalmetod:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.paymentMethod || ""}
+                                                onChange={e =>
+                                                    handleInputChange("paymentMethod", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Valuta:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.currency || ""}
+                                                onChange={e =>
+                                                    handleInputChange("currency", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Total:</strong>
+                                            <input
+                                                type="number"
+                                                value={editableReceipt.totalAmount ?? ""}
+                                                onChange={e =>
+                                                    handleInputChange("totalAmount", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        <p><strong>Moms:</strong>
+                                            <input
+                                                type="number"
+                                                value={editableReceipt.vatAmount ?? ""}
+                                                onChange={e =>
+                                                    handleInputChange("vatAmount", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
+                                        {editableReceipt.items?.length > 0 && (
+                                            <table className="receipt-items-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Artikel</th>
+                                                    <th>Antal</th>
+                                                    <th>Enhetspris</th>
+                                                    <th>Totalt</th>
                                                 </tr>
-                                            ))}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
-                            )
-                        ) : (
-                            <p>Här visas all OCR-skannad information från kvittot.</p>
-                        )}
+                                                </thead>
+                                                <tbody>
+                                                {editableReceipt.items.map((item, index) => (
+                                                    <tr key={index}>
+                                                        <td>
+                                                            <input
+                                                                type="text"
+                                                                value={item.itemName}
+                                                                onChange={e =>
+                                                                    handleItemChange(index, "itemName", e.target.value)
+                                                                }
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                value={item.itemQuantity}
+                                                                onChange={e =>
+                                                                    handleItemChange(index, "itemQuantity", e.target.value)
+                                                                }
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                value={item.itemUnitPrice}
+                                                                onChange={e =>
+                                                                    handleItemChange(index, "itemUnitPrice", e.target.value)
+                                                                }
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                value={item.itemTotalPrice}
+                                                                readOnly
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                        )}
+                                    </div>
+                                )
+                            ) : (
+                                <p>Här visas all OCR-skannad information från kvittot.</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

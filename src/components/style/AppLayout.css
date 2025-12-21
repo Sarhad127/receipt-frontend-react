@@ -45,9 +45,9 @@
 
 .page-container {
     position: relative;
-    width: calc(100% - 100px);
+    width: calc(100% - 60px);
     max-width: 1300px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 70px);
     background-color: #3a3a3a;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);

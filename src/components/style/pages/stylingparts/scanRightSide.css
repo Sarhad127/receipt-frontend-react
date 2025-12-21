@@ -1,0 +1,236 @@
+.info-section {
+    background-color: #2e2e2e;
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.info-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.info-scroll {
+    scrollbar-gutter: stable;
+}
+
+
+.info-section pre {
+    font-size: 12px;
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    color: black;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.info-section h2 {
+    margin-bottom: 16px;
+    margin-top: 50px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.action-buttons {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    display: inline-flex;
+    gap: 6px;
+}
+
+.action-buttons .toggle-btn {
+    background-color: #3a3a3a;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.action-buttons .toggle-btn:hover {
+    background-color: #494949;
+}
+
+.action-buttons .toggle-btn:active {
+    background-color: #1f1f1f;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.toggle-btn {
+    border: none;
+    background: transparent;
+    color: #aaa;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: #fff;
+}
+
+.toggle-btn.active {
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.view-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    background-color: #1f1f1f;
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.receipt-dto input {
+    background-color: #2f2f2f;
+    border: 1px solid transparent;
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: #e0e0e0;
+    width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.receipt-dto input:hover {
+    background-color: #343434;
+}
+
+.receipt-dto input:focus,
+.receipt-items-table input:focus {
+    outline: none;
+    border-color: #5a5a5a;
+    background-color: #343434;
+}
+
+.receipt-dto p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.receipt-dto p strong {
+    min-width: 110px;
+    font-weight: 500;
+    color: #bdbdbd;
+}
+
+.receipt-dto h3 {
+    margin-bottom: 10px;
+}
+
+.receipt-dto h3 input {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    border-radius: 0;
+}
+
+.receipt-dto h3 input:focus {
+    border-bottom-color: #777;
+    background-color: transparent;
+}
+
+.receipt-items-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    margin-top: 14px;
+}
+
+.receipt-items-table th {
+    text-align: left;
+    font-weight: 500;
+    padding-bottom: 4px;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.receipt-items-table td {
+    padding: 0;
+}
+
+.receipt-items-table input {
+    background-color: #2f2f2f;
+    border: 1px solid transparent;
+    padding: 4px 6px;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.receipt-items-table input:hover {
+    background-color: #343434;
+}
+
+.receipt-items-table input:focus {
+    outline: none;
+    border-color: #5a5a5a;
+    background-color: #343434;
+}
+
+.receipt-items-table td:first-child input {
+    width: 100%;
+    min-width: 160px;
+}
+
+.receipt-items-table td:not(:first-child) input {
+    width: 72px;
+    text-align: right;
+}
+
+.receipt-items-table input[readonly] {
+    background-color: #2a2a2a;
+    color: #aaa;
+    cursor: default;
+}
+
+.receipt-items-table tbody tr {
+    background-color: rgba(255,255,255,0.02);
+    border-radius: 8px;
+}
+
+.receipt-items-table tbody tr td:first-child {
+    padding-left: 4px;
+}
+
+.receipt-items-table tbody tr td:last-child {
+    padding-right: 4px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
