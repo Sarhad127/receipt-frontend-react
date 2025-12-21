@@ -11,7 +11,7 @@ function ScanPage() {
     const { uploadedFile, setUploadedFile, uploadedImage, setUploadedImage, ocrData, setOcrData, selectedReceiptId, setSelectedReceiptId } = useScan();
     const [username, setUsername] = useState("");
     const [saving, setSaving] = useState(false);
-    const [viewMode, setViewMode] = useState("list");
+    const [viewMode, setViewMode] = useState("dto");
     const navigate = useNavigate();
     const effectRan = useRef(false);
 
@@ -136,8 +136,8 @@ function ScanPage() {
                             </div>
 
                             <div className="view-toggle">
-                                <button className={`toggle-btn ${viewMode === "list" ? "active" : ""}`} onClick={() => setViewMode("list")}>Lista</button>
-                                <button className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`} onClick={() => setViewMode("raw")}>Raw</button>
+                                <button className={`toggle-btn ${viewMode === "dto" ? "active" : ""}`} onClick={() => setViewMode("dto")}>Kvittodetaljer</button>
+                                <button className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`} onClick={() => setViewMode("raw")}>Raw OCR</button>
                             </div>
                         </div>
 
