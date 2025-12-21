@@ -145,11 +145,39 @@ function ScanPage() {
                             viewMode === "raw" ? (
                                 <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
                             ) : (
-                                <ul>
-                                    {ocrData.ocr?.ocr_text?.split("\n").filter(line => line.trim() !== "").map((line, index) => (
-                                        <li key={index}>{line}</li>
-                                    ))}
-                                </ul>
+                                <div className="receipt-dto">
+                                    <h3>{ocrData.receipt?.vendorName || "Okänd butik"}</h3>
+                                    <p><strong>Org.nr:</strong> {ocrData.receipt?.vendorOrgNumber || "-"}</p>
+                                    <p><strong>Adress:</strong> {ocrData.receipt?.vendorAddress || "-"}</p>
+                                    <p><strong>Kvittonr:</strong> {ocrData.receipt?.receiptNumber || "-"}</p>
+                                    <p><strong>Betalmetod:</strong> {ocrData.receipt?.paymentMethod || "-"}</p>
+                                    <p><strong>Valuta:</strong> {ocrData.receipt?.currency || "-"}</p>
+                                    <p><strong>Total:</strong> {ocrData.receipt?.totalAmount ?? "-"}</p>
+                                    <p><strong>Moms:</strong> {ocrData.receipt?.vatAmount ?? "-"}</p>
+
+                                    {ocrData.receipt?.items?.length > 0 && (
+                                        <table className="receipt-items-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Artikel</th>
+                                                <th>Antal</th>
+                                                <th>Enhetspris</th>
+                                                <th>Totalt</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {ocrData.receipt.items.map((item, index) => (
+                                                <tr key={index}>
+                                                    <td>{item.itemName}</td>
+                                                    <td>{item.itemQuantity}</td>
+                                                    <td>{item.itemUnitPrice}</td>
+                                                    <td>{item.itemTotalPrice}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+                                </div>
                             )
                         ) : (
                             <p>Här visas all OCR-skannad information från kvittot.</p>
