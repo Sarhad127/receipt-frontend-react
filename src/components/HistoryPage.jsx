@@ -142,7 +142,16 @@ function HistoryPage() {
                         >
                             {saving ? "Sparar..." : "Spara"}
                         </button>
-                        <button className="modal-action-btn">Skanna igen</button>
+                        <button
+                            className="modal-action-btn"
+                            onClick={() => {
+                                navigate("/skanna", { state: { receiptId: selectedReceiptId } });
+                                console.log(selectedReceiptId)
+                                setSelectedImage(null);
+                            }}
+                        >
+                            Skanna igen
+                        </button>
                         <button
                             className="modal-action-btn danger"
                             onClick={handleDelete}

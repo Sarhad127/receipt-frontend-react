@@ -1,8 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { rescanReceipt, uploadReceipt, saveReceipt, deleteHistoryReceipt } from "./api/apis.jsx";
+import {
+    rescanReceipt,
+    uploadReceipt,
+    saveReceipt,
+    deleteHistoryReceipt,
+    fetchHistoryReceiptImage, fetchHistoryReceiptFile
+} from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 import { useScan } from "../context/ScanContext.jsx";
+import { useLocation } from "react-router-dom";
 
 import "./style/pages/ScanPage.css";
 import "./style/pages/stylingparts/scanRightSide.css";
@@ -16,6 +23,7 @@ function ScanPage() {
     const navigate = useNavigate();
     const effectRan = useRef(false);
     const [editableReceipt, setEditableReceipt] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
         if (effectRan.current) return;
@@ -41,6 +49,31 @@ function ScanPage() {
             setEditableReceipt(JSON.parse(JSON.stringify(ocrData.receipt)));
         }
     }, [ocrData]);
+
+    useEffect(() => {
+        const receiptIdFromHistory = location.state?.receiptId;
+        if (receiptIdFromHistory) {
+            setSelectedReceiptId(receiptIdFromHistory);
+
+            const fetchReceiptData = async () => {
+                try {
+                    const file = await fetchHistoryReceiptFile(receiptIdFromHistory);
+                    setUploadedImage(URL.createObjectURL(file));
+
+                    const ocrResult = await rescanReceipt(receiptIdFromHistory, file);
+                    setOcrData(ocrResult);
+
+                    if (ocrResult.receipt) {
+                        setEditableReceipt(JSON.parse(JSON.stringify(ocrResult.receipt)));
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch receipt from history:", err);
+                }
+            };
+
+            fetchReceiptData();
+        }
+    }, [location.state]);
 
     const handleInputChange = (field, value) => {
         setEditableReceipt(prev => ({
@@ -78,11 +111,16 @@ function ScanPage() {
     };
 
     const handleRescan = async () => {
-        if (!uploadedFile) return;
+        if (!uploadedFile || !selectedReceiptId) return;
 
         try {
-            const data = await rescanReceipt(uploadedFile);
+            const data = await rescanReceipt(selectedReceiptId, uploadedFile);
             setOcrData(data);
+
+            if (data.receipt) {
+                setEditableReceipt(JSON.parse(JSON.stringify(data.receipt)));
+            }
+
         } catch (err) {
             console.error("Rescan failed:", err);
         }
@@ -126,6 +164,14 @@ function ScanPage() {
         }
     };
 
+    const handleNewScan = () => {
+        setUploadedFile(null);
+        setUploadedImage(null);
+        setOcrData(null);
+        setSelectedReceiptId(null);
+        setEditableReceipt(null);
+    };
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -159,6 +205,7 @@ function ScanPage() {
                             <h2>Skannad information</h2>
 
                             <div className="action-buttons">
+                                <button className="toggle-btn" onClick={handleNewScan}>Skanna ny kvitto</button>
                                 <button className="toggle-btn" onClick={handleRescan}>Skanna igen</button>
                                 <button
                                     className="toggle-btn"

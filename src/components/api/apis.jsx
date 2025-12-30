@@ -133,23 +133,20 @@ export async function fetchHistoryReceipts() {
     return res.json();
 }
 
-export async function fetchHistoryReceiptImage(receiptId) {
+export async function fetchHistoryReceiptFile(receiptId) {
     const token = getToken();
     if (!token) throw new Error("No token");
 
-    const res = await fetch(
-        `${API_BASE}/receipts/${receiptId}/image`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+    const res = await fetch(`${API_BASE}/receipts/${receiptId}/image`, {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-    );
+    });
 
-    if (!res.ok) return null;
+    if (!res.ok) throw new Error("Failed to fetch image");
 
     const blob = await res.blob();
-    return URL.createObjectURL(blob);
+    return new File([blob], `receipt-${receiptId}.jpg`, { type: blob.type });
 }
 
 export async function saveReceipt(receiptId, editableReceipt) {
@@ -164,8 +161,9 @@ export async function saveReceipt(receiptId, editableReceipt) {
     });
 
     if (!res1.ok) throw new Error("Failed to save receipt image");
+    const savedReceiptId = await res1.json();
 
-    const res2 = await fetch(`${API_BASE}/savings/save-info/${receiptId}`, {
+    const res2 = await fetch(`${API_BASE}/savings/save-info/${savedReceiptId}`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -196,14 +194,14 @@ export async function deleteHistoryReceipt(receiptId) {
     }
 }
 
-export async function rescanReceipt(file) {
+export async function rescanReceipt(receiptId, file) {
     const token = getToken();
     if (!token) throw new Error("No token");
 
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${API_BASE}/rescan`, {
+    const response = await fetch(`${API_BASE}/rescan/${receiptId}`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`
