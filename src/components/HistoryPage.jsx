@@ -109,8 +109,7 @@ function HistoryPage() {
                             {receipts.map(r => (
                                 <li key={r.id} className="receipt-item">
                                     <p>
-                                        <strong>Datum:</strong>{" "}
-                                        {new Date(r.createdAt).toLocaleString()}
+                                        {new Date(r.createdAt).toLocaleDateString()}
                                     </p>
                                     {images[r.id] ? (
                                         <img

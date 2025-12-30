@@ -15,12 +15,15 @@
     flex: 1;
     overflow-y: auto;
     padding-right: 6px;
-}
-
-.info-scroll {
     scrollbar-gutter: stable;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
+.info-scroll p{
+    font-size: 0.9rem;
+}
 
 .info-section pre {
     font-size: 12px;
@@ -38,7 +41,7 @@
 .info-section h2 {
     margin-bottom: 16px;
     margin-top: 50px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: white;
 }
@@ -56,7 +59,7 @@
     color: white;
     padding: 6px 14px;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .action-buttons .toggle-btn:hover {
@@ -74,7 +77,7 @@
     color: #aaa;
     padding: 6px 14px;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -233,4 +236,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.right-side-text{
+    margin: 0;
+    padding: 0;
+}
+.right-side-text h2{
+    margin: 0 0 10px 0;
+    padding: 0;
 }

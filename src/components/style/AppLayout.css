@@ -17,14 +17,14 @@
 }
 
 .tab {
-    padding: 10px 22px;
+    padding: 8px 20px;
     background-color: #2a2a2a;
     color: #bbb;
     border: 1px solid #4a4a4a;
     border-bottom: none;
     border-radius: 20px 20px 0 0;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     transition: all 0.2s ease;
     position: relative;
     top: 0;

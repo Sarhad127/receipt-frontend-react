@@ -202,10 +202,9 @@ function ScanPage() {
 
                     <div className="info-section">
                         <div>
-                            <h2>Skannad information</h2>
 
                             <div className="action-buttons">
-                                <button className="toggle-btn" onClick={handleNewScan}>Skanna ny kvitto</button>
+                                <button className="toggle-btn" onClick={handleNewScan}>Ny Kvitto</button>
                                 <button className="toggle-btn" onClick={handleRescan}>Skanna igen</button>
                                 <button
                                     className="toggle-btn"
@@ -374,7 +373,10 @@ function ScanPage() {
                                     </div>
                                 )
                             ) : (
-                                <p>Här visas all OCR-skannad information från kvittot.</p>
+                                <div className="right-side-text">
+                                    <h2>Skannad information</h2>
+                                    <p>Här visas all OCR-skannad information från kvittot.</p>
+                                </div>
                             )}
                         </div>
                     </div>

@@ -46,7 +46,7 @@ function SavedPage() {
             const data = await fetchSavedReceiptData(receipt.id);
             setOcrData(data);
         } catch (err) {
-            console.error("Failed to fetch OCR data:", err);
+            console.error("Kunde inte hämta OCR-data:", err);
             setOcrData(null);
         }
     };
@@ -78,7 +78,7 @@ function SavedPage() {
                                     onClick={() => handleReceiptClick(r)}
                                     style={{ cursor: "pointer" }}
                                 >
-                                    <p><strong>Datum:</strong> {new Date(r.createdAt).toLocaleString()}</p>
+                                    <p>{new Date(r.createdAt).toLocaleDateString()}</p>
                                     {images[r.id] ? (
                                         <img
                                             src={images[r.id]}
@@ -97,33 +97,32 @@ function SavedPage() {
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
                         <button className="saved-modal-close" onClick={closeModal}>×</button>
-                        <h2>Receipt Details</h2>
 
                         {images[selectedReceipt.id] ? (
                             <img
                                 src={images[selectedReceipt.id]}
-                                alt="Receipt"
+                                alt="Kvitto"
                                 className="saved-modal-image"
                             />
                         ) : <p>Laddar bild...</p>}
 
                         {ocrData ? (
                             <div className="saved-ocr-info">
-                                <p><strong>Vendor:</strong> {ocrData.vendorName}</p>
+                                <p><strong>Butik:</strong> {ocrData.vendorName}</p>
                                 <p><strong>Org.nr:</strong> {ocrData.vendorOrgNumber}</p>
-                                <p><strong>Address:</strong> {ocrData.vendorAddress}</p>
-                                <p><strong>Receipt number:</strong> {ocrData.receiptNumber}</p>
-                                <p><strong>Total:</strong> {ocrData.totalAmount} {ocrData.currency}</p>
-                                <p><strong>VAT:</strong> {ocrData.vatAmount} {ocrData.currency}</p>
-                                <p><strong>Payment method:</strong> {ocrData.paymentMethod}</p>
-                                {ocrData.notes && <p><strong>Notes:</strong> {ocrData.notes}</p>}
+                                <p><strong>Adress:</strong> {ocrData.vendorAddress}</p>
+                                <p><strong>Kvittonummer:</strong> {ocrData.receiptNumber}</p>
+                                <p><strong>Totalt belopp:</strong> {ocrData.totalAmount} {ocrData.currency}</p>
+                                <p><strong>Moms:</strong> {ocrData.vatAmount} {ocrData.currency}</p>
+                                <p><strong>Betalningsmetod:</strong> {ocrData.paymentMethod}</p>
+                                {ocrData.notes && <p><strong>Anteckningar:</strong> {ocrData.notes}</p>}
 
-                                <p><strong>Items:</strong></p>
+                                <p><strong>Artiklar:</strong></p>
                                 {ocrData.items && ocrData.items.length > 0 ? (
                                     <ul>
                                         {ocrData.items.map((item, idx) => (
                                             <li key={idx}>
-                                                {item.itemName} - {item.itemQuantity} × {item.itemUnitPrice} = {item.itemTotalPrice}
+                                                {item.itemName} – {item.itemQuantity} × {item.itemUnitPrice} = {item.itemTotalPrice}
                                             </li>
                                         ))}
                                     </ul>
