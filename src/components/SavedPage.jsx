@@ -4,13 +4,17 @@ import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
 import {
     fetchSavedReceipts,
-    fetchReceiptImage
+    fetchReceiptImage,
+    fetchSavedReceiptData
 } from "./api/apis";
 
 function SavedPage() {
     const navigate = useNavigate();
     const [receipts, setReceipts] = useState([]);
     const [images, setImages] = useState({});
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedReceipt, setSelectedReceipt] = useState(null);
+    const [ocrData, setOcrData] = useState(null);
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -21,9 +25,7 @@ function SavedPage() {
                 const imageMap = {};
                 for (const r of data) {
                     const imgUrl = await fetchReceiptImage(r.id);
-                    if (imgUrl) {
-                        imageMap[r.id] = imgUrl;
-                    }
+                    if (imgUrl) imageMap[r.id] = imgUrl;
                 }
 
                 setImages(imageMap);
@@ -33,9 +35,27 @@ function SavedPage() {
                 navigate("/");
             }
         };
-
         loadReceipts();
     }, [navigate]);
+
+    const handleReceiptClick = async (receipt) => {
+        setSelectedReceipt(receipt);
+        setModalOpen(true);
+
+        try {
+            const data = await fetchSavedReceiptData(receipt.id);
+            setOcrData(data);
+        } catch (err) {
+            console.error("Failed to fetch OCR data:", err);
+            setOcrData(null);
+        }
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setSelectedReceipt(null);
+        setOcrData(null);
+    };
 
     return (
         <div className="page-wrapper">
@@ -52,27 +72,67 @@ function SavedPage() {
                     {receipts.length === 0 ? null : (
                         <ul className="receipt-list">
                             {receipts.map(r => (
-                                <li key={r.id} className="receipt-item">
-                                    <p>
-                                        <strong>Datum:</strong>{" "}
-                                        {new Date(r.createdAt).toLocaleString()}
-                                    </p>
-
+                                <li
+                                    key={r.id}
+                                    className="receipt-item"
+                                    onClick={() => handleReceiptClick(r)}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    <p><strong>Datum:</strong> {new Date(r.createdAt).toLocaleString()}</p>
                                     {images[r.id] ? (
                                         <img
                                             src={images[r.id]}
                                             alt="Kvitto"
                                             className="receipt-image"
                                         />
-                                    ) : (
-                                        <p>Laddar bild...</p>
-                                    )}
+                                    ) : <p>Laddar bild...</p>}
                                 </li>
                             ))}
                         </ul>
                     )}
                 </div>
             </div>
+
+            {modalOpen && selectedReceipt && (
+                <div className="saved-modal-overlay" onClick={closeModal}>
+                    <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
+                        <button className="saved-modal-close" onClick={closeModal}>×</button>
+                        <h2>Receipt Details</h2>
+
+                        {images[selectedReceipt.id] ? (
+                            <img
+                                src={images[selectedReceipt.id]}
+                                alt="Receipt"
+                                className="saved-modal-image"
+                            />
+                        ) : <p>Laddar bild...</p>}
+
+                        {ocrData ? (
+                            <div className="saved-ocr-info">
+                                <p><strong>Vendor:</strong> {ocrData.vendorName}</p>
+                                <p><strong>Org.nr:</strong> {ocrData.vendorOrgNumber}</p>
+                                <p><strong>Address:</strong> {ocrData.vendorAddress}</p>
+                                <p><strong>Receipt number:</strong> {ocrData.receiptNumber}</p>
+                                <p><strong>Total:</strong> {ocrData.totalAmount} {ocrData.currency}</p>
+                                <p><strong>VAT:</strong> {ocrData.vatAmount} {ocrData.currency}</p>
+                                <p><strong>Payment method:</strong> {ocrData.paymentMethod}</p>
+                                {ocrData.notes && <p><strong>Notes:</strong> {ocrData.notes}</p>}
+
+                                <p><strong>Items:</strong></p>
+                                {ocrData.items && ocrData.items.length > 0 ? (
+                                    <ul>
+                                        {ocrData.items.map((item, idx) => (
+                                            <li key={idx}>
+                                                {item.itemName} - {item.itemQuantity} × {item.itemUnitPrice} = {item.itemTotalPrice}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : <p>Inga artiklar</p>}
+                            </div>
+                        ) : <p>Laddar OCR-data...</p>}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

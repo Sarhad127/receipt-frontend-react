@@ -215,3 +215,32 @@ export async function rescanReceipt(receiptId, file) {
 
     return response.json();
 }
+
+export async function fetchHistoryReceiptImage(receiptId) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/receipts/${receiptId}/image`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) return null;
+
+    const blob = await res.blob();
+    return URL.createObjectURL(blob);
+}
+
+export async function fetchSavedReceiptData(receiptId) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/savings/${receiptId}/info`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch saved receipt info");
+
+    return res.json();
+}

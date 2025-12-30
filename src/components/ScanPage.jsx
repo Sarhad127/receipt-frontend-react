@@ -5,7 +5,7 @@ import {
     uploadReceipt,
     saveReceipt,
     deleteHistoryReceipt,
-    fetchHistoryReceiptImage, fetchHistoryReceiptFile
+    fetchHistoryReceiptFile
 } from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 import { useScan } from "../context/ScanContext.jsx";
