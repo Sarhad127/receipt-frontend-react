@@ -118,6 +118,7 @@ function ScanPage() {
             setUploadedImage(null);
             setOcrData(null);
             setSelectedReceiptId(null);
+            setEditableReceipt(null)
 
         } catch (err) {
             console.error(err);
