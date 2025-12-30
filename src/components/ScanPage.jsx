@@ -86,7 +86,10 @@ function ScanPage() {
         const newItems = [...editableReceipt.items];
         newItems[index] = {
             ...newItems[index],
-            [field]: value
+            [field]: value,
+            itemTotalPrice:
+                (field === "itemQuantity" ? value : newItems[index].itemQuantity) *
+                (field === "itemUnitPrice" ? value : newItems[index].itemUnitPrice)
         };
         setEditableReceipt(prev => ({
             ...prev,
@@ -170,6 +173,13 @@ function ScanPage() {
         setOcrData(null);
         setSelectedReceiptId(null);
         setEditableReceipt(null);
+    };
+
+    const handleItemRemove = (index) => {
+        setEditableReceipt(prev => ({
+            ...prev,
+            items: prev.items.filter((_, i) => i !== index)
+        }));
     };
 
     return (
@@ -335,27 +345,21 @@ function ScanPage() {
                                                             <input
                                                                 type="text"
                                                                 value={item.itemName}
-                                                                onChange={e =>
-                                                                    handleItemChange(index, "itemName", e.target.value)
-                                                                }
+                                                                onChange={e => handleItemChange(index, "itemName", e.target.value)}
                                                             />
                                                         </td>
                                                         <td>
                                                             <input
                                                                 type="number"
                                                                 value={item.itemQuantity}
-                                                                onChange={e =>
-                                                                    handleItemChange(index, "itemQuantity", e.target.value)
-                                                                }
+                                                                onChange={e => handleItemChange(index, "itemQuantity", e.target.value)}
                                                             />
                                                         </td>
                                                         <td>
                                                             <input
                                                                 type="number"
                                                                 value={item.itemUnitPrice}
-                                                                onChange={e =>
-                                                                    handleItemChange(index, "itemUnitPrice", e.target.value)
-                                                                }
+                                                                onChange={e => handleItemChange(index, "itemUnitPrice", e.target.value)}
                                                             />
                                                         </td>
                                                         <td>
@@ -365,8 +369,25 @@ function ScanPage() {
                                                                 readOnly
                                                             />
                                                         </td>
+                                                        <td>
+                                                            <button type="button" onClick={() => handleItemRemove(index)}>
+                                                                Ta bort
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 ))}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        const newItem = { itemName: "", itemQuantity: 1, itemUnitPrice: 0, itemTotalPrice: 0 };
+                                                        setEditableReceipt(prev => ({
+                                                            ...prev,
+                                                            items: [...(prev.items || []), newItem]
+                                                        }));
+                                                    }}
+                                                >
+                                                    Lägg till artikel
+                                                </button>
                                                 </tbody>
                                             </table>
                                         )}
