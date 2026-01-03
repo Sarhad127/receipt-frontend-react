@@ -244,3 +244,13 @@ export async function fetchSavedReceiptData(receiptId) {
 
     return res.json();
 }
+
+export async function fetchStatistics() {
+    const token = getToken();
+    const res = await fetch(`${API_BASE}/api/statistics/detailed`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch statistics");
+    return await res.json();
+}
