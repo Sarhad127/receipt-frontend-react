@@ -21,6 +21,7 @@ function HistoryPage() {
         vendorOrgNumber: "",
         vendorAddress: "",
         receiptNumber: "",
+        receiptDate: null,
         totalAmount: 0,
         vatAmount: 0,
         currency: "",

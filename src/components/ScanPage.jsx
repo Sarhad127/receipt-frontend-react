@@ -288,6 +288,17 @@ function ScanPage() {
                                             />
                                         </p>
 
+                                        <p>
+                                            <strong>Datum:</strong>
+                                            <input
+                                                type="text"
+                                                value={editableReceipt.receiptDate || ""}
+                                                onChange={e =>
+                                                    handleInputChange("receiptDate", e.target.value)
+                                                }
+                                            />
+                                        </p>
+
                                         <p><strong>Betalmetod:</strong>
                                             <input
                                                 type="text"

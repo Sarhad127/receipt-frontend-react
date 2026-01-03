@@ -111,6 +111,7 @@ function SavedPage() {
                                 <p><strong>Butik:</strong> {ocrData.vendorName}</p>
                                 <p><strong>Org.nr:</strong> {ocrData.vendorOrgNumber}</p>
                                 <p><strong>Adress:</strong> {ocrData.vendorAddress}</p>
+                                <p><strong>Datum:</strong> {ocrData.receiptDate}</p>
                                 <p><strong>Kvittonummer:</strong> {ocrData.receiptNumber}</p>
                                 <p><strong>Totalt belopp:</strong> {ocrData.totalAmount} {ocrData.currency}</p>
                                 <p><strong>Moms:</strong> {ocrData.vatAmount} {ocrData.currency}</p>
