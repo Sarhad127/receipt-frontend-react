@@ -263,6 +263,7 @@
     gap: 8px;
     color: whitesmoke;
     font-size: 0.8rem;
+    margin-left: 2rem;
 }
 
 .date-filter input[type="date"] {
@@ -310,7 +311,6 @@
     padding: 8px 12px 8px 32px;
     font-size: 12px;
     width: 22rem;
-    margin-right: 2rem;
 }
 
 .receipt-search:focus {
@@ -318,4 +318,108 @@
     background-color: #333;
     border-color: #666;
     color: #fff;
+}
+
+.receipt-list.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.receipt-item.list {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    padding: 10px 16px;
+    gap: 12px;
+    height: max-content;
+    cursor: pointer;
+    text-align: left;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.list-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.list-info {
+    display: flex;
+    flex-direction: column;
+    color: #ddd;
+    flex: 1;
+}
+
+.layout-switcher {
+    display: inline-flex;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    margin-left: 2rem;
+}
+
+.switch-btn {
+    border: none;
+    background: none;
+    color: #ddd;
+    padding: 6px 12px;
+    font-size: 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch-btn:hover {
+    background-color: #3a3a3a;
+}
+
+.switch-btn.active {
+    background-color: #4a4a4a;
+}
+
+.grid-icon {
+    display: grid;
+    grid-template-columns: repeat(2, 6px);
+    grid-template-rows: repeat(2, 6px);
+    gap: 3px;
+}
+
+.grid-icon span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: #ddd;
+    border-radius: 1px;
+}
+
+.list-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 12px;
+}
+
+.list-icon span {
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: #ddd;
+    border-radius: 1px;
 }

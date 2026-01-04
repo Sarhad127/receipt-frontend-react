@@ -26,6 +26,7 @@ function SavedPage() {
     const [toDate, setToDate] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const editableRef = useRef(null);
+    const [layout, setLayout] = useState("grid");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -255,7 +256,6 @@ function SavedPage() {
                                 onChange={e => setFromDate(e.target.value)}
                             />
                         </div>
-
                         <div className="date-input">
                             <label>Till</label>
                             <input
@@ -265,21 +265,63 @@ function SavedPage() {
                             />
                         </div>
                     </div>
+                    <div className="layout-switcher">
+                        <button
+                            className={`switch-btn ${layout === "grid" ? "active" : ""}`}
+                            onClick={() => setLayout("grid")}
+                            title="Grid view"
+                        >
+                            <div className="grid-icon">
+                                <span></span><span></span>
+                                <span></span><span></span>
+                            </div>
+                        </button>
+
+                        <button
+                            className={`switch-btn ${layout === "list" ? "active" : ""}`}
+                            onClick={() => setLayout("list")}
+                            title="List view"
+                        >
+                            <div className="list-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
-                        <ul className="receipt-list">
+                        <ul className={`receipt-list ${layout}`}>
                             {filteredReceipts.map((r, index) => (
                                 <li
                                     key={r.id}
-                                    className="receipt-item"
+                                    className={`receipt-item ${layout}`}
                                     onClick={() => handleReceiptClick(r, index)}
                                 >
-                                    <p>{new Date(r.createdAt).toLocaleDateString()}</p>
-                                    {images[r.id] ? (
-                                        <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
-                                    ) : <p>Laddar bild...</p>}
+                                    {layout === "grid" ? (
+                                        <>
+                                            <p>{new Date(r.createdAt).toLocaleDateString()}</p>
+                                            {images[r.id] ? (
+                                                <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
+                                            ) : <p>Laddar bild...</p>}
+                                        </>
+                                    ) : (
+                                        <div className="list-item">
+                                            {images[r.id] ? (
+                                                <img src={images[r.id]} alt="Kvitto" className="list-image" />
+                                            ) : <p>Laddar bild...</p>}
+
+                                            <div className="list-info">
+                                                <p>{ocrDataMap[r.id]?.vendorName || "–"}</p>
+                                            </div>
+                                            <span className="list-date">
+                                                <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
+                                            </span>
+                                        </div>
+
+                                    )}
                                 </li>
                             ))}
                         </ul>
