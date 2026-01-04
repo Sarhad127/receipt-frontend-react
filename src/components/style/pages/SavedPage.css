@@ -235,3 +235,43 @@
     font-weight: bold;
     color: #ddd;
 }
+
+.page-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 60px 0;
+}
+
+.date-input label {
+    margin-right: 10px;
+}
+
+.date-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: whitesmoke;
+    font-size: 0.8rem;
+}
+
+.date-filter input[type="date"] {
+    background-color: #2a2a2a;
+    color: #bbb;
+    border: 1px solid #4a4a4a;
+    border-radius: 14px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.date-filter input[type="date"]:focus {
+    outline: none;
+    background-color: #333;
+    border-color: #666;
+    color: #fff;
+}
+
+.date-separator {
+    color: #777;
+    font-size: 12px;
+}

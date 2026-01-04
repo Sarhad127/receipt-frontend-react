@@ -22,6 +22,8 @@ function SavedPage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [saving, setSaving] = useState(false);
     const [editingField, setEditingField] = useState(null);
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -140,6 +142,26 @@ function SavedPage() {
         }
     };
 
+    const filteredReceipts = receipts.filter(r => {
+        if (!fromDate && !toDate) return true;
+
+        const receiptDate = new Date(r.createdAt);
+        receiptDate.setHours(0, 0, 0, 0);
+
+        if (fromDate) {
+            const from = new Date(fromDate);
+            if (receiptDate < from) return false;
+        }
+
+        if (toDate) {
+            const to = new Date(toDate);
+            to.setHours(23, 59, 59, 999);
+            if (receiptDate > to) return false;
+        }
+
+        return true;
+    });
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -151,10 +173,32 @@ function SavedPage() {
             </div>
 
             <div className="page-container">
+                <div className="page-header">
+                    <div className="date-filter">
+                        <div className="date-input">
+                            <label>Från</label>
+                            <input
+                                type="date"
+                                value={fromDate}
+                                onChange={e => setFromDate(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="date-input">
+                            <label>Till</label>
+                            <input
+                                type="date"
+                                value={toDate}
+                                onChange={e => setToDate(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
                         <ul className="receipt-list">
-                            {receipts.map((r, index) => (
+                            {filteredReceipts.map((r, index) => (
                                 <li
                                     key={r.id}
                                     className="receipt-item"
@@ -170,6 +214,7 @@ function SavedPage() {
                     )}
                 </div>
             </div>
+
             {modalOpen && selectedReceipt && editableReceipt && (
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
