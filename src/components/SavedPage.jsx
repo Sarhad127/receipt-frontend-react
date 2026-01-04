@@ -92,7 +92,12 @@ function SavedPage() {
     };
 
     const handleItemAdd = () => {
-        const newItem = { itemName: "", itemQuantity: 1, itemUnitPrice: 0, itemTotalPrice: 0 };
+        const newItem = {
+            itemName: "",
+            itemQuantity: 1,
+            itemUnitPrice: 0,
+            itemTotalPrice: 0
+        };
         setEditableReceipt(prev => ({
             ...prev,
             items: [...(prev.items || []), newItem]
@@ -233,11 +238,15 @@ function SavedPage() {
                                                         key={subField}
                                                         type={subField === "itemName" ? "text" : "number"}
                                                         value={item[subField]}
+                                                        placeholder={{
+                                                            itemName: "Artikelnamn",
+                                                            itemQuantity: "Antal",
+                                                            itemUnitPrice: "Pris/st"
+                                                        }[subField]}
                                                         onChange={e => handleItemChange(
                                                             idx,
                                                             subField,
-                                                            subField === "itemName" ? e.target.value
-                                                                : parseFloat(e.target.value)
+                                                            subField === "itemName" ? e.target.value : parseFloat(e.target.value)
                                                         )}
                                                         onBlur={() => setEditingField(null)}
                                                         autoFocus
@@ -248,7 +257,12 @@ function SavedPage() {
                                                         key={subField}
                                                         onClick={() => setEditingField(`item-${idx}-${subField}`)}
                                                         className="inline-edit-span"
-                                                    >{item[subField]}
+                                                    >
+                                                        {item[subField] || {
+                                                            itemName: "Artikelnamn",
+                                                            itemQuantity: "Antal",
+                                                            itemUnitPrice: "Pris/st"
+                                                        }[subField]}
                                                     </span>
                                                 )
                                             ))}
@@ -256,9 +270,9 @@ function SavedPage() {
                                             <span className="item-total">= {item.itemTotalPrice}</span>
                                         </li>
                                     ))}
-                                    <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
                                 </ul>
                             )}
+                            <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
                             <button className="save-receipt" onClick={handleSave} disabled={saving}>
                                 {saving ? "Sparar..." : "Spara"}
                             </button>
