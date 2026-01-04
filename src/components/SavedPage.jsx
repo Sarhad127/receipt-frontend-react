@@ -5,7 +5,8 @@ import "./style/AppLayout.css";
 import {
     fetchSavedReceipts,
     fetchReceiptImage,
-    fetchSavedReceiptData
+    fetchSavedReceiptData,
+    saveReceipt
 } from "./api/apis";
 
 function SavedPage() {
@@ -14,10 +15,13 @@ function SavedPage() {
     const [images, setImages] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedReceipt, setSelectedReceipt] = useState(null);
+    const [editableReceipt, setEditableReceipt] = useState(null);
     const [ocrData, setOcrData] = useState(null);
+    const [ocrDataMap, setOcrDataMap] = useState({});
     const [imageModalOpen, setImageModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [ocrDataMap, setOcrDataMap] = useState({});
+    const [saving, setSaving] = useState(false);
+    const [editingField, setEditingField] = useState(null);
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -46,33 +50,78 @@ function SavedPage() {
         loadReceipts();
     }, [navigate]);
 
-    const handleReceiptClick = async (receipt, index) => {
+    const handleReceiptClick = (receipt, index) => {
         setSelectedReceipt(receipt);
-        setCurrentIndex(index)
+        setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[receipt.id])));
+        setOcrData(ocrDataMap[receipt.id]);
+        setCurrentIndex(index);
         setModalOpen(true);
-
-        try {
-            const data = await fetchSavedReceiptData(receipt.id);
-            setOcrData(data);
-        } catch (err) {
-            console.error("Kunde inte hämta OCR-data:", err);
-            setOcrData(null);
-        }
     };
 
     const closeModal = () => {
         setModalOpen(false);
         setSelectedReceipt(null);
+        setEditableReceipt(null);
         setOcrData(null);
+    };
+
+    const handleInputChange = (field, value) => {
+        setEditableReceipt(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleItemChange = (index, field, value) => {
+        const newItems = [...(editableReceipt.items || [])];
+        newItems[index] = {
+            ...newItems[index],
+            [field]: value,
+            itemTotalPrice:
+                (field === "itemQuantity" ? value : newItems[index].itemQuantity) *
+                (field === "itemUnitPrice" ? value : newItems[index].itemUnitPrice)
+        };
+        setEditableReceipt(prev => ({ ...prev, items: newItems }));
+    };
+
+    const handleItemRemove = (index) => {
+        setEditableReceipt(prev => ({
+            ...prev,
+            items: prev.items.filter((_, i) => i !== index)
+        }));
+    };
+
+    const handleItemAdd = () => {
+        const newItem = { itemName: "", itemQuantity: 1, itemUnitPrice: 0, itemTotalPrice: 0 };
+        setEditableReceipt(prev => ({
+            ...prev,
+            items: [...(prev.items || []), newItem]
+        }));
+    };
+
+    const handleSave = async () => {
+        if (!selectedReceipt || !editableReceipt || saving) return;
+        try {
+            setSaving(true);
+            await saveReceipt(selectedReceipt.id, editableReceipt);
+            setOcrData(editableReceipt);
+            setOcrDataMap(prev => ({ ...prev, [selectedReceipt.id]: editableReceipt }));
+            alert("Kvittot sparades!");
+        } catch (err) {
+            console.error(err);
+            alert("Misslyckades att spara kvittot.");
+        } finally {
+            setSaving(false);
+        }
     };
 
     const goToNext = () => {
         if (currentIndex < receipts.length - 1) {
             const nextIndex = currentIndex + 1;
             const nextReceipt = receipts[nextIndex];
-
             setCurrentIndex(nextIndex);
             setSelectedReceipt(nextReceipt);
+            setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[nextReceipt.id])));
             setOcrData(ocrDataMap[nextReceipt.id]);
         }
     };
@@ -81,9 +130,9 @@ function SavedPage() {
         if (currentIndex > 0) {
             const prevIndex = currentIndex - 1;
             const prevReceipt = receipts[prevIndex];
-
             setCurrentIndex(prevIndex);
             setSelectedReceipt(prevReceipt);
+            setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[prevReceipt.id])));
             setOcrData(ocrDataMap[prevReceipt.id]);
         }
     };
@@ -111,11 +160,7 @@ function SavedPage() {
                                 >
                                     <p>{new Date(r.createdAt).toLocaleDateString()}</p>
                                     {images[r.id] ? (
-                                        <img
-                                            src={images[r.id]}
-                                            alt="Kvitto"
-                                            className="receipt-image"
-                                        />
+                                        <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
                                     ) : <p>Laddar bild...</p>}
                                 </li>
                             ))}
@@ -123,24 +168,17 @@ function SavedPage() {
                     )}
                 </div>
             </div>
-
-            {modalOpen && selectedReceipt && (
+            {modalOpen && selectedReceipt && editableReceipt && (
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
                         <button className="saved-modal-close" onClick={closeModal}>×</button>
-                        <div className="receipt-navigation">
-                            <button onClick={goToPrev} disabled={currentIndex === 0}>
-                                ← Föregående
-                            </button>
 
-                            <button
-                                onClick={goToNext}
-                                disabled={currentIndex === receipts.length - 1}
-                            >
-                                Nästa →
-                            </button>
+                        <div className="receipt-navigation">
+                            <button onClick={goToPrev} disabled={currentIndex === 0}>← Föregående</button>
+                            <button onClick={goToNext} disabled={currentIndex === receipts.length - 1}>Nästa →</button>
                         </div>
-                        {images[selectedReceipt.id] ? (
+
+                        {images[selectedReceipt.id] && (
                             <img
                                 src={images[selectedReceipt.id]}
                                 alt="Kvitto"
@@ -148,50 +186,88 @@ function SavedPage() {
                                 onClick={() => setImageModalOpen(true)}
                                 style={{ cursor: "zoom-in" }}
                             />
-                        ) : <p>Laddar bild...</p>}
+                        )}
 
-                        {ocrData ? (
-                            <div className="saved-ocr-info">
-                                <p><strong>Butik:</strong> {ocrData.vendorName}</p>
-                                <p><strong>Org.nr:</strong> {ocrData.vendorOrgNumber}</p>
-                                <p><strong>Adress:</strong> {ocrData.vendorAddress}</p>
-                                <p><strong>Datum:</strong> {ocrData.receiptDate}</p>
-                                <p><strong>Kvittonummer:</strong> {ocrData.receiptNumber}</p>
-                                <p><strong>Totalt belopp:</strong> {ocrData.totalAmount} {ocrData.currency}</p>
-                                <p><strong>Moms:</strong> {ocrData.vatAmount} {ocrData.currency}</p>
-                                <p><strong>Betalningsmetod:</strong> {ocrData.paymentMethod}</p>
-                                {ocrData.notes && <p><strong>Anteckningar:</strong> {ocrData.notes}</p>}
+                        <div className="saved-ocr-info">
+                            {["vendorName","vendorOrgNumber","vendorAddress","receiptDate","receiptNumber","paymentMethod","totalAmount","vatAmount"].map(field => (
+                                <p key={field}>
+                                    <strong>{{
+                                        vendorName: "Butik",
+                                        vendorOrgNumber: "Org.nr",
+                                        vendorAddress: "Adress",
+                                        receiptDate: "Datum",
+                                        receiptNumber: "Kvittonummer",
+                                        paymentMethod: "Betalningsmetod",
+                                        totalAmount: "Totalt belopp",
+                                        vatAmount: "Moms"
+                                    }[field]}:</strong>{" "}
+                                    {editingField === field ? (
+                                        <input
+                                            type={field.includes("Amount") || field === "vatAmount" ? "number" : "text"}
+                                            value={editableReceipt[field] || ""}
+                                            onChange={e => handleInputChange(field, e.target.value)}
+                                            onBlur={() => setEditingField(null)}
+                                            autoFocus
+                                            style={{ border: "1px solid #ccc", padding: "2px", width: "auto" }}
+                                        />
+                                    ) : (
+                                        <span
+                                            onClick={() => setEditingField(field)}
+                                            style={{ cursor: "pointer" }}
+                                        >
+                                {editableReceipt[field] || "–"}
+                            </span>
+                                    )}
+                                </p>
+                            ))}
 
-                                <p><strong>Artiklar:</strong></p>
-                                {ocrData.items && ocrData.items.length > 0 ? (
-                                    <ul>
-                                        {ocrData.items.map((item, idx) => (
-                                            <li key={idx}>
-                                                {item.itemName} – {item.itemQuantity} × {item.itemUnitPrice} = {item.itemTotalPrice}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : <p>Inga artiklar</p>}
-                            </div>
-                        ) : <p>Laddar OCR-data...</p>}
+                            <p><strong>Artiklar:</strong></p>
+                            {editableReceipt.items && editableReceipt.items.length > 0 && (
+                                <ul>
+                                    {editableReceipt.items.map((item, idx) => (
+                                        <li key={idx} style={{ marginBottom: "4px" }}>
+                                            {["itemName","itemQuantity","itemUnitPrice"].map(subField => (
+                                                editingField === `item-${idx}-${subField}` ? (
+                                                    <input
+                                                        key={subField}
+                                                        type={subField === "itemName" ? "text" : "number"}
+                                                        value={item[subField]}
+                                                        onChange={e => handleItemChange(idx, subField, e.target.value)}
+                                                        onBlur={() => setEditingField(null)}
+                                                        autoFocus
+                                                        style={{ border: "1px solid #ccc", padding: "2px", width: "auto", marginRight: "2px" }}
+                                                    />
+                                                ) : (
+                                                    <span
+                                                        key={subField}
+                                                        onClick={() => setEditingField(`item-${idx}-${subField}`)}
+                                                        style={{ cursor: "pointer", marginRight: "2px" }}
+                                                    >
+                                            {item[subField]}
+                                        </span>
+                                                )
+                                            ))}
+                                            = {item.itemTotalPrice}
+                                            <button onClick={() => handleItemRemove(idx)} style={{ marginLeft: "6px" }}>Ta bort</button>
+                                        </li>
+                                    ))}
+                                    <button onClick={handleItemAdd}>Lägg till artikel</button>
+                                </ul>
+                            )}
+
+                            <button onClick={handleSave} disabled={saving} style={{ marginTop: "8px" }}>
+                                {saving ? "Sparar..." : "Spara"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
-            {imageModalOpen && (
+
+            {imageModalOpen && images[selectedReceipt?.id] && (
                 <div className="image-modal-overlay" onClick={() => setImageModalOpen(false)}>
                     <div className="image-modal-content" onClick={e => e.stopPropagation()}>
-                        <button
-                            className="image-modal-close"
-                            onClick={() => setImageModalOpen(false)}
-                        >
-                            ×
-                        </button>
-
-                        <img
-                            src={images[selectedReceipt.id]}
-                            alt="Förstorad kvittobild"
-                            className="image-modal-image"
-                        />
+                        <button className="image-modal-close" onClick={() => setImageModalOpen(false)}>×</button>
+                        <img src={images[selectedReceipt.id]} alt="Förstorad kvittobild" className="image-modal-image" />
                     </div>
                 </div>
             )}
