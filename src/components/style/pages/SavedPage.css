@@ -47,3 +47,85 @@
 .saved-ocr-info ul {
     padding-left: 20px;
 }
+
+.image-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(3px);
+}
+
+.image-modal-content {
+    position: relative;
+    background-color: #2a2a2a;
+    padding: 14px;
+    border-radius: 16px;
+    max-width: 92vw;
+    max-height: 92vh;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    animation: modalZoomIn 0.18s ease-out;
+}
+
+.image-modal-image {
+    display: block;
+    max-width: 100%;
+    max-height: 82vh;
+    border-radius: 12px;
+    background-color: #1f1f1f;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: background-color 0.2s ease;
+}
+
+.image-modal-close:hover {
+    background-color: #4a4a4a;
+}
+
+.receipt-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 22px;
+}
+
+.receipt-navigation button {
+    flex: 1;
+    padding: 7px 12px;
+    background-color: #2a2a2a;
+    color: #ddd;
+    border: 1px solid #4a4a4a;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.receipt-navigation button:hover:not(:disabled) {
+    background-color: #3a3a3a;
+    transform: translateY(-1px);
+}
+
+.receipt-navigation button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

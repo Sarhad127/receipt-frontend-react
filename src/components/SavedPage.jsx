@@ -15,6 +15,8 @@ function SavedPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedReceipt, setSelectedReceipt] = useState(null);
     const [ocrData, setOcrData] = useState(null);
+    const [imageModalOpen, setImageModalOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -38,8 +40,9 @@ function SavedPage() {
         loadReceipts();
     }, [navigate]);
 
-    const handleReceiptClick = async (receipt) => {
+    const handleReceiptClick = async (receipt, index) => {
         setSelectedReceipt(receipt);
+        setCurrentIndex(index)
         setModalOpen(true);
 
         try {
@@ -57,6 +60,34 @@ function SavedPage() {
         setOcrData(null);
     };
 
+    const goToNext = async () => {
+        if (currentIndex < receipts.length - 1) {
+            const nextIndex = currentIndex + 1;
+            const nextReceipt = receipts[nextIndex];
+
+            setCurrentIndex(nextIndex);
+            setSelectedReceipt(nextReceipt);
+            setOcrData(null);
+
+            const data = await fetchSavedReceiptData(nextReceipt.id);
+            setOcrData(data);
+        }
+    };
+
+    const goToPrev = async () => {
+        if (currentIndex > 0) {
+            const prevIndex = currentIndex - 1;
+            const prevReceipt = receipts[prevIndex];
+
+            setCurrentIndex(prevIndex);
+            setSelectedReceipt(prevReceipt);
+            setOcrData(null);
+
+            const data = await fetchSavedReceiptData(prevReceipt.id);
+            setOcrData(data);
+        }
+    };
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -71,11 +102,11 @@ function SavedPage() {
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
                         <ul className="receipt-list">
-                            {receipts.map(r => (
+                            {receipts.map((r, index) => (
                                 <li
                                     key={r.id}
                                     className="receipt-item"
-                                    onClick={() => handleReceiptClick(r)}
+                                    onClick={() => handleReceiptClick(r, index)}
                                     style={{ cursor: "pointer" }}
                                 >
                                     <p>{new Date(r.createdAt).toLocaleDateString()}</p>
@@ -97,12 +128,25 @@ function SavedPage() {
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
                         <button className="saved-modal-close" onClick={closeModal}>×</button>
+                        <div className="receipt-navigation">
+                            <button onClick={goToPrev} disabled={currentIndex === 0}>
+                                ← Föregående
+                            </button>
 
+                            <button
+                                onClick={goToNext}
+                                disabled={currentIndex === receipts.length - 1}
+                            >
+                                Nästa →
+                            </button>
+                        </div>
                         {images[selectedReceipt.id] ? (
                             <img
                                 src={images[selectedReceipt.id]}
                                 alt="Kvitto"
                                 className="saved-modal-image"
+                                onClick={() => setImageModalOpen(true)}
+                                style={{ cursor: "zoom-in" }}
                             />
                         ) : <p>Laddar bild...</p>}
 
@@ -130,6 +174,24 @@ function SavedPage() {
                                 ) : <p>Inga artiklar</p>}
                             </div>
                         ) : <p>Laddar OCR-data...</p>}
+                    </div>
+                </div>
+            )}
+            {imageModalOpen && (
+                <div className="image-modal-overlay" onClick={() => setImageModalOpen(false)}>
+                    <div className="image-modal-content" onClick={e => e.stopPropagation()}>
+                        <button
+                            className="image-modal-close"
+                            onClick={() => setImageModalOpen(false)}
+                        >
+                            ×
+                        </button>
+
+                        <img
+                            src={images[selectedReceipt.id]}
+                            alt="Förstorad kvittobild"
+                            className="image-modal-image"
+                        />
                     </div>
                 </div>
             )}
