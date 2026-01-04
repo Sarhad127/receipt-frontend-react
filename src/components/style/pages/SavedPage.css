@@ -275,3 +275,36 @@
     color: #777;
     font-size: 12px;
 }
+
+.search-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.search-input-wrapper .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #bbb;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.receipt-search {
+    background-color: #2a2a2a;
+    color: #bbb;
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    padding: 8px 12px 8px 32px;
+    font-size: 12px;
+    width: 22rem;
+    margin-right: 2rem;
+}
+
+.receipt-search:focus {
+    outline: none;
+    background-color: #333;
+    border-color: #666;
+    color: #fff;
+}

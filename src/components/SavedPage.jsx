@@ -24,6 +24,7 @@ function SavedPage() {
     const [editingField, setEditingField] = useState(null);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -121,42 +122,89 @@ function SavedPage() {
     };
 
     const goToNext = () => {
-        if (currentIndex < receipts.length - 1) {
-            const nextIndex = currentIndex + 1;
-            const nextReceipt = receipts[nextIndex];
-            setCurrentIndex(nextIndex);
+        if (!selectedReceipt) return;
+
+        const currentFilteredIndex = filteredReceipts.findIndex(r => r.id === selectedReceipt.id);
+        if (currentFilteredIndex < filteredReceipts.length - 1) {
+            const nextReceipt = filteredReceipts[currentFilteredIndex + 1];
             setSelectedReceipt(nextReceipt);
             setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[nextReceipt.id])));
             setOcrData(ocrDataMap[nextReceipt.id]);
+            setCurrentIndex(currentFilteredIndex + 1);
         }
     };
 
     const goToPrev = () => {
-        if (currentIndex > 0) {
-            const prevIndex = currentIndex - 1;
-            const prevReceipt = receipts[prevIndex];
-            setCurrentIndex(prevIndex);
+        if (!selectedReceipt) return;
+
+        const currentFilteredIndex = filteredReceipts.findIndex(r => r.id === selectedReceipt.id);
+        if (currentFilteredIndex > 0) {
+            const prevReceipt = filteredReceipts[currentFilteredIndex - 1];
             setSelectedReceipt(prevReceipt);
             setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[prevReceipt.id])));
             setOcrData(ocrDataMap[prevReceipt.id]);
+            setCurrentIndex(currentFilteredIndex - 1);
         }
     };
 
     const filteredReceipts = receipts.filter(r => {
-        if (!fromDate && !toDate) return true;
+        const ocr = ocrDataMap[r.id];
+        if (!ocr) return false;
 
-        const receiptDate = new Date(r.createdAt);
-        receiptDate.setHours(0, 0, 0, 0);
+        if (searchTerm) {
+            const q = searchTerm.toLowerCase().trim();
 
-        if (fromDate) {
-            const from = new Date(fromDate);
-            if (receiptDate < from) return false;
+            const matchesText = (text) => {
+                if (!text) return false;
+                return text.toString().toLowerCase().includes(q);
+            };
+
+            const ocrValues = [
+                ocr.vendorName,
+                ocr.vendorAddress,
+                ocr.paymentMethod,
+                ocr.vendorOrgNumber,
+                ocr.receiptNumber,
+                ocr.totalAmount,
+                ocr.vatAmount
+            ];
+
+            const matchesVendor = ocrValues.some(val => matchesText(val));
+
+            const matchesItems = ocr.items?.some(item =>
+                Object.values(item).some(val => matchesText(val))
+            );
+
+            const receiptDate = new Date(r.createdAt);
+            const year = receiptDate.getFullYear().toString();
+            const month = String(receiptDate.getMonth() + 1).padStart(2, "0");
+            const day = String(receiptDate.getDate()).padStart(2, "0");
+
+            const dateFormats = [
+                year,
+                `${year}-${month}`,
+                `${year}-${month}-${day}`
+            ];
+
+            const matchesDate = dateFormats.some(df => df.includes(q));
+
+            if (!matchesVendor && !matchesItems && !matchesDate) return false;
         }
 
-        if (toDate) {
-            const to = new Date(toDate);
-            to.setHours(23, 59, 59, 999);
-            if (receiptDate > to) return false;
+        if (fromDate || toDate) {
+            const receiptDate = new Date(r.createdAt);
+            receiptDate.setHours(0, 0, 0, 0);
+
+            if (fromDate) {
+                const from = new Date(fromDate);
+                if (receiptDate < from) return false;
+            }
+
+            if (toDate) {
+                const to = new Date(toDate);
+                to.setHours(23, 59, 59, 999);
+                if (receiptDate > to) return false;
+            }
         }
 
         return true;
@@ -174,6 +222,16 @@ function SavedPage() {
 
             <div className="page-container">
                 <div className="page-header">
+                    <div className="search-input-wrapper">
+                        <span className="search-icon">🔍</span>
+                        <input
+                            type="text"
+                            className="receipt-search"
+                            placeholder="Sök butik, artikel, betalning..."
+                            value={searchTerm}
+                            onChange={e => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                     <div className="date-filter">
                         <div className="date-input">
                             <label>Från</label>
