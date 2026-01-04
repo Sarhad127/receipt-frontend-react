@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
@@ -25,6 +25,7 @@ function SavedPage() {
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const editableRef = useRef(null);
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -53,6 +54,18 @@ function SavedPage() {
         loadReceipts();
     }, [navigate]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (editableRef.current && !editableRef.current.contains(event.target)) {
+                setEditingField(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const handleReceiptClick = (receipt, index) => {
         setSelectedReceipt(receipt);
         setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[receipt.id])));
@@ -66,6 +79,7 @@ function SavedPage() {
         setSelectedReceipt(null);
         setEditableReceipt(null);
         setOcrData(null);
+        setEditingField(null);
     };
 
     const handleInputChange = (field, value) => {
@@ -279,8 +293,8 @@ function SavedPage() {
                         <button className="saved-modal-close" onClick={closeModal}>×</button>
 
                         <div className="receipt-navigation">
-                            <button onClick={goToPrev} disabled={currentIndex === 0}>← Föregående</button>
-                            <button onClick={goToNext} disabled={currentIndex === receipts.length - 1}>Nästa →</button>
+                            <button onClick={goToPrev} disabled={currentIndex === 0}>Föregående</button>
+                            <button onClick={goToNext} disabled={currentIndex === receipts.length - 1}>Nästa</button>
                         </div>
 
                         {images[selectedReceipt.id] && (
@@ -292,8 +306,17 @@ function SavedPage() {
                             />
                         )}
 
-                        <div className="saved-ocr-info">
-                            {["vendorName","vendorOrgNumber","vendorAddress","receiptDate","receiptNumber","paymentMethod","totalAmount","vatAmount"].map(field => (
+                        <div className="saved-ocr-info" ref={editableRef}>
+                            {[
+                                "vendorName",
+                                "vendorOrgNumber",
+                                "vendorAddress",
+                                "receiptDate",
+                                "receiptNumber",
+                                "paymentMethod",
+                                "totalAmount",
+                                "vatAmount"
+                            ].map(field => (
                                 <p key={field}>
                                     <strong>{{
                                         vendorName: "Butik",
@@ -311,13 +334,12 @@ function SavedPage() {
                                             value={editableReceipt[field] || ""}
                                             onChange={e => handleInputChange(field, e.target.value)}
                                             onBlur={() => setEditingField(null)}
+                                            autoFocus
                                         />
                                     ) : (
-                                        <span
-                                            onClick={() => setEditingField(field)}
-                                        >
-                                {editableReceipt[field] || "–"}
-                            </span>
+                                        <span onClick={() => setEditingField(field)}>
+                                            {editableReceipt[field] || "–"}
+                                        </span>
                                     )}
                                 </p>
                             ))}
