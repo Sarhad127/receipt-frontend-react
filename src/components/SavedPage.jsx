@@ -17,6 +17,7 @@ function SavedPage() {
     const [ocrData, setOcrData] = useState(null);
     const [imageModalOpen, setImageModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [ocrDataMap, setOcrDataMap] = useState({});
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -25,12 +26,17 @@ function SavedPage() {
                 setReceipts(data);
 
                 const imageMap = {};
+                const ocrMap = {};
                 for (const r of data) {
                     const imgUrl = await fetchReceiptImage(r.id);
                     if (imgUrl) imageMap[r.id] = imgUrl;
+
+                    const ocr = await fetchSavedReceiptData(r.id);
+                    ocrMap[r.id] = ocr;
                 }
 
                 setImages(imageMap);
+                setOcrDataMap(ocrMap);
             } catch (err) {
                 localStorage.removeItem("jwt");
                 sessionStorage.removeItem("jwt");
@@ -60,31 +66,25 @@ function SavedPage() {
         setOcrData(null);
     };
 
-    const goToNext = async () => {
+    const goToNext = () => {
         if (currentIndex < receipts.length - 1) {
             const nextIndex = currentIndex + 1;
             const nextReceipt = receipts[nextIndex];
 
             setCurrentIndex(nextIndex);
             setSelectedReceipt(nextReceipt);
-            setOcrData(null);
-
-            const data = await fetchSavedReceiptData(nextReceipt.id);
-            setOcrData(data);
+            setOcrData(ocrDataMap[nextReceipt.id]);
         }
     };
 
-    const goToPrev = async () => {
+    const goToPrev = () => {
         if (currentIndex > 0) {
             const prevIndex = currentIndex - 1;
             const prevReceipt = receipts[prevIndex];
 
             setCurrentIndex(prevIndex);
             setSelectedReceipt(prevReceipt);
-            setOcrData(null);
-
-            const data = await fetchSavedReceiptData(prevReceipt.id);
-            setOcrData(data);
+            setOcrData(ocrDataMap[prevReceipt.id]);
         }
     };
 
