@@ -40,6 +40,7 @@
     max-height: 400px;
     margin-bottom: 15px;
     border-radius: 5px;
+    cursor: zoom-in;
 }
 
 .saved-ocr-info p {
@@ -120,6 +121,16 @@
 .saved-ocr-info button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+.editable-text {
+    cursor: pointer;
+}
+
+.saved-ocr-info-placeholder {
+    font-size: 1rem;
+    font-weight: bold;
+    padding-left: 2px;
 }
 
 .image-modal-overlay {

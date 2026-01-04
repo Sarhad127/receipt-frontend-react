@@ -335,9 +335,10 @@ function SavedPage() {
                                             onChange={e => handleInputChange(field, e.target.value)}
                                             onBlur={() => setEditingField(null)}
                                             autoFocus
+                                            className="saved-ocr-info-placeholder"
                                         />
                                     ) : (
-                                        <span onClick={() => setEditingField(field)}>
+                                        <span onClick={() => setEditingField(field)} className="editable-text">
                                             {editableReceipt[field] || "–"}
                                         </span>
                                     )}
