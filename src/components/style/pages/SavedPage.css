@@ -12,7 +12,7 @@
 }
 
 .saved-modal-content {
-    background: #fff;
+    background: #1f1f1f;
     border-radius: 10px;
     padding: 20px;
     max-width: 800px;
@@ -21,6 +21,7 @@
     overflow-y: auto;
     position: relative;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    color: #ddd;
 }
 
 .saved-modal-close {
@@ -31,11 +32,12 @@
     border: none;
     background: none;
     cursor: pointer;
+    color: #ddd;
 }
 
 .saved-modal-image {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 400px;
     margin-bottom: 15px;
     border-radius: 5px;
 }
@@ -45,7 +47,79 @@
 }
 
 .saved-ocr-info ul {
-    padding-left: 20px;
+    padding-left: 0;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.saved-ocr-info ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.saved-ocr-info ul li::marker {
+    color: #ddd;
+}
+
+.saved-ocr-info button {
+    background-color: #2a2a2a;
+    color: #ddd;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 6px;
+}
+
+.saved-ocr-info button:hover:not(:disabled) {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button.remove-item {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 6px;
+    color: #f88;
+    flex-shrink: 0;
+}
+
+.saved-ocr-info button.remove-item:hover {
+    background-color: #773333;
+}
+
+.saved-ocr-info button.add-item {
+    background-color: #2a2a2a;
+    color: #ddd;
+}
+
+.saved-ocr-info button.add-item:hover {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button.save-receipt {
+    background-color: #2a2a2a;
+    color: #ddd;
+    margin-top: 8px;
+}
+
+.saved-ocr-info button.save-receipt:hover {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .image-modal-overlay {
@@ -128,4 +202,36 @@
 .receipt-navigation button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+.inline-edit-span {
+    cursor: text;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.inline-edit-span:hover {
+    background-color: #3a3a3a;
+}
+
+.inline-edit-input {
+    background-color: #2a2a2a;
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #ddd;
+    font-size: 12px;
+    padding: 2px 4px;
+    width: 80px;
+}
+
+.inline-edit-input:focus {
+    outline: none;
+    border-color: #888;
+}
+
+.item-total {
+    margin-left: 6px;
+    font-weight: bold;
+    color: #ddd;
 }

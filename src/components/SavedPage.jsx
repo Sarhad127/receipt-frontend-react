@@ -106,10 +106,8 @@ function SavedPage() {
             await saveReceipt(selectedReceipt.id, editableReceipt);
             setOcrData(editableReceipt);
             setOcrDataMap(prev => ({ ...prev, [selectedReceipt.id]: editableReceipt }));
-            alert("Kvittot sparades!");
         } catch (err) {
             console.error(err);
-            alert("Misslyckades att spara kvittot.");
         } finally {
             setSaving(false);
         }
@@ -156,7 +154,6 @@ function SavedPage() {
                                     key={r.id}
                                     className="receipt-item"
                                     onClick={() => handleReceiptClick(r, index)}
-                                    style={{ cursor: "pointer" }}
                                 >
                                     <p>{new Date(r.createdAt).toLocaleDateString()}</p>
                                     {images[r.id] ? (
@@ -184,7 +181,6 @@ function SavedPage() {
                                 alt="Kvitto"
                                 className="saved-modal-image"
                                 onClick={() => setImageModalOpen(true)}
-                                style={{ cursor: "zoom-in" }}
                             />
                         )}
 
@@ -207,13 +203,10 @@ function SavedPage() {
                                             value={editableReceipt[field] || ""}
                                             onChange={e => handleInputChange(field, e.target.value)}
                                             onBlur={() => setEditingField(null)}
-                                            autoFocus
-                                            style={{ border: "1px solid #ccc", padding: "2px", width: "auto" }}
                                         />
                                     ) : (
                                         <span
                                             onClick={() => setEditingField(field)}
-                                            style={{ cursor: "pointer" }}
                                         >
                                 {editableReceipt[field] || "–"}
                             </span>
@@ -223,39 +216,50 @@ function SavedPage() {
 
                             <p><strong>Artiklar:</strong></p>
                             {editableReceipt.items && editableReceipt.items.length > 0 && (
-                                <ul>
+                                <ul className="saved-ocr-info">
                                     {editableReceipt.items.map((item, idx) => (
-                                        <li key={idx} style={{ marginBottom: "4px" }}>
-                                            {["itemName","itemQuantity","itemUnitPrice"].map(subField => (
+                                        <li key={idx} className="receipt-item-row">
+                                            <button
+                                                className="remove-item"
+                                                onClick={() => handleItemRemove(idx)}
+                                                title="Ta bort"
+                                            >
+                                                ×
+                                            </button>
+
+                                            {["itemName", "itemQuantity", "itemUnitPrice"].map(subField => (
                                                 editingField === `item-${idx}-${subField}` ? (
                                                     <input
                                                         key={subField}
                                                         type={subField === "itemName" ? "text" : "number"}
                                                         value={item[subField]}
-                                                        onChange={e => handleItemChange(idx, subField, e.target.value)}
+                                                        onChange={e => handleItemChange(
+                                                            idx,
+                                                            subField,
+                                                            subField === "itemName" ? e.target.value
+                                                                : parseFloat(e.target.value)
+                                                        )}
                                                         onBlur={() => setEditingField(null)}
                                                         autoFocus
-                                                        style={{ border: "1px solid #ccc", padding: "2px", width: "auto", marginRight: "2px" }}
+                                                        className="inline-edit-input"
                                                     />
                                                 ) : (
                                                     <span
                                                         key={subField}
                                                         onClick={() => setEditingField(`item-${idx}-${subField}`)}
-                                                        style={{ cursor: "pointer", marginRight: "2px" }}
-                                                    >
-                                            {item[subField]}
-                                        </span>
+                                                        className="inline-edit-span"
+                                                    >{item[subField]}
+                                                    </span>
                                                 )
                                             ))}
-                                            = {item.itemTotalPrice}
-                                            <button onClick={() => handleItemRemove(idx)} style={{ marginLeft: "6px" }}>Ta bort</button>
+
+                                            <span className="item-total">= {item.itemTotalPrice}</span>
                                         </li>
                                     ))}
-                                    <button onClick={handleItemAdd}>Lägg till artikel</button>
+                                    <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
                                 </ul>
                             )}
-
-                            <button onClick={handleSave} disabled={saving} style={{ marginTop: "8px" }}>
+                            <button className="save-receipt" onClick={handleSave} disabled={saving}>
                                 {saving ? "Sparar..." : "Spara"}
                             </button>
                         </div>
