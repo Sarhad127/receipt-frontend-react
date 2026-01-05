@@ -274,15 +274,16 @@ function SavedPage() {
 
     const CATEGORIES = [
         "Alla",
-        "Mat",
-        "Transport",
-        "Shopping",
+        "Livsmedel",
         "Restaurang",
-        "Abonnemang",
+        "Transport",
         "Boende",
         "Hälsa",
         "Nöje",
         "Resor",
+        "Elektronik",
+        "Abonnemang",
+        "Shopping",
         "Övrigt"
     ];
 

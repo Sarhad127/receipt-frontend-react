@@ -109,9 +109,10 @@ function HistoryPage() {
                         <ul className="receipt-list">
                             {receipts.map(r => (
                                 <li key={r.id} className="receipt-item">
-                                    <p>
-                                        {new Date(r.createdAt).toLocaleDateString()}
-                                    </p>
+                                    <div className="receipt-header">
+                                        <span>{new Date(r.createdAt).toLocaleDateString()}</span>
+                                        {r.saved && <span className="saved-dot"></span>}
+                                    </div>
                                     {images[r.id] ? (
                                         <img
                                             src={images[r.id]}
