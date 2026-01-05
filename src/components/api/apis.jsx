@@ -175,6 +175,22 @@ export async function saveReceipt(receiptId, editableReceipt) {
     if (!res2.ok) throw new Error("Failed to save receipt info");
 }
 
+export async function saveReceiptInfo(savedReceiptId, editableReceipt) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/savings/save-info/${savedReceiptId}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editableReceipt)
+    });
+
+    if (!res.ok) throw new Error("Failed to save receipt info");
+}
+
 export async function deleteHistoryReceipt(receiptId) {
     const token = getToken();
     if (!token) throw new Error("No token");

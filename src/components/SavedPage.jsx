@@ -6,7 +6,8 @@ import {
     fetchSavedReceipts,
     fetchReceiptImage,
     fetchSavedReceiptData,
-    saveReceipt
+    saveReceipt,
+    saveReceiptInfo
 } from "./api/apis";
 
 function SavedPage() {
@@ -28,6 +29,10 @@ function SavedPage() {
     const editableRef = useRef(null);
     const [layout, setLayout] = useState("grid");
     const [quickDate, setQuickDate] = useState("");
+    const [filtersOpen, setFiltersOpen] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [minAmount, setMinAmount] = useState("");
+    const [maxAmount, setMaxAmount] = useState("");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -93,12 +98,12 @@ function SavedPage() {
 
     const handleItemChange = (index, field, value) => {
         const newItems = [...(editableReceipt.items || [])];
+        const quantity = field === "itemQuantity" ? parseFloat(value) || 0 : parseFloat(newItems[index].itemQuantity) || 0;
+        const unitPrice = field === "itemUnitPrice" ? parseFloat(value) || 0 : parseFloat(newItems[index].itemUnitPrice) || 0;
         newItems[index] = {
             ...newItems[index],
-            [field]: value,
-            itemTotalPrice:
-                (field === "itemQuantity" ? value : newItems[index].itemQuantity) *
-                (field === "itemUnitPrice" ? value : newItems[index].itemUnitPrice)
+            [field]: field === "itemQuantity" || field === "itemUnitPrice" ? parseFloat(value) || 0 : value,
+            itemTotalPrice: quantity * unitPrice
         };
         setEditableReceipt(prev => ({ ...prev, items: newItems }));
     };
@@ -127,9 +132,18 @@ function SavedPage() {
         if (!selectedReceipt || !editableReceipt || saving) return;
         try {
             setSaving(true);
-            await saveReceipt(selectedReceipt.id, editableReceipt);
+
+            if (!editableReceipt.originalReceiptId) {
+                const savedReceiptId = await saveReceipt(selectedReceipt.id, editableReceipt);
+                editableReceipt.originalReceiptId = selectedReceipt.id;
+                editableReceipt.savedReceiptId = savedReceiptId;
+                setOcrDataMap(prev => ({ ...prev, [savedReceiptId]: editableReceipt }));
+            } else {
+                await saveReceiptInfo(editableReceipt.savedReceiptId, editableReceipt);
+                setOcrDataMap(prev => ({ ...prev, [editableReceipt.savedReceiptId]: editableReceipt }));
+            }
+
             setOcrData(editableReceipt);
-            setOcrDataMap(prev => ({ ...prev, [selectedReceipt.id]: editableReceipt }));
         } catch (err) {
             console.error(err);
         } finally {
@@ -250,9 +264,40 @@ function SavedPage() {
                 to.setHours(23, 59, 59, 999);
                 if (receiptDate > to) return false;
             }
+
+            if (selectedCategories.length > 0 && r.category && !selectedCategories.includes(r.category)) {
+                return false;
+            }
         }
         return true;
     });
+
+    const CATEGORIES = [
+        "Alla",
+        "Mat",
+        "Transport",
+        "Shopping",
+        "Restaurang",
+        "Abonnemang",
+        "Boende",
+        "Hälsa",
+        "Nöje",
+        "Resor",
+        "Övrigt"
+    ];
+
+    const toggleCategory = (category) => {
+        if (category === "Alla") {
+            setSelectedCategories([]);
+            return;
+        }
+
+        setSelectedCategories(prev =>
+            prev.includes(category)
+                ? prev.filter(c => c !== category)
+                : [...prev, category]
+        );
+    };
 
     return (
         <div className="page-wrapper">
@@ -265,81 +310,131 @@ function SavedPage() {
             </div>
 
             <div className="page-container">
-                <div className="page-header">
-                    <div className="search-input-wrapper">
-                        <div className="search-input-inner">
-                            <span className="search-icon">🔍</span>
-                            <input
-                                type="text"
-                                className="receipt-search"
-                                placeholder="Sök butik, artikel, betalning..."
-                                value={searchTerm}
-                                onChange={e => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className="quick-date-filter">
-                        <select
-                            value={quickDate}
-                            onChange={(e) => {
-                                setQuickDate(e.target.value);
-                                setFromDate("");
-                                setToDate("");
-                            }}
-                        >
-                            <option value="">Välj…</option>
-                            <option value="today">Idag</option>
-                            <option value="7days">Senaste 7 dagarna</option>
-                            <option value="thisMonth">Denna månad</option>
-                            <option value="lastMonth">Förra månaden</option>
-                        </select>
-                    </div>
-                    <div className="date-filter">
-                        <div className="date-input">
-                            <label>Från</label>
-                            <input
-                                type="date"
-                                value={fromDate}
-                                onChange={e => {
-                                    setFromDate(e.target.value);
-                                    setQuickDate("");
-                                }}
-                            />
-                        </div>
-                        <div className="date-input">
-                            <label>Till</label>
-                            <input
-                                type="date"
-                                value={toDate}
-                                onChange={e => {
-                                    setToDate(e.target.value);
-                                    setQuickDate("");
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="layout-switcher">
-                        <button
-                            className={`switch-btn ${layout === "grid" ? "active" : ""}`}
-                            onClick={() => setLayout("grid")}
-                            title="Grid view"
-                        >
-                            <div className="grid-icon">
-                                <span></span><span></span>
-                                <span></span><span></span>
+                <div className={`page-header ${filtersOpen ? "expanded" : ""}`}>
+                    <div className="page-header-row">
+                        <div className="search-input-wrapper">
+                            <div className="search-input-inner">
+                                <span className="search-icon">🔍</span>
+                                <input
+                                    type="text"
+                                    className="receipt-search"
+                                    placeholder="Sök butik, artikel, betalning..."
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                />
                             </div>
-                        </button>
-                        <button
-                            className={`switch-btn ${layout === "list" ? "active" : ""}`}
-                            onClick={() => setLayout("list")}
-                            title="List view"
-                        >
-                            <div className="list-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                        </div>
+                        <div className="quick-date-filter">
+                            <select
+                                value={quickDate}
+                                onChange={(e) => {
+                                    setQuickDate(e.target.value);
+                                    setFromDate("");
+                                    setToDate("");
+                                }}
+                            >
+                                <option value="">Välj…</option>
+                                <option value="today">Idag</option>
+                                <option value="7days">Senaste 7 dagarna</option>
+                                <option value="thisMonth">Denna månad</option>
+                                <option value="lastMonth">Förra månaden</option>
+                            </select>
+                        </div>
+                        <div className="date-filter">
+                            <div className="date-input">
+                                <label>Från</label>
+                                <input
+                                    type="date"
+                                    value={fromDate}
+                                    onChange={e => {
+                                        setFromDate(e.target.value);
+                                        setQuickDate("");
+                                    }}
+                                />
                             </div>
-                        </button>
+                            <div className="date-input">
+                                <label>Till</label>
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={e => {
+                                        setToDate(e.target.value);
+                                        setQuickDate("");
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="layout-switcher">
+                            <button
+                                className={`switch-btn ${layout === "grid" ? "active" : ""}`}
+                                onClick={() => setLayout("grid")}
+                            >
+                                <div className="grid-icon">
+                                    <span></span><span></span>
+                                    <span></span><span></span>
+                                </div>
+                            </button>
+                            <button
+                                className={`switch-btn ${layout === "list" ? "active" : ""}`}
+                                onClick={() => setLayout("list")}
+                            >
+                                <div className="list-icon">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        className="filter-divider"
+                        onClick={() => setFiltersOpen(prev => !prev)}
+                    >
+                        <span className={`filter-chevron ${filtersOpen ? "open" : ""}`}>
+                            ▼
+                        </span>
+                    </div>
+                    <div className="advanced-filters">
+                        <div className="advanced-filter-group">
+                            <div className="advanced-filter-title">Kategori</div>
+                            <div className="category-grid">
+                                {CATEGORIES.map(cat => {
+                                    const isAll = cat === "Alla";
+                                    const checked = isAll
+                                        ? selectedCategories.length === 0
+                                        : selectedCategories.includes(cat);
+
+                                    return (
+                                        <label key={cat} className="category-checkbox">
+                                            <input
+                                                type="checkbox"
+                                                checked={checked}
+                                                onChange={() => toggleCategory(cat)}
+                                            />
+                                            <span>{cat}</span>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        <div className="advanced-filter-group">
+                            <div className="advanced-filter-title">Belopp (kr)</div>
+                            <div className="amount-range">
+                                <input
+                                    type="number"
+                                    placeholder="Min"
+                                    value={minAmount}
+                                    onChange={e => setMinAmount(e.target.value)}
+                                />
+                                <span className="range-separator">–</span>
+                                <input
+                                    type="number"
+                                    placeholder="Max"
+                                    value={maxAmount}
+                                    onChange={e => setMaxAmount(e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -354,7 +449,13 @@ function SavedPage() {
                                 >
                                     {layout === "grid" ? (
                                         <>
-                                            <p>{new Date(r.createdAt).toLocaleDateString()}</p>
+                                            <p className="receipt-vendor">{ocrDataMap[r.id]?.vendorName || "–"}</p>
+                                            <p className="receipt-amount">
+                                                {ocrDataMap[r.id]?.totalAmount !== undefined
+                                                    ? `${ocrDataMap[r.id].totalAmount} kr`
+                                                    : "–"}
+                                            </p>
+                                            <p className="receipt-date">{new Date(r.createdAt).toLocaleDateString()}</p>
                                             {images[r.id] ? (
                                                 <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
                                             ) : <p>Laddar bild...</p>}
@@ -393,7 +494,7 @@ function SavedPage() {
 
                         <div className="receipt-navigation">
                             <button onClick={goToPrev} disabled={currentIndex === 0}>Föregående</button>
-                            <button onClick={goToNext} disabled={currentIndex === receipts.length - 1}>Nästa</button>
+                            <button onClick={goToNext} disabled={currentIndex === filteredReceipts.length - 1}>Nästa</button>
                         </div>
 
                         {images[selectedReceipt.id] && (

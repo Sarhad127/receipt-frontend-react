@@ -480,3 +480,143 @@
 .empty-state {
     color: #fff;
 }
+
+.page-header {
+    flex-direction: column;
+}
+
+.page-header-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.filter-divider {
+    position: relative;
+    height: 22px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.filter-divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 32px;
+    top: 50%;
+    height: 1px;
+    background-color: #3a3a3a;
+}
+
+.filter-chevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #bbb;
+    transition: transform 0.25s ease, color 0.2s ease;
+}
+
+.filter-chevron.open {
+    transform: translateY(-50%) rotate(180deg);
+    color: #fff;
+}
+
+.advanced-filters {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+    justify-content: center;
+}
+
+.page-header.expanded .advanced-filters {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 12px;
+}
+
+.receipt-item .receipt-vendor {
+    font-weight: bold;
+    margin-bottom: 2px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.advanced-filters {
+    display: flex;
+    gap: 32px;
+    padding-bottom: 12px;
+}
+
+.advanced-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px;
+}
+
+.advanced-filter-title {
+    font-size: 12px;
+    color: #bbb;
+    font-weight: 600;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 16px;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.category-checkbox input {
+    accent-color: #666;
+    cursor: pointer;
+}
+
+.amount-range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.amount-range input {
+    width: 90px;
+    background-color: #2a2a2a;
+    color: #bbb;
+    border: 1px solid #4a4a4a;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.amount-range input:focus {
+    outline: none;
+    background-color: #333;
+    border-color: #666;
+    color: #fff;
+}
+
+.range-separator {
+    color: #777;
+    font-size: 12px;
+}
+
+.receipt-item .receipt-amount {
+    font-size: 0.8rem;
+    text-align: center;
+    color: #fff;
+}
+
+.list-date{
+    font-size: 1rem;
+}
