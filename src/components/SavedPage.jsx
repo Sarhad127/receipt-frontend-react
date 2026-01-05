@@ -27,6 +27,7 @@ function SavedPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const editableRef = useRef(null);
     const [layout, setLayout] = useState("grid");
+    const [quickDate, setQuickDate] = useState("");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -162,6 +163,44 @@ function SavedPage() {
         }
     };
 
+    const getQuickDateRange = () => {
+        const now = new Date();
+        let from = null;
+        let to = null;
+
+        switch (quickDate) {
+            case "today":
+                from = new Date(now);
+                from.setHours(0, 0, 0, 0);
+                to = new Date(now);
+                to.setHours(23, 59, 59, 999);
+                break;
+
+            case "7days":
+                from = new Date(now);
+                from.setDate(now.getDate() - 6);
+                from.setHours(0, 0, 0, 0);
+                to = new Date(now);
+                to.setHours(23, 59, 59, 999);
+                break;
+
+            case "thisMonth":
+                from = new Date(now.getFullYear(), now.getMonth(), 1);
+                to = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+                break;
+
+            case "lastMonth":
+                from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                to = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
+                break;
+
+            default:
+                break;
+        }
+
+        return { from, to };
+    };
+
     const filteredReceipts = receipts.filter(r => {
         const ocr = ocrDataMap[r.id];
         if (!ocr) return false;
@@ -169,12 +208,10 @@ function SavedPage() {
         if (searchTerm) {
             const q = searchTerm.toLowerCase().trim();
 
-            const matchesText = (text) => {
-                if (!text) return false;
-                return text.toString().toLowerCase().includes(q);
-            };
+            const matchesText = (text) =>
+                text && text.toString().toLowerCase().includes(q);
 
-            const ocrValues = [
+            const matchesVendor = [
                 ocr.vendorName,
                 ocr.vendorAddress,
                 ocr.paymentMethod,
@@ -182,36 +219,29 @@ function SavedPage() {
                 ocr.receiptNumber,
                 ocr.totalAmount,
                 ocr.vatAmount
-            ];
-
-            const matchesVendor = ocrValues.some(val => matchesText(val));
+            ].some(matchesText);
 
             const matchesItems = ocr.items?.some(item =>
-                Object.values(item).some(val => matchesText(val))
+                Object.values(item).some(matchesText)
             );
 
-            const receiptDate = new Date(r.createdAt);
-            const year = receiptDate.getFullYear().toString();
-            const month = String(receiptDate.getMonth() + 1).padStart(2, "0");
-            const day = String(receiptDate.getDate()).padStart(2, "0");
+            if (!matchesVendor && !matchesItems) return false;
+        }
+        const receiptDate = new Date(r.createdAt);
+        receiptDate.setHours(12, 0, 0, 0);
 
-            const dateFormats = [
-                year,
-                `${year}-${month}`,
-                `${year}-${month}-${day}`
-            ];
-
-            const matchesDate = dateFormats.some(df => df.includes(q));
-
-            if (!matchesVendor && !matchesItems && !matchesDate) return false;
+        if (quickDate) {
+            const { from, to } = getQuickDateRange();
+            if (from && receiptDate < from) return false;
+            if (to && receiptDate > to) return false;
+            return true;
         }
 
         if (fromDate || toDate) {
-            const receiptDate = new Date(r.createdAt);
-            receiptDate.setHours(0, 0, 0, 0);
 
             if (fromDate) {
                 const from = new Date(fromDate);
+                from.setHours(0, 0, 0, 0);
                 if (receiptDate < from) return false;
             }
 
@@ -221,7 +251,6 @@ function SavedPage() {
                 if (receiptDate > to) return false;
             }
         }
-
         return true;
     });
 
@@ -238,14 +267,32 @@ function SavedPage() {
             <div className="page-container">
                 <div className="page-header">
                     <div className="search-input-wrapper">
-                        <span className="search-icon">🔍</span>
-                        <input
-                            type="text"
-                            className="receipt-search"
-                            placeholder="Sök butik, artikel, betalning..."
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
+                        <div className="search-input-inner">
+                            <span className="search-icon">🔍</span>
+                            <input
+                                type="text"
+                                className="receipt-search"
+                                placeholder="Sök butik, artikel, betalning..."
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="quick-date-filter">
+                        <select
+                            value={quickDate}
+                            onChange={(e) => {
+                                setQuickDate(e.target.value);
+                                setFromDate("");
+                                setToDate("");
+                            }}
+                        >
+                            <option value="">Välj…</option>
+                            <option value="today">Idag</option>
+                            <option value="7days">Senaste 7 dagarna</option>
+                            <option value="thisMonth">Denna månad</option>
+                            <option value="lastMonth">Förra månaden</option>
+                        </select>
                     </div>
                     <div className="date-filter">
                         <div className="date-input">
@@ -253,7 +300,10 @@ function SavedPage() {
                             <input
                                 type="date"
                                 value={fromDate}
-                                onChange={e => setFromDate(e.target.value)}
+                                onChange={e => {
+                                    setFromDate(e.target.value);
+                                    setQuickDate("");
+                                }}
                             />
                         </div>
                         <div className="date-input">
@@ -261,7 +311,10 @@ function SavedPage() {
                             <input
                                 type="date"
                                 value={toDate}
-                                onChange={e => setToDate(e.target.value)}
+                                onChange={e => {
+                                    setToDate(e.target.value);
+                                    setQuickDate("");
+                                }}
                             />
                         </div>
                     </div>
@@ -276,7 +329,6 @@ function SavedPage() {
                                 <span></span><span></span>
                             </div>
                         </button>
-
                         <button
                             className={`switch-btn ${layout === "list" ? "active" : ""}`}
                             onClick={() => setLayout("list")}
@@ -325,6 +377,11 @@ function SavedPage() {
                                 </li>
                             ))}
                         </ul>
+                    )}
+                    {filteredReceipts.length === 0 && (
+                        <div className="empty-state">
+                            <p>Inga kvitton matchar ditt filter</p>
+                        </div>
                     )}
                 </div>
             </div>
