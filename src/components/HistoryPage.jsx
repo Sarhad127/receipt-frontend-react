@@ -59,7 +59,25 @@ function HistoryPage() {
 
         try {
             setSaving(true);
-            await saveReceipt(selectedReceiptId, editableReceipt);
+
+            const receipt = receipts.find(r => r.id === selectedReceiptId);
+
+            const editable = {
+                vendorName: receipt.vendorName,
+                vendorOrgNumber: receipt.vendorOrgNumber,
+                vendorAddress: receipt.vendorAddress,
+                receiptNumber: receipt.receiptNumber,
+                receiptDate: receipt.receiptDate,
+                totalAmount: receipt.totalAmount,
+                vatAmount: receipt.vatAmount,
+                currency: receipt.currency,
+                paymentMethod: receipt.paymentMethod,
+                notes: receipt.notes,
+                items: receipt.items
+            };
+
+            await saveReceipt(selectedReceiptId, editable);
+
             setSelectedImage(null);
             setSelectedReceiptId(null);
         } catch (err) {
@@ -110,8 +128,12 @@ function HistoryPage() {
                             {receipts.map(r => (
                                 <li key={r.id} className="receipt-item">
                                     <div className="receipt-header">
-                                        <span>{new Date(r.createdAt).toLocaleDateString()}</span>
+                                        <span className="history-date">{new Date(r.createdAt).toLocaleDateString()}</span>
                                         {r.saved && <span className="saved-dot"></span>}
+                                    </div>
+                                    <div className="receipt-info">
+                                        <p className="receipt-vendor">{r.vendorName}</p>
+                                        <p className="receipt-total">Total: {r.totalAmount} {r.currency}</p>
                                     </div>
                                     {images[r.id] ? (
                                         <img
