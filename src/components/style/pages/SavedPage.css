@@ -24,10 +24,6 @@
     color: #ddd;
 }
 
-.editable-text {
-    cursor: pointer;
-}
-
 .image-modal-overlay {
     position: fixed;
     inset: 0;
@@ -157,11 +153,14 @@
 
 /*--------------------Receiptinformation--------------------*/
 .saved-ocr-info p {
-    margin: 5px 0;
+    margin: 2px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .saved-ocr-info ul {
@@ -337,10 +336,12 @@
 }
 
 .receipt-item-row{
-    margin: 8px 0;
+    margin: 2px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -402,6 +403,13 @@
     color: #888;
 }
 
+.saved-ocr-info-placeholder:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    padding: 2px 6px;
+}
+
 .article-title-modal{
     margin-bottom: 12px;
     font-family: Arial, sans-serif;
@@ -413,6 +421,10 @@
     font-size: 0.9rem;
     color: #969696;
     margin-top: 4px;
+}
+
+.editable-text {
+    cursor: pointer;
 }
 
 
