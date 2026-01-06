@@ -196,7 +196,6 @@
     position: relative;
     height: 22px;
     margin-top: 10px;
-    cursor: pointer;
 }
 
 .filter-divider::before {
@@ -217,6 +216,7 @@
     font-size: 14px;
     color: #bbb;
     transition: transform 0.25s ease, color 0.2s ease;
+    cursor: pointer;
 }
 
 .filter-chevron.open {
