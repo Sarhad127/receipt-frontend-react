@@ -4,8 +4,7 @@ import "./style/pages/HistoryPage.css";
 import "./style/AppLayout.css";
 import {fetchHistoryReceipts, fetchHistoryReceiptImage, saveReceipt, deleteHistoryReceipt}
 from "./api/apis";
-import PageHeader from "./Filter/PageHeader.jsx";
-import { getQuickDateRange } from "./Filter/PageHeader.jsx";
+import PageHeader, {filterReceipts} from "./Filter/PageHeader.jsx";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -23,19 +22,6 @@ function HistoryPage() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
-    // const editableReceipt = {
-    //     vendorName: "",
-    //     vendorOrgNumber: "",
-    //     vendorAddress: "",
-    //     receiptNumber: "",
-    //     receiptDate: null,
-    //     totalAmount: 0,
-    //     vatAmount: 0,
-    //     currency: "",
-    //     paymentMethod: "",
-    //     notes: "",
-    //     items: []
-    // };
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -51,10 +37,14 @@ function HistoryPage() {
                     }
                 }
                 setImages(imageMap);
-            } catch {
-                localStorage.removeItem("jwt");
-                sessionStorage.removeItem("jwt");
-                navigate("/");
+            } catch (err) {
+                if (err.response?.status === 401) {
+                    localStorage.removeItem("jwt");
+                    sessionStorage.removeItem("jwt");
+                    navigate("/");
+                } else {
+                    console.error(err);
+                }
             }
         };
 
@@ -112,47 +102,19 @@ function HistoryPage() {
 
         } catch (err) {
             console.error(err);
-            alert("Kunde inte ta bort kvittot.");
         }
     };
 
-    const filteredReceipts = receipts.filter(r => {
-        if (selectedCategories.length > 0 && r.category && !selectedCategories.includes(r.category)) {
-            return false;
-        }
-
-        const receiptDate = new Date(r.createdAt);
-        receiptDate.setHours(12,0,0,0);
-        if (quickDate) {
-            const { from, to } = getQuickDateRange(quickDate);
-            if (from && receiptDate < from) return false;
-            if (to && receiptDate > to) return false;
-        }
-
-        if (fromDate) {
-            const from = new Date(fromDate);
-            from.setHours(0,0,0,0);
-            if (receiptDate < from) return false;
-        }
-
-        if (toDate) {
-            const to = new Date(toDate);
-            to.setHours(23,59,59,999);
-            if (receiptDate > to) return false;
-        }
-
-        const amount = r.totalAmount || 0;
-        if (minAmount && amount < parseFloat(minAmount)) return false;
-        if (maxAmount && amount > parseFloat(maxAmount)) return false;
-
-        if (searchTerm) {
-            const q = searchTerm.toLowerCase();
-            const matches = (text) => text && text.toString().toLowerCase().includes(q);
-            if (![r.vendorName, r.vendorOrgNumber, r.receiptNumber].some(matches)) {
-                return false;
-            }
-        }
-        return true;
+    const filteredReceipts = filterReceipts({
+        receipts,
+        ocrDataMap: null,
+        searchTerm,
+        fromDate,
+        toDate,
+        quickDate,
+        selectedCategories,
+        minAmount,
+        maxAmount
     });
 
     return (

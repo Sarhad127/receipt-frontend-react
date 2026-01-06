@@ -4,7 +4,7 @@ import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
 import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceipt, saveReceiptInfo}
 from "./api/apis";
-import PageHeader, {getQuickDateRange} from "./Filter/PageHeader.jsx";
+import { filterReceipts } from "/Filter/PageHeader.jsx";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -173,61 +173,16 @@ function SavedPage() {
         }
     };
 
-    const filteredReceipts = receipts.filter(r => {
-        const ocr = ocrDataMap[r.id];
-        if (!ocr) return false;
-
-        if (searchTerm) {
-            const q = searchTerm.toLowerCase().trim();
-            const matchesText = (text) => text && text.toString().toLowerCase().includes(q);
-
-            const matchesVendor = [
-                ocr.vendorName,
-                ocr.vendorAddress,
-                ocr.paymentMethod,
-                ocr.vendorOrgNumber,
-                ocr.receiptNumber,
-                ocr.totalAmount,
-                ocr.vatAmount
-            ].some(matchesText);
-
-            const matchesItems = ocr.items?.some(item =>
-                Object.values(item).some(matchesText)
-            );
-
-            if (!matchesVendor && !matchesItems) return false;
-        }
-
-        const receiptDate = new Date(r.createdAt);
-        receiptDate.setHours(12, 0, 0, 0);
-
-        if (quickDate) {
-            const { from, to } = getQuickDateRange(quickDate);
-            if (from && receiptDate < from) return false;
-            if (to && receiptDate > to) return false;
-        }
-
-        if (fromDate) {
-            const from = new Date(fromDate);
-            from.setHours(0, 0, 0, 0);
-            if (receiptDate < from) return false;
-        }
-
-        if (toDate) {
-            const to = new Date(toDate);
-            to.setHours(23, 59, 59, 999);
-            if (receiptDate > to) return false;
-        }
-
-        if (selectedCategories.length > 0 && r.category && !selectedCategories.includes(r.category)) {
-            return false;
-        }
-
-        const amount = ocr.totalAmount || 0;
-        if (minAmount && amount < parseFloat(minAmount)) return false;
-        if (maxAmount && amount > parseFloat(maxAmount)) return false;
-
-        return true;
+    const filteredReceipts = filterReceipts({
+        receipts,
+        ocrDataMap,
+        searchTerm,
+        fromDate,
+        toDate,
+        quickDate,
+        selectedCategories,
+        minAmount,
+        maxAmount
     });
 
     return (

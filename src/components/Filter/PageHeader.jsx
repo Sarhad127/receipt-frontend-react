@@ -214,6 +214,88 @@ const getQuickDateRange = (quickDate) => {
     return { from, to };
 };
 
+const filterReceipts = ({
+                                   receipts,
+                                   ocrDataMap,
+                                   searchTerm,
+                                   fromDate,
+                                   toDate,
+                                   quickDate,
+                                   selectedCategories,
+                                   minAmount,
+                                   maxAmount
+                               }) => {
+    const minAmountNum = minAmount ? parseFloat(minAmount) : null;
+    const maxAmountNum = maxAmount ? parseFloat(maxAmount) : null;
+
+    const matchesSearch = (ocr, term) => {
+        if (!term) return true;
+        const q = term.toLowerCase().trim();
+        const matchesText = (text) => text?.toString().toLowerCase().includes(q);
+
+        const matchesVendor = [
+            ocr.vendorName,
+            ocr.vendorAddress,
+            ocr.paymentMethod,
+            ocr.vendorOrgNumber,
+            ocr.receiptNumber,
+            ocr.totalAmount,
+            ocr.vatAmount
+        ].some(matchesText);
+
+        const matchesItems = ocr.items?.some(item =>
+            Object.values(item).some(matchesText)
+        );
+
+        return matchesVendor || matchesItems;
+    };
+
+    const matchesDate = (receiptDate) => {
+        const date = new Date(receiptDate);
+        date.setHours(12, 0, 0, 0);
+
+        if (quickDate) {
+            const { from, to } = getQuickDateRange(quickDate);
+            if ((from && date < from) || (to && date > to)) return false;
+        }
+
+        if (fromDate) {
+            const from = new Date(fromDate + "T00:00:00");
+            if (date < from) return false;
+        }
+
+        if (toDate) {
+            const to = new Date(toDate + "T23:59:59.999");
+            if (date > to) return false;
+        }
+
+        return true;
+    };
+
+    const matchesCategory = (category) => {
+        if (!selectedCategories || selectedCategories.length === 0) return true;
+        return selectedCategories.includes(category);
+    };
+
+    const matchesAmount = (amount) => {
+        if (minAmountNum !== null && amount < minAmountNum) return false;
+        if (maxAmountNum !== null && amount > maxAmountNum) return false;
+        return true;
+    };
+
+    return receipts.filter(r => {
+        const ocr = ocrDataMap ? ocrDataMap[r.id] : r;
+        if (!ocr) return false;
+
+        return (
+            matchesSearch(ocr, searchTerm) &&
+            matchesDate(r.createdAt) &&
+            matchesCategory(r.category) &&
+            matchesAmount(ocr.totalAmount || 0)
+        );
+    });
+};
+
 export default PageHeader;
 // eslint-disable-next-line react-refresh/only-export-components
-export { getQuickDateRange };
+export { filterReceipts };
