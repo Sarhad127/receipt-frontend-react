@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
-import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceipt, saveReceiptInfo}
+import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
 from "./api/apis";
 import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
 
@@ -29,6 +29,7 @@ function SavedPage() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
+    const [sortOption, setSortOption] = useState("newest");
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -177,7 +178,8 @@ function SavedPage() {
         quickDate,
         selectedCategories,
         minAmount,
-        maxAmount
+        maxAmount,
+        sortOption
     });
 
     return (
@@ -211,6 +213,8 @@ function SavedPage() {
                     setMinAmount={setMinAmount}
                     maxAmount={maxAmount}
                     setMaxAmount={setMaxAmount}
+                    sortOption={sortOption}
+                    setSortOption={setSortOption}
                 />
 
                 <div className="page-content">

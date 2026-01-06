@@ -1,4 +1,3 @@
-import React from "react";
 import './PageHeader.css'
 
 const CATEGORIES = [
@@ -34,8 +33,10 @@ function PageHeader({
                                        minAmount,
                                        setMinAmount,
                                        maxAmount,
-                                       setMaxAmount
-                                   }) {
+                                       setMaxAmount,
+                                       sortOption,
+                                       setSortOption
+                    }) {
     const toggleCategory = (category) => {
         if (category === "Alla") {
             setSelectedCategories([]);
@@ -179,6 +180,20 @@ function PageHeader({
                             onChange={e => setMaxAmount(e.target.value)}
                         />
                     </div>
+                    <div className="advanced-filter-group">
+                        <div className="advanced-filter-title">Sortering</div>
+                        <select
+                            className="sort-dropdown"
+                            value={sortOption}
+                            onChange={(e) => setSortOption(e.target.value)}
+                        >
+                            <option value="newest">Nyast → Äldst</option>
+                            <option value="oldest">Äldst → Nyast</option>
+                            <option value="highest">Högst belopp</option>
+                            <option value="lowest">Lägst belopp</option>
+                            <option value="vendorAZ">Butik A–Ö</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -223,8 +238,9 @@ const filterReceipts = ({
                                    quickDate,
                                    selectedCategories,
                                    minAmount,
-                                   maxAmount
-                               }) => {
+                                   maxAmount,
+                                   sortOption
+                                }) => {
     const minAmountNum = minAmount ? parseFloat(minAmount) : null;
     const maxAmountNum = maxAmount ? parseFloat(maxAmount) : null;
 
@@ -284,7 +300,7 @@ const filterReceipts = ({
         return true;
     };
 
-    return receipts.filter(r => {
+    let filtered = receipts.filter(r => {
         const ocr = ocrDataMap ? ocrDataMap[r.id] : r;
         if (!ocr) return false;
 
@@ -295,6 +311,28 @@ const filterReceipts = ({
             matchesAmount(ocr.totalAmount || 0)
         );
     });
+
+    filtered.sort((a, b) => {
+        const aOcr = ocrDataMap ? ocrDataMap[a.id] : a;
+        const bOcr = ocrDataMap ? ocrDataMap[b.id] : b;
+
+        switch (sortOption) {
+            case "newest":
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            case "oldest":
+                return new Date(a.createdAt) - new Date(b.createdAt);
+            case "highest":
+                return (bOcr.totalAmount || 0) - (aOcr.totalAmount || 0);
+            case "lowest":
+                return (aOcr.totalAmount || 0) - (bOcr.totalAmount || 0);
+            case "vendorAZ":
+                return (aOcr.vendorName || "").localeCompare(bOcr.vendorName || "");
+            default:
+                return 0;
+        }
+    });
+
+    return filtered;
 };
 
 export default PageHeader;

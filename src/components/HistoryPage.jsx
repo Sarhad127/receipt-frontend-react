@@ -22,6 +22,7 @@ function HistoryPage() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
+    const [sortOption, setSortOption] = useState("newest");
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -114,7 +115,8 @@ function HistoryPage() {
         quickDate,
         selectedCategories,
         minAmount,
-        maxAmount
+        maxAmount,
+        sortOption
     });
 
     return (
@@ -148,6 +150,8 @@ function HistoryPage() {
                     setMinAmount={setMinAmount}
                     maxAmount={maxAmount}
                     setMaxAmount={setMaxAmount}
+                    sortOption={sortOption}
+                    setSortOption={setSortOption}
                 />
 
                 <div className="page-content">
