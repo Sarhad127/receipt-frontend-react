@@ -310,7 +310,33 @@ function SavedPage() {
                                         vatAmount: "Moms",
                                         category: "Kategori"
                                     }[field]}:</strong>{" "}
-                                    {editingField === field ? (
+                                    {field === "category" ? (
+                                        <select
+                                            value={editableReceipt.category || ""}
+                                            onChange={e => handleInputChange("category", e.target.value)}
+                                            onBlur={() => setEditingField(null)}
+                                            autoFocus
+                                            className="saved-ocr-info-placeholder"
+                                        >
+                                            <option value="">Välj kategori</option>
+                                            {[
+                                                "Alla",
+                                                "Livsmedel",
+                                                "Restaurang",
+                                                "Transport",
+                                                "Boende",
+                                                "Hälsa",
+                                                "Nöje",
+                                                "Resor",
+                                                "Elektronik",
+                                                "Abonnemang",
+                                                "Shopping",
+                                                "Övrigt"
+                                            ].map(cat => (
+                                                <option key={cat} value={cat}>{cat}</option>
+                                            ))}
+                                        </select>
+                                    ) : editingField === field ? (
                                         <input
                                             type={field.includes("Amount") || field === "vatAmount" ? "number" : "text"}
                                             value={editableReceipt[field] || ""}
