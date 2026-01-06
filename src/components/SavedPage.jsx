@@ -23,15 +23,15 @@ function SavedPage() {
     const [toDate, setToDate] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const editableRef = useRef(null);
-    const [layout, setLayout] = useState(() => {
-        return localStorage.getItem("savedPageLayout") || "grid";
-    });
     const [quickDate, setQuickDate] = useState("");
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
+    const [layout, setLayout] = useState(() => {
+        return localStorage.getItem("savedPageLayout") || "grid";
+    });
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -285,145 +285,156 @@ function SavedPage() {
             {modalOpen && selectedReceipt && editableReceipt && (
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
-                        <button className="saved-modal-close" onClick={closeModal}>×</button>
 
                         <div className="receipt-navigation">
                             <button onClick={goToPrev} disabled={currentIndex === 0}>Föregående</button>
                             <button onClick={goToNext} disabled={currentIndex === filteredReceipts.length - 1}>Nästa</button>
                         </div>
 
-                        {images[selectedReceipt.id] && (
-                            <img
-                                src={images[selectedReceipt.id]}
-                                alt="Kvitto"
-                                className="saved-modal-image"
-                                onClick={() => setImageModalOpen(true)}
-                            />
-                        )}
+                        <div className="saved-modal-main">
+                            <div className="saved-modal-left">
+                                {images[selectedReceipt.id] && (
+                                    <img
+                                        src={images[selectedReceipt.id]}
+                                        alt="Kvitto"
+                                        className="saved-modal-image"
+                                        onClick={() => setImageModalOpen(true)}
+                                    />
+                                )}
 
-                        <div className="saved-ocr-info" ref={editableRef}>
-                            {[
-                                "vendorName",
-                                "vendorOrgNumber",
-                                "vendorAddress",
-                                "receiptDate",
-                                "receiptNumber",
-                                "paymentMethod",
-                                "totalAmount",
-                                "vatAmount",
-                                "category"
-                            ].map(field => (
-                                <p key={field}>
-                                    <strong>{{
-                                        vendorName: "Butik",
-                                        vendorOrgNumber: "Org.nr",
-                                        vendorAddress: "Adress",
-                                        receiptDate: "Datum",
-                                        receiptNumber: "Kvittonummer",
-                                        paymentMethod: "Betalningsmetod",
-                                        totalAmount: "Totalt belopp",
-                                        vatAmount: "Moms",
-                                        category: "Kategori"
-                                    }[field]}:</strong>{" "}
-                                    {field === "category" ? (
-                                        <select
-                                            value={editableReceipt.category || ""}
-                                            onChange={e => handleInputChange("category", e.target.value)}
-                                            onBlur={() => setEditingField(null)}
-                                            className="saved-ocr-info-placeholder"
-                                        >
-                                            <option value="">Välj kategori</option>
-                                            {[
-                                                "Alla",
-                                                "Livsmedel",
-                                                "Restaurang",
-                                                "Transport",
-                                                "Boende",
-                                                "Hälsa",
-                                                "Nöje",
-                                                "Resor",
-                                                "Elektronik",
-                                                "Abonnemang",
-                                                "Shopping",
-                                                "Övrigt"
-                                            ].map(cat => (
-                                                <option key={cat} value={cat}>{cat}</option>
-                                            ))}
-                                        </select>
-                                    ) : editingField === field ? (
-                                        <input
-                                            type={field.includes("Amount") || field === "vatAmount" ? "number" : "text"}
-                                            value={editableReceipt[field] || ""}
-                                            onChange={e => handleInputChange(field, e.target.value)}
-                                            onBlur={() => setEditingField(null)}
-                                            autoFocus
-                                            className="saved-ocr-info-placeholder"
-                                        />
-                                    ) : (
-                                        <span onClick={() => setEditingField(field)} className="editable-text">
-                                            {editableReceipt[field] || "–"}
-                                        </span>
-                                    )}
-                                </p>
-                            ))}
-
-                            <p><strong>Artiklar:</strong></p>
-                            {editableReceipt.items && editableReceipt.items.length > 0 && (
-                                <ul className="saved-ocr-info">
-                                    {editableReceipt.items.map((item, idx) => (
-                                        <li key={idx} className="receipt-item-row">
-                                            <button
-                                                className="remove-item"
-                                                onClick={() => handleItemRemove(idx)}
-                                                title="Ta bort"
-                                            >
-                                                ×
-                                            </button>
-
-                                            {["itemName", "itemQuantity", "itemUnitPrice"].map(subField => (
-                                                editingField === `item-${idx}-${subField}` ? (
-                                                    <input
-                                                        key={subField}
-                                                        type={subField === "itemName" ? "text" : "number"}
-                                                        value={item[subField]}
-                                                        placeholder={{
-                                                            itemName: "Artikelnamn",
-                                                            itemQuantity: "Antal",
-                                                            itemUnitPrice: "Pris/st"
-                                                        }[subField]}
-                                                        onChange={e => handleItemChange(
-                                                            idx,
-                                                            subField,
-                                                            subField === "itemName" ? e.target.value : parseFloat(e.target.value)
-                                                        )}
-                                                        onBlur={() => setEditingField(null)}
-                                                        autoFocus
-                                                        className="inline-edit-input"
-                                                    />
-                                                ) : (
-                                                    <span
-                                                        key={subField}
-                                                        onClick={() => setEditingField(`item-${idx}-${subField}`)}
-                                                        className="inline-edit-span"
-                                                    >
-                                                        {item[subField] || {
-                                                            itemName: "Artikelnamn",
-                                                            itemQuantity: "Antal",
-                                                            itemUnitPrice: "Pris/st"
-                                                        }[subField]}
-                                                    </span>
-                                                )
-                                            ))}
-
-                                            <span className="item-total">= {item.itemTotalPrice}</span>
-                                        </li>
+                                <div className="saved-ocr-info" ref={editableRef}>
+                                    {[
+                                        "vendorName",
+                                        "vendorOrgNumber",
+                                        "vendorAddress",
+                                        "receiptDate",
+                                        "receiptNumber",
+                                        "paymentMethod",
+                                        "totalAmount",
+                                        "vatAmount",
+                                        "category"
+                                    ].map(field => (
+                                        <p key={field}>
+                                            <strong>{{
+                                                vendorName: "Butik",
+                                                vendorOrgNumber: "Org.nr",
+                                                vendorAddress: "Adress",
+                                                receiptDate: "Datum",
+                                                receiptNumber: "Kvittonummer",
+                                                paymentMethod: "Betalningsmetod",
+                                                totalAmount: "Totalt belopp",
+                                                vatAmount: "Moms",
+                                                category: "Kategori"
+                                            }[field]}:</strong>{" "}
+                                            {field === "category" ? (
+                                                <select
+                                                    value={editableReceipt.category || ""}
+                                                    onChange={e => handleInputChange("category", e.target.value)}
+                                                    onBlur={() => setEditingField(null)}
+                                                    className="saved-ocr-info-placeholder"
+                                                >
+                                                    <option value="">Välj kategori</option>
+                                                    {[
+                                                        "Alla",
+                                                        "Livsmedel",
+                                                        "Restaurang",
+                                                        "Transport",
+                                                        "Boende",
+                                                        "Hälsa",
+                                                        "Nöje",
+                                                        "Resor",
+                                                        "Elektronik",
+                                                        "Abonnemang",
+                                                        "Shopping",
+                                                        "Övrigt"
+                                                    ].map(cat => (
+                                                        <option key={cat} value={cat}>{cat}</option>
+                                                    ))}
+                                                </select>
+                                            ) : editingField === field ? (
+                                                <input
+                                                    type={field.includes("Amount") || field === "vatAmount" ? "number" : "text"}
+                                                    value={editableReceipt[field] || ""}
+                                                    onChange={e => handleInputChange(field, e.target.value)}
+                                                    onBlur={() => setEditingField(null)}
+                                                    autoFocus
+                                                    className="saved-ocr-info-placeholder"
+                                                />
+                                            ) : (
+                                                <span onClick={() => setEditingField(field)} className="editable-text">
+                                        {editableReceipt[field] || "–"}
+                                    </span>
+                                            )}
+                                        </p>
                                     ))}
-                                </ul>
-                            )}
-                            <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
-                            <button className="save-receipt" onClick={handleSave} disabled={saving}>
-                                {saving ? "Sparar..." : "Spara"}
-                            </button>
+                                </div>
+                            </div>
+
+                            <div className="saved-modal-right">
+                                <div className="article-title-modal">
+                                    <strong>Artiklar</strong>
+                                    <p className="article-hint">
+                                        Klicka på en rad för att redigera: <span style={{ fontStyle: 'italic', color: '#ccc' }}>vara, antal och pris</span>
+                                    </p>
+                                </div>
+
+                                {editableReceipt.items && editableReceipt.items.length > 0 && (
+                                    <ul className="saved-ocr-items">
+                                        {editableReceipt.items.map((item, idx) => (
+                                            <li key={idx} className="receipt-item-row">
+                                                <button
+                                                    className="remove-item"
+                                                    onClick={() => handleItemRemove(idx)}
+                                                    title="Ta bort"
+                                                >
+                                                    ×
+                                                </button>
+
+                                                {["itemName", "itemQuantity", "itemUnitPrice"].map(subField => (
+                                                    editingField === `item-${idx}-${subField}` ? (
+                                                        <input
+                                                            key={subField}
+                                                            type={subField === "itemName" ? "text" : "number"}
+                                                            value={item[subField]}
+                                                            placeholder={{
+                                                                itemName: "Artikelnamn",
+                                                                itemQuantity: "Antal",
+                                                                itemUnitPrice: "Pris/st"
+                                                            }[subField]}
+                                                            onChange={e => handleItemChange(
+                                                                idx,
+                                                                subField,
+                                                                subField === "itemName" ? e.target.value : parseFloat(e.target.value)
+                                                            )}
+                                                            onBlur={() => setEditingField(null)}
+                                                            autoFocus
+                                                            className="inline-edit-input"
+                                                        />
+                                                    ) : (
+                                                        <span
+                                                            key={subField}
+                                                            onClick={() => setEditingField(`item-${idx}-${subField}`)}
+                                                            className="inline-edit-span"
+                                                        >
+                                                {item[subField] || {
+                                                    itemName: "Artikelnamn",
+                                                    itemQuantity: "Antal",
+                                                    itemUnitPrice: "Pris/st"
+                                                }[subField]}
+                                            </span>
+                                                    )
+                                                ))}
+
+                                                <span className="item-total">= {item.itemTotalPrice}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                                <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
+                                <button className="save-receipt" onClick={handleSave} disabled={saving}>
+                                    {saving ? "Sparar..." : "Spara"}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
