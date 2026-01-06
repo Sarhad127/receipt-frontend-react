@@ -17,12 +17,14 @@ function HistoryPage() {
     const [quickDate, setQuickDate] = useState("");
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const [layout, setLayout] = useState("grid");
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
+    const [layout, setLayout] = useState(() => {
+        return localStorage.getItem("historyLayout") || "grid";
+    });
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -125,6 +127,11 @@ function HistoryPage() {
         sortOption
     });
 
+    const handleLayoutChange = (newLayout) => {
+        setLayout(newLayout);
+        localStorage.setItem("historyLayout", newLayout);
+    };
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -147,7 +154,7 @@ function HistoryPage() {
                     toDate={toDate}
                     setToDate={setToDate}
                     layout={layout}
-                    setLayout={setLayout}
+                    setLayout={handleLayoutChange}
                     filtersOpen={filtersOpen}
                     setFiltersOpen={setFiltersOpen}
                     selectedCategories={selectedCategories}
@@ -162,33 +169,59 @@ function HistoryPage() {
 
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
-                        <ul className="receipt-list">
-                            {filteredReceipts.map(r => (
-                                <li key={r.id} className="receipt-item">
-                                    <div className="receipt-header">
-                                        <span className="history-date">{new Date(r.createdAt).toLocaleDateString()}</span>
-                                        {r.saved && <span className="saved-dot"></span>}
-                                    </div>
-                                    <div className="receipt-info">
-                                        <p className="receipt-vendor">{r.vendorName}</p>
-                                        <p className="receipt-total">Total: {r.totalAmount} {r.currency}</p>
-                                    </div>
-                                    {images[r.id] ? (
-                                        <img
-                                            src={images[r.id]}
-                                            alt="Kvitto"
-                                            className="receipt-image"
-                                            onClick={() => {
-                                                setSelectedImage(images[r.id]);
-                                                setSelectedReceiptId(r.id);
-                                            }}
-                                        />
+                        <ul className={`receipt-list ${layout}`}>
+                            {filteredReceipts.map((r) => (
+                                <li
+                                    key={r.id}
+                                    className={`receipt-item ${layout}`}
+                                    onClick={() => {
+                                        setSelectedImage(images[r.id]);
+                                        setSelectedReceiptId(r.id);
+                                    }}
+                                >
+                                    {layout === "grid" ? (
+                                        <>
+                                            <p className="receipt-vendor-with-dot">
+                                                {r.vendorName || "–"}{" "}
+                                                {r.saved && <span className="saved-dot"></span>}
+                                            </p>
+                                            <p className="receipt-amount">
+                                                {r.totalAmount !== undefined ? `${r.totalAmount} ${r.currency}` : "–"}
+                                            </p>
+                                            <p className="receipt-date">{new Date(r.createdAt).toLocaleDateString()}</p>
+                                            {images[r.id] ? (
+                                                <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
+                                            ) : (
+                                                <p>Laddar bild...</p>
+                                            )}
+                                        </>
                                     ) : (
-                                        <p>Laddar bild...</p>
+                                        <div className="list-item">
+                                            {images[r.id] ? (
+                                                <img src={images[r.id]} alt="Kvitto" className="list-image" />
+                                            ) : (
+                                                <p>Laddar bild...</p>
+                                            )}
+                                            <div className="list-info">
+                                                <p className="receipt-vendor-with-dot">
+                                                    {r.vendorName || "–"} {r.saved && <span className="saved-dot-list"></span>}
+                                                </p>
+                                                <p>Total: {r.totalAmount} {r.currency}</p>
+                                            </div>
+                                            <span className="list-date">
+                                                <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
+                                            </span>
+                                        </div>
                                     )}
                                 </li>
                             ))}
                         </ul>
+
+                    )}
+                    {filteredReceipts.length === 0 && (
+                        <div className="empty-state">
+                            <p>Inga kvitton matchar ditt filter</p>
+                        </div>
                     )}
                 </div>
             </div>
