@@ -23,7 +23,9 @@ function SavedPage() {
     const [toDate, setToDate] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const editableRef = useRef(null);
-    const [layout, setLayout] = useState("grid");
+    const [layout, setLayout] = useState(() => {
+        return localStorage.getItem("savedPageLayout") || "grid";
+    });
     const [quickDate, setQuickDate] = useState("");
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -70,6 +72,16 @@ function SavedPage() {
         };
     }, []);
 
+    const recalcTotal = (receipt) => {
+        if (!receipt.items) return 0;
+        return receipt.items.reduce((sum, item) => sum + (item.itemTotalPrice || 0), 0);
+    };
+
+    const handleLayoutChange = (newLayout) => {
+        setLayout(newLayout);
+        localStorage.setItem("savedPageLayout", newLayout);
+    };
+
     const handleReceiptClick = (receipt, index) => {
         setSelectedReceipt(receipt);
         setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[receipt.id])));
@@ -102,27 +114,28 @@ function SavedPage() {
             [field]: field === "itemQuantity" || field === "itemUnitPrice" ? parseFloat(value) || 0 : value,
             itemTotalPrice: quantity * unitPrice
         };
-        setEditableReceipt(prev => ({ ...prev, items: newItems }));
-    };
-
-    const handleItemRemove = (index) => {
-        setEditableReceipt(prev => ({
-            ...prev,
-            items: prev.items.filter((_, i) => i !== index)
-        }));
+        setEditableReceipt(prev => {
+            const updated = { ...prev, items: newItems };
+            updated.totalAmount = recalcTotal(updated);
+            return updated;
+        });
     };
 
     const handleItemAdd = () => {
-        const newItem = {
-            itemName: "",
-            itemQuantity: 1,
-            itemUnitPrice: 0,
-            itemTotalPrice: 0
-        };
-        setEditableReceipt(prev => ({
-            ...prev,
-            items: [...(prev.items || []), newItem]
-        }));
+        const newItem = { itemName: "", itemQuantity: 1, itemUnitPrice: 0, itemTotalPrice: 0 };
+        setEditableReceipt(prev => {
+            const updated = { ...prev, items: [...(prev.items || []), newItem] };
+            updated.totalAmount = recalcTotal(updated);
+            return updated;
+        });
+    };
+
+    const handleItemRemove = (index) => {
+        setEditableReceipt(prev => {
+            const updated = { ...prev, items: prev.items.filter((_, i) => i !== index) };
+            updated.totalAmount = recalcTotal(updated);
+            return updated;
+        });
     };
 
     const handleSave = async () => {
@@ -207,7 +220,7 @@ function SavedPage() {
                     toDate={toDate}
                     setToDate={setToDate}
                     layout={layout}
-                    setLayout={setLayout}
+                    setLayout={handleLayoutChange}
                     filtersOpen={filtersOpen}
                     setFiltersOpen={setFiltersOpen}
                     selectedCategories={selectedCategories}
