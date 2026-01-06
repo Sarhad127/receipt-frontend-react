@@ -24,6 +24,20 @@ function ScanPage() {
     const effectRan = useRef(false);
     const [editableReceipt, setEditableReceipt] = useState(null);
     const location = useLocation();
+    const CATEGORIES = [
+        "Alla",
+        "Livsmedel",
+        "Restaurang",
+        "Transport",
+        "Boende",
+        "Hälsa",
+        "Nöje",
+        "Resor",
+        "Elektronik",
+        "Abonnemang",
+        "Shopping",
+        "Övrigt"
+    ];
 
     useEffect(() => {
         if (effectRan.current) return;
@@ -248,6 +262,18 @@ function ScanPage() {
                                     <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
                                 ) : (
                                     <div className="receipt-dto">
+                                        <p>
+                                            <strong>Kategori:</strong>
+                                            <select
+                                                value={editableReceipt.category || ""}
+                                                onChange={e => handleInputChange("category", e.target.value)}
+                                            >
+                                                <option value="">Välj kategori</option>
+                                                {CATEGORIES.map(cat => (
+                                                    <option key={cat} value={cat}>{cat}</option>
+                                                ))}
+                                            </select>
+                                        </p>
                                         <h3>
                                             <input
                                                 type="text"

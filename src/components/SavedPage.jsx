@@ -4,7 +4,7 @@ import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
 import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceipt, saveReceiptInfo}
 from "./api/apis";
-import { filterReceipts } from "/Filter/PageHeader.jsx";
+import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -295,7 +295,8 @@ function SavedPage() {
                                 "receiptNumber",
                                 "paymentMethod",
                                 "totalAmount",
-                                "vatAmount"
+                                "vatAmount",
+                                "category"
                             ].map(field => (
                                 <p key={field}>
                                     <strong>{{
@@ -306,7 +307,8 @@ function SavedPage() {
                                         receiptNumber: "Kvittonummer",
                                         paymentMethod: "Betalningsmetod",
                                         totalAmount: "Totalt belopp",
-                                        vatAmount: "Moms"
+                                        vatAmount: "Moms",
+                                        category: "Kategori"
                                     }[field]}:</strong>{" "}
                                     {editingField === field ? (
                                         <input
