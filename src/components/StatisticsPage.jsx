@@ -1,9 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchStatistics } from "./api/apis";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import "./style/AppLayout.css";
 import "./style/pages/StatisticsPage.css";
+import { Cell } from "recharts";
+
+const COLORS = [
+    "#82ca9d", "#8884d8", "#ffc658", "#d0ed57", "#a4de6c",
+    "#8dd1e1", "#83a6ed", "#8a79d3", "#d88884", "#f68c42",
+    "#42f69e", "#f54291", "#42caff"
+];
+
+const CATEGORIES = [
+    "Alla",
+    "Livsmedel",
+    "Restaurang",
+    "Transport",
+    "Boende",
+    "Hälsa",
+    "Nöje",
+    "Resor",
+    "Elektronik",
+    "Abonnemang",
+    "Shopping",
+    "Övrigt"
+];
 
 function StatisticsPage() {
     const navigate = useNavigate();
@@ -45,20 +67,27 @@ function StatisticsPage() {
     const totalVat = receipts.reduce((sum, r) => sum + (r.vatAmount ?? 0), 0);
     const totalItems = receipts.reduce((sum, r) => sum + r.items.reduce((iSum, item) => iSum + (item.itemQuantity ?? 0), 0), 0);
     const avgAmount = receipts.length ? totalAmount / receipts.length : 0;
-
     const biggestReceipt = receipts.reduce((max, r) => (r.totalAmount ?? 0) > (max.totalAmount ?? 0) ? r : max, receipts[0]);
     const smallestReceipt = receipts.reduce((min, r) => (r.totalAmount ?? 0) < (min.totalAmount ?? 0) ? r : min, receipts[0]);
-
     const vendorCounts = {};
     receipts.forEach(r => {
         const name = r.vendorName || "Okänd";
         vendorCounts[name] = (vendorCounts[name] || 0) + 1;
     });
     const mostFrequentVendor = Object.entries(vendorCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "–";
+    const barDataVendors = receipts.map(r => ({ name: r.vendorName ?? "Okänd", total: r.totalAmount ?? 0 }));
 
-    const barData = receipts.map(r => ({ name: r.vendorName ?? "Okänd", total: r.totalAmount ?? 0 }));
-    const pieData = Object.entries(vendorCounts).map(([name, count]) => ({ name, value: count }));
-    const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#8dd1e1", "#a4de6c", "#d0ed57"];
+    const normalizedReceipts = receipts.map(r => ({
+        ...r,
+        category: (r.category && r.category !== "undefined") ? r.category : "Okänd"
+    }));
+
+    const categoryTotals = CATEGORIES.concat("Okänd").map(cat => ({
+        name: cat,
+        total: normalizedReceipts
+            .filter(r => r.category === cat)
+            .reduce((sum, r) => sum + (r.totalAmount ?? 0), 0)
+    }));
 
     return (
         <div className="page-wrapper">
@@ -82,9 +111,9 @@ function StatisticsPage() {
                         <p><strong>Vanligaste leverantör:</strong> {mostFrequentVendor}</p>
                         <p><strong>Totalt antal artiklar:</strong> {totalItems}</p>
 
-                        <h3>Stapeldiagram: Total per leverantör</h3>
+                        <h3>Total per leverantör</h3>
                         <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={barData}>
+                            <BarChart data={barDataVendors}>
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />
@@ -92,17 +121,22 @@ function StatisticsPage() {
                             </BarChart>
                         </ResponsiveContainer>
 
-                        <h3>Pajdiagram: Kvitto per leverantör</h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-                                    {pieData.map((entry, index) => (
+                        <h3>Total per kategori</h3>
+                        <ResponsiveContainer width="100%" height={400}>
+                            <BarChart
+                                data={categoryTotals}
+                                layout="vertical"
+                                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
+                            >
+                                <XAxis type="number" />
+                                <YAxis type="category" dataKey="name" />
+                                <Tooltip />
+                                <Bar dataKey="total" minPointSize={5}>
+                                    {categoryTotals.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
-                                </Pie>
-                                <Tooltip />
-                                <Legend />
-                            </PieChart>
+                                </Bar>
+                            </BarChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
