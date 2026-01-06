@@ -169,18 +169,21 @@ function SavedPage() {
         }
     };
 
-    const filteredReceipts = filterReceipts({
-        receipts,
-        ocrDataMap,
-        searchTerm,
-        fromDate,
-        toDate,
-        quickDate,
-        selectedCategories,
-        minAmount,
-        maxAmount,
-        sortOption
-    });
+    const filteredReceipts = React.useMemo(() =>
+            filterReceipts({
+                receipts,
+                ocrDataMap,
+                searchTerm,
+                fromDate,
+                toDate,
+                quickDate,
+                selectedCategories,
+                minAmount,
+                maxAmount,
+                sortOption
+            }),
+        [receipts, ocrDataMap, searchTerm, fromDate, toDate, quickDate, selectedCategories, minAmount, maxAmount, sortOption]
+    );
 
     return (
         <div className="page-wrapper">

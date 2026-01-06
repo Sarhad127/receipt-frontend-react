@@ -76,6 +76,12 @@ function HistoryPage() {
 
             await saveReceipt(selectedReceiptId, editable);
 
+            setReceipts(prev =>
+                prev.map(r =>
+                    r.id === selectedReceiptId ? { ...r, saved: true } : r
+                )
+            );
+
             setSelectedImage(null);
             setSelectedReceiptId(null);
         } catch (err) {
