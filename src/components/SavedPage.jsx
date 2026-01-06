@@ -126,19 +126,14 @@ function SavedPage() {
 
     const handleSave = async () => {
         if (!selectedReceipt || !editableReceipt || saving) return;
+        const savedReceiptId = selectedReceipt.id;
         try {
             setSaving(true);
-
-            if (!editableReceipt.originalReceiptId) {
-                const savedReceiptId = await saveReceipt(selectedReceipt.id, editableReceipt);
-                editableReceipt.originalReceiptId = selectedReceipt.id;
-                editableReceipt.savedReceiptId = savedReceiptId;
-                setOcrDataMap(prev => ({ ...prev, [savedReceiptId]: editableReceipt }));
-            } else {
-                await saveReceiptInfo(editableReceipt.savedReceiptId, editableReceipt);
-                setOcrDataMap(prev => ({ ...prev, [editableReceipt.savedReceiptId]: editableReceipt }));
-            }
-
+            await saveReceiptInfo(savedReceiptId, editableReceipt);
+            setOcrDataMap(prev => ({
+                ...prev,
+                [savedReceiptId]: editableReceipt
+            }));
             setOcrData(editableReceipt);
         } catch (err) {
             console.error(err);
@@ -315,7 +310,6 @@ function SavedPage() {
                                             value={editableReceipt.category || ""}
                                             onChange={e => handleInputChange("category", e.target.value)}
                                             onBlur={() => setEditingField(null)}
-                                            autoFocus
                                             className="saved-ocr-info-placeholder"
                                         >
                                             <option value="">Välj kategori</option>
