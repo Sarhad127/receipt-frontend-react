@@ -56,12 +56,13 @@ function HistoryPage() {
 
     const handleSave = async () => {
         if (!selectedReceiptId || saving) return;
-
+        const receipt = receipts.find(r => r.id === selectedReceiptId);
+        if (receipt.saved) {
+            alert("Detta kvitto är redan sparat!");
+            return;
+        }
         try {
             setSaving(true);
-
-            const receipt = receipts.find(r => r.id === selectedReceiptId);
-
             const editable = {
                 vendorName: receipt.vendorName,
                 vendorOrgNumber: receipt.vendorOrgNumber,
@@ -75,15 +76,12 @@ function HistoryPage() {
                 notes: receipt.notes,
                 items: receipt.items
             };
-
             await saveReceipt(selectedReceiptId, editable);
-
             setReceipts(prev =>
                 prev.map(r =>
                     r.id === selectedReceiptId ? { ...r, saved: true } : r
                 )
             );
-
             setSelectedImage(null);
             setSelectedReceiptId(null);
         } catch (err) {
