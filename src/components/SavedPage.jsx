@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
-import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
-from "./api/apis";
+import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo, deleteSavedReceipt}
+    from "./api/apis";
 import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
+import { FaTrash } from "react-icons/fa";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -203,6 +204,38 @@ function SavedPage() {
         [receipts, ocrDataMap, searchTerm, fromDate, toDate, quickDate, selectedCategories, minAmount, maxAmount, sortOption]
     );
 
+    const TrashButton = ({ receipt, currentIndex, filteredReceipts, setReceipts, setCurrentIndex, closeModal, ocrDataMap, setEditableReceipt, setOcrData }) => {
+        const handleDelete = async () => {
+            if (!receipt) return;
+            if (window.confirm("Vill du verkligen radera detta kvitto?")) {
+                const receiptId = receipt.id;
+                try {
+                    await deleteSavedReceipt(receiptId);
+                    setReceipts(prev => prev.filter(r => r.id !== receiptId));
+
+                    if (filteredReceipts.length > 1) {
+                        const nextIndex = Math.min(currentIndex, filteredReceipts.length - 2);
+                        const nextReceipt = filteredReceipts[nextIndex];
+                        setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[nextReceipt.id])));
+                        setOcrData(ocrDataMap[nextReceipt.id]);
+                        setCurrentIndex(nextIndex);
+                        closeModal();
+                    } else {
+                        closeModal();
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        };
+
+        return (
+            <span className="trash-button" onClick={handleDelete} title="Radera kvitto">
+            <FaTrash />
+        </span>
+        );
+    };
+
     return (
         <div className="page-wrapper">
             <div className="page-tabs">
@@ -290,10 +323,22 @@ function SavedPage() {
             {modalOpen && selectedReceipt && editableReceipt && (
                 <div className="saved-modal-overlay" onClick={closeModal}>
                     <div className="saved-modal-content" onClick={e => e.stopPropagation()}>
-
                         <div className="receipt-navigation">
                             <button onClick={goToPrev} disabled={currentIndex === 0}>Föregående</button>
-                            <button onClick={goToNext} disabled={currentIndex === filteredReceipts.length - 1}>Nästa</button>
+                            <div className="next-trash-wrapper">
+                                <button onClick={goToNext} disabled={currentIndex === filteredReceipts.length - 1}>Nästa</button>
+                                <TrashButton
+                                    receipt={selectedReceipt}
+                                    currentIndex={currentIndex}
+                                    filteredReceipts={filteredReceipts}
+                                    setReceipts={setReceipts}
+                                    setCurrentIndex={setCurrentIndex}
+                                    closeModal={closeModal}
+                                    ocrDataMap={ocrDataMap}
+                                    setEditableReceipt={setEditableReceipt}
+                                    setOcrData={setOcrData}
+                                />
+                            </div>
                         </div>
 
                         <div className="saved-modal-main">

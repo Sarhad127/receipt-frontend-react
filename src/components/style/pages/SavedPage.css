@@ -271,6 +271,29 @@
     cursor: not-allowed;
 }
 
+.next-trash-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.trash-button {
+    cursor: pointer;
+    color: #ff4d4f;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.trash-button:hover {
+    transform: scale(1.09);
+    color: #ff0000;
+}
+
 
 /*--------------------SavedPage Modal--------------------*/
 .saved-modal-main {

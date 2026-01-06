@@ -270,3 +270,19 @@ export async function fetchStatistics() {
     if (!res.ok) throw new Error("Failed to fetch statistics");
     return await res.json();
 }
+
+export async function deleteSavedReceipt(receiptId) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/savings/${receiptId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to delete saved receipt");
+    }
+}
