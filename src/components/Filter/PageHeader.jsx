@@ -240,7 +240,8 @@ const filterReceipts = ({
             ocr.vendorOrgNumber,
             ocr.receiptNumber,
             ocr.totalAmount,
-            ocr.vatAmount
+            ocr.vatAmount,
+            ocr.category
         ].some(matchesText);
 
         const matchesItems = ocr.items?.some(item =>
@@ -290,7 +291,7 @@ const filterReceipts = ({
         return (
             matchesSearch(ocr, searchTerm) &&
             matchesDate(r.createdAt) &&
-            matchesCategory(r.category) &&
+            matchesCategory(ocr.category) &&
             matchesAmount(ocr.totalAmount || 0)
         );
     });
