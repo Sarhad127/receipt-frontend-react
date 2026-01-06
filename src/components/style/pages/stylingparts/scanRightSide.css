@@ -246,3 +246,116 @@ input[type="number"] {
     margin: 0 0 10px 0;
     padding: 0;
 }
+
+@media (max-width: 1024px) {
+    .info-section {
+        padding: 16px;
+        border-radius: 12px;
+        height: auto;
+    }
+
+    .info-scroll {
+        padding-right: 4px;
+    }
+
+    .action-buttons {
+        top: 10px;
+        left: 10px;
+        gap: 4px;
+    }
+
+    .view-toggle {
+        top: 10px;
+        right: 10px;
+    }
+
+    .receipt-dto p strong {
+        min-width: 90px;
+    }
+
+    .receipt-dto h3 input {
+        font-size: 1.1rem;
+    }
+
+    .receipt-items-table td:not(:first-child) input {
+        width: 60px;
+    }
+
+    .receipt-items-table td:first-child input {
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    .info-section {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .info-scroll {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding-right: 0;
+    }
+
+    .action-buttons {
+        top: 6px;
+        left: 6px;
+        gap: 3px;
+        flex-wrap: wrap;
+    }
+
+    .action-buttons .toggle-btn {
+        font-size: 10px;
+        padding: 4px 10px;
+    }
+
+    .view-toggle {
+        top: 6px;
+        right: 6px;
+        padding: 2px;
+    }
+
+    .receipt-dto p strong {
+        min-width: 70px;
+        font-size: 0.85rem;
+    }
+
+    .receipt-dto p {
+        font-size: 0.85rem;
+        gap: 4px;
+    }
+
+    .receipt-dto h3 input {
+        font-size: 1rem;
+        padding: 4px 6px;
+    }
+
+    .receipt-items-table td:first-child input {
+        min-width: 100px;
+        font-size: 0.8rem;
+    }
+
+    .receipt-items-table td:not(:first-child) input {
+        width: 50px;
+        font-size: 0.8rem;
+    }
+
+    .receipt-items-table th {
+        font-size: 0.75rem;
+    }
+
+    .receipt-items-table tbody tr {
+        border-radius: 6px;
+    }
+
+    .receipt-items-table input {
+        padding: 3px 5px;
+    }
+
+    pre {
+        font-size: 10px;
+        padding: 6px;
+    }
+}

@@ -29,7 +29,7 @@
 
 .search-input-inner {
     position: relative;
-    width: 100%;
+    width: 95%;
     max-width: 34rem;
 }
 
@@ -301,4 +301,81 @@
 
 .date-input label {
     margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+
+    .page-header {
+        flex-direction: column;
+        padding: 12px 16px 0 16px;
+        justify-content: flex-start;
+    }
+
+    .page-header-row {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .search-input-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .search-input-inner {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .quick-date-filter {
+        margin-left: 0;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 4px;
+    }
+
+    .date-filter {
+        margin-left: 0;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .date-filter input[type="date"] {
+        width: 48%;
+        margin-bottom: 6px;
+    }
+
+    .layout-switcher {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .advanced-filters {
+        flex-direction: column;
+        gap: 16px;
+        padding-bottom: 8px;
+    }
+
+    .advanced-filter-group {
+        min-width: 100%;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .amount-range {
+        flex-wrap: wrap;
+    }
+
+    .amount-range input {
+        width: 48%;
+    }
+
+    .filter-divider::before {
+        right: 16px;
+    }
 }
