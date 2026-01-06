@@ -5,7 +5,7 @@ import {
     uploadReceipt,
     saveReceipt,
     deleteHistoryReceipt,
-    fetchHistoryReceiptFile
+    fetchHistoryReceiptFile, fetchHistoryReceipts
 } from "./api/apis.jsx";
 import { fetchUserInfo } from "./api/apis.jsx";
 import { useScan } from "../context/ScanContext.jsx";
@@ -24,6 +24,7 @@ function ScanPage() {
     const effectRan = useRef(false);
     const [editableReceipt, setEditableReceipt] = useState(null);
     const location = useLocation();
+    const [savedReceipts, setSavedReceipts] = useState([]);
     const CATEGORIES = [
         "Alla",
         "Livsmedel",
@@ -63,6 +64,19 @@ function ScanPage() {
             setEditableReceipt(JSON.parse(JSON.stringify(ocrData.receipt)));
         }
     }, [ocrData]);
+
+    useEffect(() => {
+        const loadSavedReceipts = async () => {
+            try {
+                const data = await fetchHistoryReceipts();
+                setSavedReceipts(data);
+            } catch (err) {
+                console.error("Failed to fetch saved receipts", err);
+            }
+        };
+
+        loadSavedReceipts();
+    }, []);
 
     useEffect(() => {
         const receiptIdFromHistory = location.state?.receiptId;
@@ -146,10 +160,16 @@ function ScanPage() {
     const handleSave = async () => {
         if (!selectedReceiptId || saving) return;
 
+        const alreadySaved = savedReceipts.some(r => r.id === selectedReceiptId);
+        if (alreadySaved) {
+            alert("Detta kvitto är redan sparat!");
+            return;
+        }
         try {
             setSaving(true);
             await saveReceipt(selectedReceiptId, editableReceipt);
 
+            setSavedReceipts(prev => [...prev, { ...editableReceipt, id: selectedReceiptId, saved: true }]);
             setUploadedFile(null);
             setUploadedImage(null);
             setOcrData(null);
@@ -157,7 +177,6 @@ function ScanPage() {
             setEditableReceipt(null);
         } catch (err) {
             console.error(err);
-            alert("Kunde inte spara kvittot");
         } finally {
             setSaving(false);
         }
