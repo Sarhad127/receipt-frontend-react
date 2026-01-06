@@ -149,6 +149,11 @@ function SavedPage() {
                 [savedReceiptId]: editableReceipt
             }));
             setOcrData(editableReceipt);
+            setModalOpen(false);
+            setSelectedReceipt(null);
+            setEditableReceipt(null);
+            setEditingField(null);
+            setOcrData(null);
         } catch (err) {
             console.error(err);
         } finally {

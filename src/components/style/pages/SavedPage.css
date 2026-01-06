@@ -24,86 +24,6 @@
     color: #ddd;
 }
 
-.saved-ocr-info p {
-    margin: 5px 0;
-}
-
-.saved-ocr-info ul {
-    padding-left: 0;
-    list-style-type: disc;
-    list-style-position: inside;
-}
-
-.saved-ocr-info ul li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4px;
-    position: relative;
-    padding-left: 12px;
-}
-
-.saved-ocr-info ul li::marker {
-    color: #ddd;
-}
-
-.saved-ocr-info button {
-    background-color: #2a2a2a;
-    color: #ddd;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-right: 6px;
-}
-
-.saved-ocr-info button:hover:not(:disabled) {
-    background-color: #3a3a3a;
-}
-
-.saved-ocr-info button.remove-item {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-right: 6px;
-    color: #f88;
-    flex-shrink: 0;
-}
-
-.saved-ocr-info button.remove-item:hover {
-    background-color: #773333;
-}
-
-.saved-ocr-info button.add-item {
-    background-color: #2a2a2a;
-    color: #ddd;
-}
-
-.saved-ocr-info button.add-item:hover {
-    background-color: #3a3a3a;
-}
-
-.saved-ocr-info button.save-receipt {
-    background-color: #2a2a2a;
-    color: #ddd;
-    margin-top: 8px;
-}
-
-.saved-ocr-info button.save-receipt:hover {
-    background-color: #3a3a3a;
-}
-
-.saved-ocr-info button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
 .editable-text {
     cursor: pointer;
 }
@@ -222,12 +142,103 @@
     font-size: 0.8rem;
     text-align: center;
     color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .list-date{
     font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+
+/*--------------------Receiptinformation--------------------*/
+.saved-ocr-info p {
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.saved-ocr-info ul {
+    padding-left: 0;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.saved-ocr-info ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.saved-ocr-info ul li::marker {
+    color: #ddd;
+}
+
+.saved-ocr-info button {
+    background-color: #2a2a2a;
+    color: #ddd;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 6px;
+}
+
+.saved-ocr-info button:hover:not(:disabled) {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button.remove-item {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 6px;
+    color: #f88;
+    flex-shrink: 0;
+}
+
+.saved-ocr-info button.remove-item:hover {
+    background-color: #773333;
+}
+
+.saved-ocr-info button.add-item {
+    background-color: #2a2a2a;
+    color: #ddd;
+}
+
+.saved-ocr-info button.add-item:hover {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button.save-receipt {
+    background-color: #2a2a2a;
+    color: #ddd;
+    margin-top: 8px;
+}
+
+.saved-ocr-info button.save-receipt:hover {
+    background-color: #3a3a3a;
+}
+
+.saved-ocr-info button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 
 
 /*--------------------previous and next buttons--------------------*/
@@ -275,10 +286,12 @@
 
 .saved-modal-image {
     width: 100%;
-    max-width: 300px;
+    height: 400px;
+    object-fit: contain;
     border-radius: 5px;
     margin-bottom: 15px;
     cursor: zoom-in;
+    background-color: #1f1f1f;
 }
 
 .saved-ocr-info {
@@ -290,7 +303,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    max-height: 600px;
+    max-height: 650px;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -302,6 +315,9 @@
 
 .receipt-item-row{
     margin: 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -336,7 +352,6 @@
     margin-left: 6px;
     font-weight: bold;
     color: #ddd;
-
 }
 
 
