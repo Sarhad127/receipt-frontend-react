@@ -67,7 +67,7 @@ function StatisticsPage() {
     });
     const mostFrequentVendor = Object.entries(vendorCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "–";
     const barDataVendors = receipts.map(r => ({ name: r.vendorName ?? "Okänd", total: r.totalAmount ?? 0 }));
-    
+
     const normalizedReceipts = receipts.map(r => ({
         ...r,
         category: r.category && r.category !== "undefined" ? r.category : "Okänd"

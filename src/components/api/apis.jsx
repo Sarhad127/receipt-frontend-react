@@ -106,11 +106,11 @@ export async function fetchHistoryReceiptImage(receiptId) {
 
 //********************LoginController********************//
 
-export async function loginUser(email, password) {
+export async function loginUser({ email, password, rememberMe }) {
     const response = await fetch(`${API_BASE}/LoginController/authenticate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, rememberMe }),
     });
     if (!response.ok) {
         throw new Error("Invalid credentials");

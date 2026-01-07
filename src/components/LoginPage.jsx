@@ -25,7 +25,7 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            const data = await loginUser(email, password);
+            const data = await loginUser({ email, password, rememberMe });
             if (data.enabled === false || data.enabled === "false") {
                 await resendCode(email);
                 navigate("/verify", { state: { email } });
