@@ -101,9 +101,15 @@ function RegisterPage({ onBack }) {
                             <button type="submit">Registrera</button>
                         </form>
 
-                        <button className="back-btn" onClick={onBack}>
-                            Tillbaka till inloggning
-                        </button>
+                        <div className="back-label-wrapper">
+                            <span>Har du redan ett konto? </span>
+                            <span
+                                className="back-link"
+                                onClick={onBack}
+                            >
+                                Logga in
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

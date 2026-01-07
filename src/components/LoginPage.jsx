@@ -12,6 +12,7 @@ function LoginPage() {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const isLoggedIn = () => {
         return !!localStorage.getItem("jwt") || !!sessionStorage.getItem("jwt");
@@ -76,6 +77,15 @@ function LoginPage() {
             <div className="page-container">
                 <div className="page-content login-content">
                     <div className="login-form-container">
+                        <div className="login-title-container">
+                            <img
+                                src="/src/components/style/icons/receipt-icon.png"
+                                alt="Kvitto ikon"
+                                className="login-title-icon"
+                            />
+                            <h1 className="login-titel">Huskvitton</h1>
+                        </div>
+
                         <h2>Logga in</h2>
 
                         <form className="login-form" onSubmit={handleLogin}>
@@ -87,31 +97,45 @@ function LoginPage() {
                                 required
                             />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 placeholder="Lösenord"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
 
-                            <label className="remember-me">
-                                <input
-                                    type="checkbox"
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
-                                />
-                                Kom ihåg mig
-                            </label>
+                            <div className="login-checkbox-wrapper">
+                                <label className="remember-me">
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                    />
+                                    Kom ihåg mig
+                                </label>
+
+                                <label className="remember-me">
+                                    <input
+                                        type="checkbox"
+                                        checked={showPassword}
+                                        onChange={(e) => setShowPassword(e.target.checked)}
+                                    />
+                                    Visa lösenord
+                                </label>
+                            </div>
 
                             <button type="submit">Logga in</button>
                         </form>
 
-                        <button
-                            className="register-btn"
-                            onClick={() => setShowRegister(true)}
-                        >
-                            Registrera
-                        </button>
+                        <div className="register-label-wrapper">
+                            <span>Har du inget konto än? </span>
+                            <span
+                                className="register-link"
+                                onClick={() => setShowRegister(true)}
+                            >
+                                Registrera dig
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
