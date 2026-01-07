@@ -230,7 +230,7 @@ function HistoryPage() {
                     )}
                     {filteredReceipts.length === 0 && (
                         <div className="empty-state">
-                            <p>Inga kvitton matchar ditt filter</p>
+                            <p>Inga kvitton</p>
                         </div>
                     )}
                 </div>

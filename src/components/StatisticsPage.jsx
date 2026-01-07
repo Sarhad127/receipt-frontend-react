@@ -30,6 +30,7 @@ const CATEGORIES = [
 function StatisticsPage() {
     const navigate = useNavigate();
     const [receipts, setReceipts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadStats = async () => {
@@ -38,36 +39,27 @@ function StatisticsPage() {
                 setReceipts(data);
             } catch (err) {
                 console.error(err);
+            } finally {
+                setLoading(false);
             }
         };
         loadStats();
     }, []);
 
-    if (!receipts.length) {
-        return (
-            <div className="page-wrapper">
-                <div className="page-tabs">
-                    <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
-                    <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
-                    <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
-                    <button className="tab active">Statistik</button>
-                    <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
-                </div>
-                <div className="page-container">
-                    <div className="page-content">
-                        <p className="loading">Laddar statistik...</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     const totalAmount = receipts.reduce((sum, r) => sum + (r.totalAmount ?? 0), 0);
     const totalVat = receipts.reduce((sum, r) => sum + (r.vatAmount ?? 0), 0);
-    const totalItems = receipts.reduce((sum, r) => sum + r.items.reduce((iSum, item) => iSum + (item.itemQuantity ?? 0), 0), 0);
+    const totalItems = receipts.reduce(
+        (sum, r) => sum + r.items.reduce((iSum, item) => iSum + (item.itemQuantity ?? 0), 0),
+        0
+    );
     const avgAmount = receipts.length ? totalAmount / receipts.length : 0;
-    const biggestReceipt = receipts.reduce((max, r) => (r.totalAmount ?? 0) > (max.totalAmount ?? 0) ? r : max, receipts[0]);
-    const smallestReceipt = receipts.reduce((min, r) => (r.totalAmount ?? 0) < (min.totalAmount ?? 0) ? r : min, receipts[0]);
+    const biggestReceipt = receipts.length
+        ? receipts.reduce((max, r) => (r.totalAmount ?? 0) > (max.totalAmount ?? 0) ? r : max, receipts[0])
+        : { totalAmount: 0, vendorName: "–" };
+    const smallestReceipt = receipts.length
+        ? receipts.reduce((min, r) => (r.totalAmount ?? 0) < (min.totalAmount ?? 0) ? r : min, receipts[0])
+        : { totalAmount: 0, vendorName: "–" };
+
     const vendorCounts = {};
     receipts.forEach(r => {
         const name = r.vendorName || "Okänd";
@@ -75,10 +67,10 @@ function StatisticsPage() {
     });
     const mostFrequentVendor = Object.entries(vendorCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "–";
     const barDataVendors = receipts.map(r => ({ name: r.vendorName ?? "Okänd", total: r.totalAmount ?? 0 }));
-
+    
     const normalizedReceipts = receipts.map(r => ({
         ...r,
-        category: (r.category && r.category !== "undefined") ? r.category : "Okänd"
+        category: r.category && r.category !== "undefined" ? r.category : "Okänd"
     }));
 
     const categoryTotals = CATEGORIES.concat("Okänd").map(cat => ({
@@ -100,44 +92,48 @@ function StatisticsPage() {
 
             <div className="page-container">
                 <div className="page-content">
-                    <div className="statistics">
-                        <p><strong>Antal sparade kvitton:</strong> {receipts.length}</p>
-                        <p><strong>Total summa:</strong> {totalAmount.toFixed(2)} SEK</p>
-                        <p><strong>Totalt moms:</strong> {totalVat.toFixed(2)} SEK</p>
-                        <p><strong>Genomsnitt per kvitto:</strong> {avgAmount.toFixed(2)} SEK</p>
-                        <p><strong>Största kvitto:</strong> {(biggestReceipt.totalAmount ?? 0).toFixed(2)} SEK ({biggestReceipt.vendorName})</p>
-                        <p><strong>Minsta kvitto:</strong> {(smallestReceipt.totalAmount ?? 0).toFixed(2)} SEK ({smallestReceipt.vendorName})</p>
-                        <p><strong>Vanligaste leverantör:</strong> {mostFrequentVendor}</p>
-                        <p><strong>Totalt antal artiklar:</strong> {totalItems}</p>
+                    {loading ? (
+                        <p className="loading">Laddar statistik...</p>
+                    ) : (
+                        <div className="statistics">
+                            <p><strong>Antal sparade kvitton:</strong> {receipts.length}</p>
+                            <p><strong>Total summa:</strong> {totalAmount.toFixed(2)} SEK</p>
+                            <p><strong>Totalt moms:</strong> {totalVat.toFixed(2)} SEK</p>
+                            <p><strong>Genomsnitt per kvitto:</strong> {avgAmount.toFixed(2)} SEK</p>
+                            <p><strong>Största kvitto:</strong> {biggestReceipt.totalAmount.toFixed(2)} SEK ({biggestReceipt.vendorName})</p>
+                            <p><strong>Minsta kvitto:</strong> {smallestReceipt.totalAmount.toFixed(2)} SEK ({smallestReceipt.vendorName})</p>
+                            <p><strong>Vanligaste leverantör:</strong> {mostFrequentVendor}</p>
+                            <p><strong>Totalt antal artiklar:</strong> {totalItems}</p>
 
-                        <h3>Total per leverantör</h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={barDataVendors}>
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Bar dataKey="total" fill="#8884d8" />
-                            </BarChart>
-                        </ResponsiveContainer>
+                            <h3>Total per leverantör</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={barDataVendors}>
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar dataKey="total" fill="#8884d8" />
+                                </BarChart>
+                            </ResponsiveContainer>
 
-                        <h3>Total per kategori</h3>
-                        <ResponsiveContainer width="100%" height={400}>
-                            <BarChart
-                                data={categoryTotals}
-                                layout="vertical"
-                                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
-                            >
-                                <XAxis type="number" />
-                                <YAxis type="category" dataKey="name" />
-                                <Tooltip />
-                                <Bar dataKey="total" minPointSize={5}>
-                                    {categoryTotals.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                            <h3>Total per kategori</h3>
+                            <ResponsiveContainer width="100%" height={400}>
+                                <BarChart
+                                    data={categoryTotals}
+                                    layout="vertical"
+                                    margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
+                                >
+                                    <XAxis type="number" />
+                                    <YAxis type="category" dataKey="name" />
+                                    <Tooltip />
+                                    <Bar dataKey="total" minPointSize={5}>
+                                        {categoryTotals.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
