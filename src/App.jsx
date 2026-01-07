@@ -8,6 +8,7 @@ import SavedPage from "./components/SavedPage.jsx";
 import SettingsPage from "./components/SettingsPage.jsx";
 import StatisticsPage from "./components/StatisticsPage.jsx";
 import "./App.css";
+import VerifyPage from "./components/VerifyPage.jsx";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
+                    <Route path="/verify" element={<VerifyPage />} />
                     <Route path="/skanna" element={<ScanPage />} />
                     <Route path="/historik" element={<HistoryPage />} />
                     <Route path="/sparade" element={<SavedPage />} />

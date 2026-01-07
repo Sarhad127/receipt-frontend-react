@@ -17,7 +17,7 @@ import "./style/AppLayout.css";
 
 function ScanPage() {
     const { uploadedFile, setUploadedFile, uploadedImage, setUploadedImage, ocrData, setOcrData, selectedReceiptId, setSelectedReceiptId } = useScan();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [saving, setSaving] = useState(false);
     const [viewMode, setViewMode] = useState("dto");
     const navigate = useNavigate();
@@ -47,7 +47,7 @@ function ScanPage() {
         const loadUser = async () => {
             try {
                 const data = await fetchUserInfo();
-                setUsername(data.username);
+                setEmail(data.email);
             } catch (err) {
                 console.error("Failed to fetch user info:", err);
                 localStorage.removeItem("jwt");
@@ -160,11 +160,6 @@ function ScanPage() {
     const handleSave = async () => {
         if (!selectedReceiptId || saving) return;
 
-        const alreadySaved = savedReceipts.some(r => r.id === selectedReceiptId);
-        if (alreadySaved) {
-            alert("Detta kvitto är redan sparat!");
-            return;
-        }
         try {
             setSaving(true);
             await saveReceipt(selectedReceiptId, editableReceipt);

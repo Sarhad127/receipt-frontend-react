@@ -5,6 +5,7 @@ import "./style/AppLayout.css";
 import {fetchHistoryReceipts, fetchHistoryReceiptImage, saveReceipt, deleteHistoryReceipt}
 from "./api/apis";
 import PageHeader, {filterReceipts} from "./Filter/PageHeader.jsx";
+import { useScan } from "../context/ScanContext.jsx";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -25,6 +26,12 @@ function HistoryPage() {
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("historyLayout") || "grid";
     });
+    const {setUploadedFile,
+        setUploadedImage, setOcrData,
+        selectedReceiptId: scanSelectedReceiptId,
+        setSelectedReceiptId: setScanSelectedReceiptId,
+        setEditableReceipt
+    } = useScan();
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -96,16 +103,21 @@ function HistoryPage() {
 
         try {
             await deleteHistoryReceipt(selectedReceiptId);
-
             setReceipts(prev => prev.filter(r => r.id !== selectedReceiptId));
             setImages(prev => {
                 const updated = { ...prev };
                 delete updated[selectedReceiptId];
                 return updated;
             });
-
             setSelectedImage(null);
             setSelectedReceiptId(null);
+            if (scanSelectedReceiptId === selectedReceiptId) {
+                setUploadedFile(null);
+                setUploadedImage(null);
+                setOcrData(null);
+                setScanSelectedReceiptId(null);
+                setEditableReceipt(null);
+            }
 
         } catch (err) {
             console.error(err);

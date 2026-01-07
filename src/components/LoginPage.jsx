@@ -8,7 +8,7 @@ import { loginUser } from "./api/apis";
 function LoginPage() {
     const navigate = useNavigate();
     const [showRegister, setShowRegister] = useState(false);
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
@@ -25,7 +25,7 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            const data = await loginUser(username, password);
+            const data = await loginUser(email, password);
 
             if (rememberMe) {
                 localStorage.setItem("jwt", data.token);
@@ -73,10 +73,10 @@ function LoginPage() {
 
                         <form className="login-form" onSubmit={handleLogin}>
                             <input
-                                type="text"
-                                placeholder="Användarnamn"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                type="email"
+                                placeholder="E-post"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                             <input
