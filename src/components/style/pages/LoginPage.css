@@ -93,3 +93,41 @@
     opacity: 0.95;
     transition: opacity 0.3s ease;
 }
+
+@media (max-width: 1280px) {
+    .login-form-container {
+        width: 360px;
+        height: auto;
+        padding: 30px 24px;
+        gap: 20px;
+    }
+
+    .login-form-container h2 {
+        font-size: 20px;
+    }
+
+    .login-form input {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .login-form button,
+    .register-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .remember-me {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .remember-me input {
+        transform: scale(1.2);
+    }
+
+    .toast-popup {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
