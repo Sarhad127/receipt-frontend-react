@@ -77,3 +77,19 @@
     transform: scale(1.4);
     cursor: pointer;
 }
+
+.toast-popup {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(50, 50, 50, 0.95);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+}
