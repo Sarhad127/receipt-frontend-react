@@ -18,8 +18,8 @@ function App() {
                     <Route path="/skanna" element={<ScanPage />} />
                     <Route path="/historik" element={<HistoryPage />} />
                     <Route path="/sparade" element={<SavedPage />} />
-                    <Route path="/installningar" element={<SettingsPage />} />
                     <Route path="/statistik" element={<StatisticsPage />} />
+                    <Route path="/installningar" element={<SettingsPage />} />
                 </Routes>
             </BrowserRouter>
         </ScanProvider>

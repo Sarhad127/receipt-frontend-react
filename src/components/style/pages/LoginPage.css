@@ -1,14 +1,23 @@
+.page-content.login-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .login-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 360px;
-    padding: 30px;
-    background-color: #2e2e2e;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    gap: 26px;
+    width: 450px;
+    height: 600px;
+    padding: 42px 36px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.login-form-container h2{
+    color: #ddd;
 }
 
 .login-form {
@@ -30,7 +39,7 @@
     padding: 10px;
     border-radius: 8px;
     border: none;
-    background-color: #3a3a3a;
+    background-color: #444;
     color: white;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -52,4 +61,19 @@
 
 .register-btn:hover {
     background-color: #555;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #ccc;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.remember-me input {
+    transform: scale(1.4);
+    cursor: pointer;
 }

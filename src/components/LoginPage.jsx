@@ -36,40 +36,56 @@ function LoginPage() {
 
     return (
         <div className="page-wrapper">
-            <div className="page-content">
-                <div className="login-form-container">
-                    <h2>Login</h2>
-                    <form className="login-form" onSubmit={handleLogin}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <label>
+
+            <div className="page-tabs login-tabs">
+                <button className="tab active">Login</button>
+                <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
+                <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
+                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
+                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
+                <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
+            </div>
+
+            <div className="page-container">
+                <div className="page-content login-content">
+                    <div className="login-form-container">
+                        <h2>Logga in</h2>
+
+                        <form className="login-form" onSubmit={handleLogin}>
                             <input
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={(e) => setRememberMe(e.target.checked)}
+                                type="text"
+                                placeholder="Användarnamn"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
                             />
-                            Kom ihåg mig
-                        </label>
-                        <button type="submit">Login</button>
-                    </form>
-                    <button
-                        className="register-btn"
-                        onClick={() => setShowRegister(true)}
-                    >
-                        Register
-                    </button>
+                            <input
+                                type="password"
+                                placeholder="Lösenord"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+
+                            <label className="remember-me">
+                                <input
+                                    type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                />
+                                Kom ihåg mig
+                            </label>
+
+                            <button type="submit">Logga in</button>
+                        </form>
+
+                        <button
+                            className="register-btn"
+                            onClick={() => setShowRegister(true)}
+                        >
+                            Registrera
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

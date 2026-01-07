@@ -38,7 +38,6 @@ function StatisticsPage() {
                 setReceipts(data);
             } catch (err) {
                 console.error(err);
-                alert("Kunde inte hämta statistik");
             }
         };
         loadStats();
@@ -56,7 +55,7 @@ function StatisticsPage() {
                 </div>
                 <div className="page-container">
                     <div className="page-content">
-                        <p>Laddar statistik...</p>
+                        <p className="loading">Laddar statistik...</p>
                     </div>
                 </div>
             </div>
