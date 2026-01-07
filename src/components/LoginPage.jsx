@@ -3,7 +3,7 @@ import "./style/AppLayout.css";
 import "./style/pages/LoginPage.css";
 import RegisterPage from "./RegisterPage";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "./api/apis";
+import {loginUser, resendCode} from "./api/apis";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -26,6 +26,11 @@ function LoginPage() {
 
         try {
             const data = await loginUser(email, password);
+            if (data.enabled === false || data.enabled === "false") {
+                await resendCode(email);
+                navigate("/verify", { state: { email } });
+                return;
+            }
 
             if (rememberMe) {
                 localStorage.setItem("jwt", data.token);
@@ -36,6 +41,8 @@ function LoginPage() {
             navigate("/skanna");
         } catch (err) {
             console.log(err.message);
+            setToastMessage(err.message);
+            setTimeout(() => setToastMessage(""), 3000);
         }
     };
 

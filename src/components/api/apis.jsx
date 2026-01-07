@@ -24,6 +24,16 @@ export async function registerUser(email, password) {
     return;
 }
 
+export async function resendCode(email) {
+    const res = await fetch(`${API_BASE}/AuthController/resend-code?email=${encodeURIComponent(email)}`, {
+        method: "POST"
+    });
+    if (!res.ok) {
+        const text = await res.text().catch(() => "Failed to resend code");
+        throw new Error(text);
+    }
+}
+
 export async function verifyUser(email, code) {
     const response = await fetch(`${API_BASE}/AuthController/verify`, {
         method: "POST",
