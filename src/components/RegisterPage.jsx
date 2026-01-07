@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style/AppLayout.css";
 import "./style/pages/RegisterPage.css";
-import { registerUser } from "./api/apis";
+import {registerUser, resendCode} from "./api/apis";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage({ onBack }) {
@@ -19,7 +19,8 @@ function RegisterPage({ onBack }) {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            console.log("Passwords do not match!");
+            setToastMessage("Lösenorden matchar inte!");
+            setTimeout(() => setToastMessage(""), 3000);
             return;
         }
 
@@ -27,7 +28,22 @@ function RegisterPage({ onBack }) {
             await registerUser(email, password);
             navigate("/verify", { state: { email } });
         } catch (err) {
-            console.log(err.message);
+
+            if (err.message.includes("already exists") || err.message.includes("enabled=false")) {
+                try {
+                    await resendCode(email);
+                    setToastMessage("Verifieringskod skickad igen!");
+                    setTimeout(() => setToastMessage(""), 3000);
+                    navigate("/verify", { state: { email } });
+                } catch (resendErr) {
+                    console.log(resendErr.message);
+                    setToastMessage("Kunde inte skicka verifieringskod, försök igen.");
+                    setTimeout(() => setToastMessage(""), 3000);
+                }
+            } else {
+                setToastMessage(err.message);
+                setTimeout(() => setToastMessage(""), 3000);
+            }
         }
     };
 
