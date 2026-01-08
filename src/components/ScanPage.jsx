@@ -210,15 +210,30 @@ function ScanPage() {
         }));
     };
 
+    const handleNavClick = (path) => {
+        navigate(path);
+    };
+
+
     return (
         <div className="page-wrapper">
-            <div className="page-tabs">
-                <button className="tab active">Skanna</button>
-                <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
-                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
-                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
-                <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
-            </div>
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <img
+                        src="/src/components/style/icons/receipt-icon.png"
+                        alt="Kvitto ikon"
+                    />
+                    <span>Huskvitton</span>
+                </div>
+
+                <nav className="sidebar-nav">
+                    <div className="sidebar-item active">Skanna</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/historik")}>Historik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
+                </nav>
+            </aside>
 
             <div className="page-container">
                 <div className="page-content scan-content">

@@ -82,13 +82,20 @@ function StatisticsPage() {
 
     return (
         <div className="page-wrapper">
-            <div className="page-tabs">
-                <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
-                <button className="tab" onClick={() => navigate("/historik")}>Historik</button>
-                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
-                <button className="tab active">Statistik</button>
-                <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
-            </div>
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <img src="/src/components/style/icons/receipt-icon.png" alt="Kvitto ikon" />
+                    <span>Huskvitton</span>
+                </div>
+
+                <nav className="sidebar-nav">
+                    <div className="sidebar-item" onClick={() => navigate("/skanna")}>Skanna</div>
+                    <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
+                    <div className="sidebar-item" onClick={() => navigate("/sparade")}>Sparade</div>
+                    <div className="sidebar-item active">Statistik</div>
+                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>Inställningar</div>
+                </nav>
+            </aside>
 
             <div className="page-container">
                 <div className="page-content">

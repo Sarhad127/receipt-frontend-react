@@ -32,6 +32,7 @@ function HistoryPage() {
         setSelectedReceiptId: setScanSelectedReceiptId,
         setEditableReceipt
     } = useScan();
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         const loadHistory = async () => {
@@ -142,15 +143,30 @@ function HistoryPage() {
         localStorage.setItem("historyLayout", newLayout);
     };
 
+    const handleNavClick = (path) => {
+        navigate(path);
+    };
+
     return (
         <div className="page-wrapper">
-            <div className="page-tabs">
-                <button className="tab" onClick={() => navigate("/skanna")}>Skanna</button>
-                <button className="tab active">Historik</button>
-                <button className="tab" onClick={() => navigate("/sparade")}>Sparade</button>
-                <button className="tab" onClick={() => navigate("/statistik")}>Statistik</button>
-                <button className="tab" onClick={() => navigate("/installningar")}>Inställningar</button>
-            </div>
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <img
+                        src="/src/components/style/icons/receipt-icon.png"
+                        alt="Kvitto ikon"
+                    />
+                    <span>Huskvitton</span>
+                </div>
+
+                <nav className="sidebar-nav">
+                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
+                    <div className="sidebar-item active">Historik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
+                </nav>
+            </aside>
+
 
             <div className="page-container">
 
@@ -233,53 +249,55 @@ function HistoryPage() {
                             <p>Inga kvitton</p>
                         </div>
                     )}
+                    <div className="right-panel">
+                        {selectedImage ? (
+                            <div className="right-panel-image-wrapper">
+                                <img
+                                    src={selectedImage}
+                                    alt="Valt kvitto"
+                                    className="right-panel-image"
+                                />
+                                <button
+                                    className="expand-modal-btn"
+                                    onClick={() => setModalOpen(true)}
+                                >
+                                    Förstora
+                                </button>
+                            </div>
+                        ) : (
+                            <p className="right-panel-placeholder">Välj ett kvitto för att visa här</p>
+                        )}
+                    </div>
+
                 </div>
             </div>
-            {selectedImage && (
-                <div className="modal-overlay" onClick={() => setSelectedImage(null)}>
-
+            {modalOpen && selectedImage && (
+                <div className="modal-overlay" onClick={() => setModalOpen(false)}>
                     <div className="modal-actions-bar" onClick={e => e.stopPropagation()}>
-                        <button
-                            className="modal-action-btn"
-                            onClick={handleSave}
-                            disabled={saving}
-                        >
+                        <button className="modal-action-btn" onClick={handleSave} disabled={saving}>
                             {saving ? "Sparar..." : "Spara"}
                         </button>
                         <button
                             className="modal-action-btn"
                             onClick={() => {
                                 navigate("/skanna", { state: { receiptId: selectedReceiptId } });
-                                console.log(selectedReceiptId)
-                                setSelectedImage(null);
+                                setModalOpen(false);
                             }}
                         >
                             Skanna igen
                         </button>
-                        <button
-                            className="modal-action-btn danger"
-                            onClick={handleDelete}
-                        >
+                        <button className="modal-action-btn danger" onClick={handleDelete}>
                             Radera
                         </button>
                     </div>
 
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
-                        <button
-                            className="modal-close"
-                            onClick={() => setSelectedImage(null)}
-                        >
-                            ✕
-                        </button>
-
-                        <img
-                            src={selectedImage}
-                            alt="Förstorad kvittobild"
-                            className="modal-image"
-                        />
+                        <button className="modal-close" onClick={() => setModalOpen(false)}>✕</button>
+                        <img src={selectedImage} alt="Förstorad kvittobild" className="modal-image" />
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

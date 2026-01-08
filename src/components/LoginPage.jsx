@@ -3,7 +3,7 @@ import "./style/AppLayout.css";
 import "./style/pages/LoginPage.css";
 import RegisterPage from "./RegisterPage";
 import { useNavigate } from "react-router-dom";
-import {loginUser, resendCode} from "./api/apis";
+import { loginUser, resendCode } from "./api/apis";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -41,7 +41,6 @@ function LoginPage() {
 
             navigate("/skanna");
         } catch (err) {
-            console.log(err.message);
             setToastMessage(err.message);
             setTimeout(() => setToastMessage(""), 3000);
         }
@@ -58,16 +57,24 @@ function LoginPage() {
 
     return (
         <div className="page-wrapper">
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <img
+                        src="/src/components/style/icons/receipt-icon.png"
+                        alt="Kvitto ikon"
+                    />
+                    <span>Huskvitton</span>
+                </div>
 
-            <div className="page-tabs login-tabs">
-                <button className="tab active">Login</button>
-                <button className="tab" onClick={() => handleNavClick("/skanna")}>Skanna</button>
-                <button className="tab" onClick={() => handleNavClick("/historik")}>Historik</button>
-                <button className="tab" onClick={() => handleNavClick("/sparade")}>Sparade</button>
-                <button className="tab" onClick={() => handleNavClick("/statistik")}>Statistik</button>
-                <button className="tab" onClick={() => handleNavClick("/installningar")}>Inställningar</button>
-            </div>
-
+                <nav className="sidebar-nav">
+                    <div className="sidebar-item active">Login</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/historik")}>Historik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
+                </nav>
+            </aside>
             {toastMessage && (
                 <div className="toast-popup">
                     {toastMessage}
@@ -136,9 +143,11 @@ function LoginPage() {
                                 Registrera dig
                             </span>
                         </div>
+
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }

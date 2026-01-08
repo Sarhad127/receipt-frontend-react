@@ -1,7 +1,7 @@
 .page-header {
     display: flex;
-    justify-content: flex-end;
-    padding: 18px 60px 0 0;
+    justify-content: flex-start;
+    padding: 18px 0 0 0;
 }
 
 .page-header {
@@ -10,7 +10,7 @@
 
 .page-header-row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -21,11 +21,11 @@
 }
 
 .search-input-wrapper {
-    display: flex;
-    flex: 1;
-    margin-left: auto;
-    justify-content: flex-end;
+    flex: 1 1 28rem;
+    max-width: 36rem;
+    min-width: 16rem;
 }
+
 
 .search-input-inner {
     position: relative;
@@ -48,7 +48,7 @@
     color: #bbb;
     border: 1px solid #4a4a4a;
     border-radius: 4px;
-    padding: 12px 12px 12px 40px;
+    padding: 12px 120px 12px 40px;
     width: 100%;
     max-width: 34rem;
 }
@@ -235,7 +235,8 @@
 .advanced-filters {
     display: flex;
     gap: 32px;
-    padding-bottom: 12px;
+    padding-bottom: 18px;
+    justify-content: flex-start;
 }
 
 .advanced-filter-group {
