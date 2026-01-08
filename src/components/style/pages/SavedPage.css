@@ -518,3 +518,15 @@
     outline: 2px solid #aa5555;
     outline-offset: 2px;
 }
+
+.selected-receipt {
+    border: 2px solid #00bfff;
+    box-shadow: 0 0 8px #00bfff;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.receipt-item:hover {
+    background-color: #4a4a4a;
+    transition: background 0.2s ease;
+}

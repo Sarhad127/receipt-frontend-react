@@ -250,7 +250,7 @@ function SavedPage() {
                             {filteredReceipts.map((r, index) => (
                                 <li
                                     key={r.id}
-                                    className={`receipt-item ${layout}`}
+                                    className={`receipt-item ${layout} ${selectedReceipt?.id === r.id ? "selected-receipt" : ""}`}
                                     onClick={() => handleReceiptClick(r, index)}
                                 >
                                     {layout === "grid" ? (

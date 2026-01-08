@@ -200,7 +200,7 @@ function HistoryPage() {
                             {filteredReceipts.map((r) => (
                                 <li
                                     key={r.id}
-                                    className={`receipt-item ${layout}`}
+                                    className={`receipt-item ${layout} ${selectedReceiptId === r.id ? "selected-receipt" : ""}`}
                                     onClick={() => {
                                         setSelectedImage(images[r.id]);
                                         setSelectedReceiptId(r.id);
