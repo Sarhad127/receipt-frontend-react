@@ -355,3 +355,40 @@
     transform: translateY(0);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
+
+.selection-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 20px;
+}
+
+.selection-buttons button {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.selection-buttons button:first-child {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.selection-buttons button:first-child:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+.selection-buttons .export-selected-btn {
+    background-color: #27ae60;
+    color: white;
+}
+
+.selection-buttons .export-selected-btn:hover {
+    background-color: #1e8449;
+}

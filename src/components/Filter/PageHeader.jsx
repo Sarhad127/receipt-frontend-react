@@ -37,6 +37,11 @@ function PageHeader({
                                        setSortOption,
                                        receipts,
                                        ocrDataMap,
+                                       selectionMode,
+                                       setSelectionMode,
+                                       selectedReceipts,
+                                       setSelectedReceipts,
+                                       selectedReceipt
                     }) {
     const toggleCategory = (category) => {
         if (category === "Alla") {
@@ -191,6 +196,42 @@ function PageHeader({
                         <option value="lowest">Lägst belopp</option>
                         <option value="vendorAZ">Butik A–Ö</option>
                     </select>
+                </div>
+
+                <div className="selection-buttons">
+                    <button onClick={() => {
+                        setSelectionMode(prev => {
+                            const newMode = !prev;
+                            if (newMode) {
+                                setSelectedReceipts(prevSet => {
+                                    const newSet = new Set(prevSet);
+                                    if (selectedReceipt) newSet.add(selectedReceipt.id);
+                                    return newSet;
+                                });
+                            } else {
+                                setSelectedReceipts(new Set());
+                            }
+                            return newMode;
+                        });
+                    }}>
+                        {selectionMode ? "Avsluta val" : "Välj"}
+                    </button>
+
+                    {selectionMode && selectedReceipts.size > 0 && (
+                        <button
+                            className="export-selected-btn"
+                            onClick={() => {
+                                const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
+                                const ocrToExport = {};
+                                receiptsToExport.forEach(r => {
+                                    if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
+                                });
+                                exportReceiptsCSV(receiptsToExport, ocrToExport);
+                            }}
+                        >
+                            Exportera valda kvitton
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

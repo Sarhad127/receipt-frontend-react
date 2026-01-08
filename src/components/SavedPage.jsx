@@ -30,6 +30,8 @@ function SavedPage() {
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
+    const [selectionMode, setSelectionMode] = useState(false);
+    const [selectedReceipts, setSelectedReceipts] = useState(new Set());
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("savedPageLayout") || "grid";
     });
@@ -241,18 +243,38 @@ function SavedPage() {
                     setSortOption={setSortOption}
                     receipts={receipts}
                     ocrDataMap={ocrDataMap}
+                    selectionMode={selectionMode}
+                    setSelectionMode={setSelectionMode}
+                    selectedReceipts={selectedReceipts}
+                    setSelectedReceipts={setSelectedReceipts}
+                    selectedReceipt={selectedReceipt}
                 />
 
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
-                        <ul className={`receipt-list ${layout}`}>
+                        <ul className={`receipt-list ${layout} ${selectionMode ? "selection-mode" : ""}`}>
                             {filteredReceipts.map((r, index) => (
                                 <li
                                     key={r.id}
-                                    className={`receipt-item ${layout} ${selectedReceipt?.id === r.id ? "selected-receipt" : ""}`}
-                                    onClick={() => handleReceiptClick(r, index)}
+                                    className={`receipt-item ${layout} ${
+                                        selectionMode
+                                            ? (selectedReceipts.has(r.id) ? "selected-receipt" : "")
+                                            : (selectedReceipt?.id === r.id ? "selected-receipt" : "")
+                                    }`}
+                                    onClick={() => {
+                                        if (selectionMode) {
+                                            setSelectedReceipts(prev => {
+                                                const newSet = new Set(prev);
+                                                if (newSet.has(r.id)) newSet.delete(r.id);
+                                                else newSet.add(r.id);
+                                                return newSet;
+                                            });
+                                        } else {
+                                            handleReceiptClick(r, index);
+                                        }
+                                    }}
                                 >
-                                    {layout === "grid" ? (
+                                {layout === "grid" ? (
                                         <>
                                             <p className="receipt-vendor">{ocrDataMap[r.id]?.vendorName || "–"}</p>
                                             <p className="receipt-amount">
