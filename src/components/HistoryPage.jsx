@@ -252,49 +252,127 @@ function HistoryPage() {
                     <div className="right-panel">
                         {selectedImage ? (
                             <div className="right-panel-image-wrapper">
-                                <img
-                                    src={selectedImage}
-                                    alt="Valt kvitto"
-                                    className="right-panel-image"
-                                />
-                                <button
-                                    className="expand-modal-btn"
-                                    onClick={() => setModalOpen(true)}
-                                >
-                                    Förstora
-                                </button>
+                                <div className="image-container">
+                                    <img
+                                        src={selectedImage}
+                                        alt="Valt kvitto"
+                                        className="right-panel-image"
+                                    />
+                                    <button
+                                        className="expand-btn-on-image"
+                                        onClick={() => setModalOpen(true)}
+                                        aria-label="Förstora bild"
+                                        title="Förstora"
+                                    >
+                                        ⤢
+                                    </button>
+                                </div>
+
+                                <div className="right-panel-actions">
+                                    <button
+                                        className="action-btn"
+                                        onClick={handleSave}
+                                        disabled={saving}
+                                    >
+                                        {saving ? "Sparar..." : "Spara"}
+                                    </button>
+
+                                    <button
+                                        className="action-btn"
+                                        onClick={() =>
+                                            navigate("/skanna", {
+                                                state: { receiptId: selectedReceiptId }
+                                            })
+                                        }
+                                    >
+                                        Skanna igen
+                                    </button>
+
+                                    <button
+                                        className="action-btn danger"
+                                        onClick={handleDelete}
+                                    >
+                                        Radera
+                                    </button>
+                                </div>
+
+                                {selectedReceiptId && (
+                                    <div className="right-panel-info">
+                                        <h4>Kvittoinformation</h4>
+                                        <div className="info-row">
+                                            <span>Leverantör</span>
+                                            <strong>{receipts.find(r => r.id === selectedReceiptId)?.vendorName || "–"}</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Datum</span>
+                                            <strong>{new Date(receipts.find(r => r.id === selectedReceiptId)?.createdAt).toLocaleDateString()}</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Total</span>
+                                            <strong>{receipts.find(r => r.id === selectedReceiptId)?.totalAmount} SEK</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Moms</span>
+                                            <strong>{receipts.find(r => r.id === selectedReceiptId)?.vatAmount ?? "–"} SEK</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Kategori</span>
+                                            <strong>{receipts.find(r => r.id === selectedReceiptId)?.category || "Okänd"}</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Status</span>
+                                            <strong>{receipts.find(r => r.id === selectedReceiptId)?.saved ? "Sparad" : "Ej sparad"}</strong>
+                                        </div>
+
+                                        <h4>Historik – översikt</h4>
+                                        <div className="info-row">
+                                            <span>Antal kvitton</span>
+                                            <strong>{receipts.length}</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Totalt summa</span>
+                                            <strong>{receipts.reduce((sum, r) => sum + (r.totalAmount ?? 0), 0).toFixed(2)} SEK</strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Genomsnitt</span>
+                                            <strong>{receipts.length
+                                                ? (receipts.reduce((sum, r) => sum + (r.totalAmount ?? 0), 0) / receipts.length).toFixed(2)
+                                                : "0.00"} SEK
+                                            </strong>
+                                        </div>
+                                        <div className="info-row">
+                                            <span>Sparade kvitton</span>
+                                            <strong>{receipts.filter(r => r.saved).length}</strong>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         ) : (
-                            <p className="right-panel-placeholder">Välj ett kvitto för att visa här</p>
+                            <p className="right-panel-placeholder">
+                                Välj ett kvitto för att visa här
+                            </p>
                         )}
                     </div>
-
                 </div>
             </div>
 
             {modalOpen && selectedImage && (
                 <div className="modal-overlay" onClick={() => setModalOpen(false)}>
-                    <div className="modal-actions-bar" onClick={e => e.stopPropagation()}>
-                        <button className="modal-action-btn" onClick={handleSave} disabled={saving}>
-                            {saving ? "Sparar..." : "Spara"}
-                        </button>
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <button
-                            className="modal-action-btn"
-                            onClick={() => {
-                                navigate("/skanna", { state: { receiptId: selectedReceiptId } });
-                                setModalOpen(false);
-                            }}
+                            className="modal-close"
+                            onClick={() => setModalOpen(false)}
                         >
-                            Skanna igen
+                            ✕
                         </button>
-                        <button className="modal-action-btn danger" onClick={handleDelete}>
-                            Radera
-                        </button>
-                    </div>
-
-                    <div className="modal-content" onClick={e => e.stopPropagation()}>
-                        <button className="modal-close" onClick={() => setModalOpen(false)}>✕</button>
-                        <img src={selectedImage} alt="Förstorad kvittobild" className="modal-image" />
+                        <img
+                            src={selectedImage}
+                            alt="Förstorad kvittobild"
+                            className="modal-image"
+                        />
                     </div>
                 </div>
             )}
