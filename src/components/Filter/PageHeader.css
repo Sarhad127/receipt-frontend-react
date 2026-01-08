@@ -1,7 +1,8 @@
 .page-header {
+    position: relative;
     display: flex;
-    justify-content: flex-start;
-    padding: 18px 0 0 0;
+    flex-direction: column;
+    z-index: 10;
 }
 
 .page-header {
@@ -15,9 +16,8 @@
 }
 
 .page-header.expanded .advanced-filters {
-    max-height: 200px;
+    max-height: 300px;
     opacity: 1;
-    margin-top: 12px;
 }
 
 .search-input-wrapper {
@@ -252,11 +252,18 @@
 }
 
 .advanced-filters {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1f1f1f;
+    padding: 16px 24px;
+    display: flex;
+    gap: 32px;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     transition: max-height 0.3s ease, opacity 0.2s ease;
-    justify-content: center;
 }
 
 .advanced-filters {
