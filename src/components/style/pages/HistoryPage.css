@@ -149,13 +149,23 @@
     margin: 0;
 }
 
-.receipt-vendor-with-dot {
+.receipt-vendor-with-dot-grid {
     position: relative;
     font-size: 0.85rem;
     font-weight: 500;
     margin: 0;
     padding-right: 20px;
     justify-content: center;
+    display: flex;
+}
+
+.receipt-vendor-with-dot {
+    position: relative;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    padding-right: 20px;
+    justify-content: flex-start;
     display: flex;
 }
 

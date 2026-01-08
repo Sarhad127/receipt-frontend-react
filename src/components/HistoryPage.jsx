@@ -19,7 +19,6 @@ function HistoryPage() {
     const [quickDate, setQuickDate] = useState("");
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const [filtersOpen, setFiltersOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
@@ -180,8 +179,6 @@ function HistoryPage() {
                         setToDate={setToDate}
                         layout={layout}
                         setLayout={handleLayoutChange}
-                        filtersOpen={filtersOpen}
-                        setFiltersOpen={setFiltersOpen}
                         selectedCategories={selectedCategories}
                         setSelectedCategories={setSelectedCategories}
                         minAmount={minAmount}
@@ -210,7 +207,7 @@ function HistoryPage() {
                                 >
                                     {layout === "grid" ? (
                                         <>
-                                            <p className="receipt-vendor-with-dot">
+                                            <p className="receipt-vendor-with-dot-grid">
                                                 {r.vendorName || "–"}{" "}
                                                 {r.saved && <span className="saved-dot"></span>}
                                             </p>

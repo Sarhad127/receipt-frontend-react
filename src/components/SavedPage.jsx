@@ -26,7 +26,6 @@ function SavedPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const editableRef = useRef(null);
     const [quickDate, setQuickDate] = useState("");
-    const [filtersOpen, setFiltersOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
@@ -232,8 +231,6 @@ function SavedPage() {
                     setToDate={setToDate}
                     layout={layout}
                     setLayout={handleLayoutChange}
-                    filtersOpen={filtersOpen}
-                    setFiltersOpen={setFiltersOpen}
                     selectedCategories={selectedCategories}
                     setSelectedCategories={setSelectedCategories}
                     minAmount={minAmount}

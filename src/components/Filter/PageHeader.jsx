@@ -26,8 +26,6 @@ function PageHeader({
                                        setToDate,
                                        layout,
                                        setLayout,
-                                       filtersOpen,
-                                       setFiltersOpen,
                                        selectedCategories,
                                        setSelectedCategories,
                                        minAmount,
@@ -51,7 +49,7 @@ function PageHeader({
     };
 
     return (
-        <div className={`page-header ${filtersOpen ? "expanded" : ""}`}>
+        <div className="page-header">
             <div className="page-header-row">
                 <input
                     type="text"
@@ -125,16 +123,6 @@ function PageHeader({
                 </div>
             </div>
 
-            <div className="filter-divider">
-              <span
-                  className={`filter-chevron ${filtersOpen ? "open" : ""}`}
-                  onClick={() => setFiltersOpen(prev => !prev)}>
-                  <span></span>
-                  <span></span>
-              </span>
-
-            </div>
-
             <div className="advanced-filters">
                 <div className="advanced-filter-group">
                     <div className="advanced-filter-title">Kategori</div>
@@ -176,20 +164,21 @@ function PageHeader({
                             onChange={e => setMaxAmount(e.target.value)}
                         />
                     </div>
-                    <div className="advanced-filter-group">
-                        <div className="advanced-filter-title">Sortering</div>
-                        <select
-                            className="sort-dropdown"
-                            value={sortOption}
-                            onChange={(e) => setSortOption(e.target.value)}
-                        >
-                            <option value="newest">Nyast → Äldst</option>
-                            <option value="oldest">Äldst → Nyast</option>
-                            <option value="highest">Högst belopp</option>
-                            <option value="lowest">Lägst belopp</option>
-                            <option value="vendorAZ">Butik A–Ö</option>
-                        </select>
-                    </div>
+                </div>
+
+                <div className="advanced-filter-group">
+                    <div className="advanced-filter-title">Sortering</div>
+                    <select
+                        className="sort-dropdown"
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}
+                    >
+                        <option value="newest">Nyast → Äldst</option>
+                        <option value="oldest">Äldst → Nyast</option>
+                        <option value="highest">Högst belopp</option>
+                        <option value="lowest">Lägst belopp</option>
+                        <option value="vendorAZ">Butik A–Ö</option>
+                    </select>
                 </div>
             </div>
         </div>
