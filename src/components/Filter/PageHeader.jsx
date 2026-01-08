@@ -53,18 +53,13 @@ function PageHeader({
     return (
         <div className={`page-header ${filtersOpen ? "expanded" : ""}`}>
             <div className="page-header-row">
-                <div className="search-input-wrapper">
-                    <div className="search-input-inner">
-                        <span className="search-icon">🔍</span>
-                        <input
-                            type="text"
-                            className="receipt-search"
-                            placeholder="Sök butik, artikel, betalning..."
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                </div>
+                <input
+                    type="text"
+                    className="receipt-search"
+                    placeholder="Sök butik, artikel, betalning..."
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                />
 
                 <div className="quick-date-filter">
                     <select

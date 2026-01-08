@@ -168,34 +168,36 @@ function HistoryPage() {
                 </nav>
             </aside>
 
-
-            <div className="page-container">
-
-                <PageHeader
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    quickDate={quickDate}
-                    setQuickDate={setQuickDate}
-                    fromDate={fromDate}
-                    setFromDate={setFromDate}
-                    toDate={toDate}
-                    setToDate={setToDate}
-                    layout={layout}
-                    setLayout={handleLayoutChange}
-                    filtersOpen={filtersOpen}
-                    setFiltersOpen={setFiltersOpen}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                    minAmount={minAmount}
-                    setMinAmount={setMinAmount}
-                    maxAmount={maxAmount}
-                    setMaxAmount={setMaxAmount}
-                    sortOption={sortOption}
-                    setSortOption={setSortOption}
-                />
+            <div className="main-area">
+                    <PageHeader
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        quickDate={quickDate}
+                        setQuickDate={setQuickDate}
+                        fromDate={fromDate}
+                        setFromDate={setFromDate}
+                        toDate={toDate}
+                        setToDate={setToDate}
+                        layout={layout}
+                        setLayout={handleLayoutChange}
+                        filtersOpen={filtersOpen}
+                        setFiltersOpen={setFiltersOpen}
+                        selectedCategories={selectedCategories}
+                        setSelectedCategories={setSelectedCategories}
+                        minAmount={minAmount}
+                        setMinAmount={setMinAmount}
+                        maxAmount={maxAmount}
+                        setMaxAmount={setMaxAmount}
+                        sortOption={sortOption}
+                        setSortOption={setSortOption}
+                    />
 
                 <div className="page-content">
-                    {receipts.length === 0 ? null : (
+                    {receipts.length === 0 ? (
+                        <div className="empty-state">
+                            <p>Inga kvitton</p>
+                        </div>
+                    ) : (
                         <ul className={`receipt-list ${layout}`}>
                             {filteredReceipts.map((r) => (
                                 <li
@@ -236,32 +238,27 @@ function HistoryPage() {
                                                 <p>Total: {r.totalAmount} {r.currency}</p>
                                             </div>
                                             <span className="list-date">
-                                                <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
-                                            </span>
+                                            <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
+                                        </span>
                                         </div>
                                     )}
                                 </li>
                             ))}
                         </ul>
-
                     )}
-                    {filteredReceipts.length === 0 && (
-                        <div className="empty-state">
-                            <p>Inga kvitton</p>
-                        </div>
-                    )}
-                    <RightSideHistory
-                        selectedImage={selectedImage}
-                        selectedReceiptId={selectedReceiptId}
-                        receipts={receipts}
-                        saving={saving}
-                        handleSave={handleSave}
-                        handleDelete={handleDelete}
-                        navigate={navigate}
-                        setModalOpen={setModalOpen}
-                    />
                 </div>
             </div>
+
+                <RightSideHistory
+                    selectedImage={selectedImage}
+                    selectedReceiptId={selectedReceiptId}
+                    receipts={receipts}
+                    saving={saving}
+                    handleSave={handleSave}
+                    handleDelete={handleDelete}
+                    navigate={navigate}
+                    setModalOpen={setModalOpen}
+                />
 
             {modalOpen && selectedImage && (
                 <div className="modal-overlay" onClick={() => setModalOpen(false)}>
@@ -283,7 +280,6 @@ function HistoryPage() {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }

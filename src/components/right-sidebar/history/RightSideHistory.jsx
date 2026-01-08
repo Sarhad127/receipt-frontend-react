@@ -16,7 +16,7 @@ const RightSideHistory = ({
     return (
         <div className="right-panel">
             {selectedImage ? (
-                <div className="right-panel-image-wrapper">
+                <>
                     <div className="image-container">
                         <img
                             src={selectedImage}
@@ -111,7 +111,7 @@ const RightSideHistory = ({
                             </div>
                         </div>
                     )}
-                </div>
+                </>
             ) : (
                 <p className="right-panel-placeholder">
                     Välj ett kvitto för att visa här

@@ -1,51 +1,26 @@
-.right-panel {
-    width: 500px;
-    background-color: #2a2a2a;
-    height: 100%;
-    min-height: 400px;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-left: 1px solid #444;
-}
-
-.right-panel-image-wrapper {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    overflow: hidden;
+.image-container {
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 16px;
 }
 
 .right-panel-image {
-    height: 450px;
     width: 100%;
-    max-height: 100%;
+    height: 400px;
     object-fit: contain;
-    border-radius: 2px;
-}
-
-.image-container {
-    position: relative;
-    max-width: 450px;
+    border-radius: 4px;
 }
 
 .expand-btn-on-image {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: 8px;
+    left: 8px;
     width: 32px;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    line-height: 1;
     background: rgba(0, 0, 0, 0.45);
     color: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -59,22 +34,12 @@
     border-color: rgba(255, 255, 255, 0.25);
 }
 
-.right-panel-placeholder {
-    margin: auto;
-    color: #999;
-    font-style: italic;
-}
-
 .right-panel-actions {
-    margin-top: 14px;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     gap: 8px;
-    width: 100%;
-    max-width: 360px;
-    padding: 0 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
 }
 
 .action-btn {
@@ -86,14 +51,14 @@
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     flex-shrink: 0;
+    transition: all 0.15s ease;
 }
 
 .action-btn:hover {
     background: #3a3a3a;
     border-color: #555;
-    color: #ffffff;
+    color: #fff;
 }
 
 .action-btn:disabled {
@@ -110,18 +75,25 @@
 .action-btn.danger:hover {
     background: #3a1f1f;
     border-color: #8a3a3a;
-    color: #ffffff;
+    color: #fff;
+}
+
+.right-panel-placeholder {
+    margin: auto;
+    color: #999;
+    font-style: italic;
+    text-align: center;
 }
 
 .right-panel-info {
-    margin-top: 20px;
-    width: 100%;
+    margin-top: 16px;
     font-size: 12px;
     color: #ddd;
+    flex-shrink: 0;
 }
 
 .right-panel-info h4 {
-    margin: 14px 0 8px;
+    margin: 12px 0 8px;
     font-size: 13px;
     font-weight: 600;
     color: #fff;

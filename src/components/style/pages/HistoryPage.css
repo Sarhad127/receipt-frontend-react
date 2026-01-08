@@ -1,13 +1,10 @@
 .receipt-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
     list-style: none;
     padding: 0;
-    width: 100%;
-    color: white;
-    align-self: start;
-    justify-content: center;
+    margin: 0;
 }
 
 .receipt-list .grid{

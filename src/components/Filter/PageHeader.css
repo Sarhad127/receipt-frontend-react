@@ -1,44 +1,13 @@
-.page-header {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    z-index: 10;
-    align-items: center;
-}
-
 .page-header-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    padding-right: 20px;
+    margin-bottom: 10px;
 }
 
 .page-header.expanded .advanced-filters {
     max-height: 300px;
     opacity: 1;
-}
-
-.search-input-wrapper {
-    flex: 1 1 auto;
-    max-width: 100%;
-    min-width: 16rem;
-}
-
-.search-input-inner {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-}
-
-.search-input-inner .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #bbb;
-    font-size: 16px;
-    pointer-events: none;
 }
 
 .receipt-search {
@@ -48,7 +17,7 @@
     border-radius: 4px;
     padding: 12px 0 12px 40px;
     width: 550px;
-    max-width: 34rem;
+    min-width: 150px;
 }
 
 .receipt-search:focus {
@@ -199,17 +168,6 @@
     align-items: center;
 }
 
-.filter-divider::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background-color: #3a3a3a;
-    transform: translateY(-50%);
-}
-
 .filter-chevron {
     position: relative;
     display: flex;
@@ -249,18 +207,22 @@
 }
 
 .advanced-filters {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #1f1f1f;
-    padding: 16px 24px;
-    display: flex;
-    gap: 32px;
+    position: relative;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     transition: max-height 0.3s ease, opacity 0.2s ease;
+    gap: 50px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.page-header.expanded .advanced-filters {
+    max-height: 800px;
+    opacity: 1;
 }
 
 .advanced-filter-group {
