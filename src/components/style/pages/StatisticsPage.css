@@ -1,11 +1,13 @@
 .statistics {
     background-color: #2f2f2f;
-    padding: 20px;
+    padding: 25px;
     border-radius: 15px;
     margin: 20px auto;
-    max-width: 1100px;
+    max-width: 1200px;
+    width: 95%;
     color: #eee;
     text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .statistics p {
@@ -14,10 +16,33 @@
 }
 
 .statistics h3 {
-    margin-top: 20px;
+    margin-top: 25px;
     font-size: 18px;
     border-bottom: 1px solid #555;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.statistics-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.statistics-summary p {
+    flex: 1 1 200px;
+    background-color: #3a3a3a;
+    padding: 12px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.statistics-summary p:hover {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
 }
 
 .receipt-stat {
@@ -28,7 +53,8 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.receipt-stat p {
+.receipt-stat p,
+.receipt-stat li {
     margin: 5px 0;
     font-size: 13px;
 }
@@ -39,29 +65,17 @@
     margin: 5px 0 0 0;
 }
 
-.receipt-stat li {
-    margin: 3px 0;
-    font-size: 13px;
-}
-
-.statistics-summary {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.statistics-summary p {
-    flex: 1 1 200px;
-    background-color: #3a3a3a;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.loading{
+.loading {
     color: #eee;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 50px;
+}
+
+.statistics .recharts-wrapper {
+    margin-top: 15px;
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
