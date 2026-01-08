@@ -131,12 +131,13 @@ function PageHeader({
             </div>
 
             <div className="filter-divider">
-            <span
-                className={`filter-chevron ${filtersOpen ? "open" : ""}`}
-                onClick={() => setFiltersOpen(prev => !prev)}
-            >
-                ▼
-            </span>
+              <span
+                  className={`filter-chevron ${filtersOpen ? "open" : ""}`}
+                  onClick={() => setFiltersOpen(prev => !prev)}>
+                  <span></span>
+                  <span></span>
+              </span>
+
             </div>
 
             <div className="advanced-filters">
