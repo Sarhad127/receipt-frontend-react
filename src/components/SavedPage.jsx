@@ -6,6 +6,7 @@ import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceip
     from "./api/apis";
 import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
 import { FaTrash } from "react-icons/fa";
+import RightSideSaved from "./right-sidebar/saved/RightSideSaved.jsx";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -88,7 +89,8 @@ function SavedPage() {
         setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[receipt.id])));
         setOcrData(ocrDataMap[receipt.id]);
         setCurrentIndex(index);
-        setModalOpen(true);
+        setModalOpen(false);
+        setImageModalOpen(false);
     };
 
     const closeModal = () => {
@@ -327,6 +329,11 @@ function SavedPage() {
                             <p>Inga kvitton</p>
                         </div>
                     )}
+                    <RightSideSaved
+                        selectedReceipt={selectedReceipt}
+                        selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}
+                        setModalOpen={setModalOpen}
+                    />
                 </div>
             </div>
 
