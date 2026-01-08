@@ -219,7 +219,7 @@ function SavedPage() {
                 </nav>
             </aside>
 
-            <div className="page-container">
+            <div className="main-area">
 
                 <PageHeader
                     searchTerm={searchTerm}
@@ -290,14 +290,13 @@ function SavedPage() {
                             <p>Inga kvitton</p>
                         </div>
                     )}
-                    <RightSideSaved
-                        selectedReceipt={selectedReceipt}
-                        selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}
-                        setModalOpen={setModalOpen}
-                    />
                 </div>
             </div>
-
+            <RightSideSaved
+                selectedReceipt={selectedReceipt}
+                selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}
+                setModalOpen={setModalOpen}
+            />
             {modalOpen && selectedReceipt && editableReceipt && (
                 <EditableReceiptModal
                     selectedReceipt={selectedReceipt}

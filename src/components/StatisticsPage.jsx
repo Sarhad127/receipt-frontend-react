@@ -97,7 +97,6 @@ function StatisticsPage() {
                 </nav>
             </aside>
 
-            <div className="page-container">
                 <div className="page-content">
                     {loading ? (
                         <p className="loading">Laddar statistik...</p>
@@ -142,7 +141,6 @@ function StatisticsPage() {
                         </div>
                     )}
                 </div>
-            </div>
         </div>
     );
 }
