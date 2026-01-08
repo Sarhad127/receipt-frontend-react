@@ -68,4 +68,6 @@
     background-color: #3a3a3a;
     border-radius: 6px;
     overflow-y: auto;
+    display: flex;
+    gap: 20px;
 }

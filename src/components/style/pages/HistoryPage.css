@@ -193,11 +193,6 @@
     text-overflow: ellipsis;
 }
 
-.page-content {
-    display: flex;
-    gap: 20px;
-}
-
 .receipt-list {
     flex: 1;
     display: grid;
