@@ -292,8 +292,9 @@ function ScanPage() {
                                 ) : (
                                     <div className="receipt-dto">
                                         <p>
-                                            <strong>Kategori:</strong>
+                                            <strong style={{ fontSize: "1.2rem" }}>Kategori:</strong>
                                             <select
+                                                className="receipt-dropdown"
                                                 value={editableReceipt.category || ""}
                                                 onChange={e => handleInputChange("category", e.target.value)}
                                             >
@@ -442,18 +443,6 @@ function ScanPage() {
                                                         </td>
                                                     </tr>
                                                 ))}
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        const newItem = { itemName: "", itemQuantity: 1, itemUnitPrice: 0, itemTotalPrice: 0 };
-                                                        setEditableReceipt(prev => ({
-                                                            ...prev,
-                                                            items: [...(prev.items || []), newItem]
-                                                        }));
-                                                    }}
-                                                >
-                                                    Lägg till artikel
-                                                </button>
                                                 </tbody>
                                             </table>
                                         )}

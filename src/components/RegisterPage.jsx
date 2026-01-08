@@ -58,16 +58,24 @@ function RegisterPage({ onBack }) {
 
     return (
         <div className="page-wrapper">
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <img
+                        src="/src/components/style/icons/receipt-icon.png"
+                        alt="Kvitto ikon"
+                    />
+                    <span>Huskvitton</span>
+                </div>
 
-            <div className="page-tabs login-tabs">
-                <button className="tab active">Register</button>
-                <button className="tab" onClick={() => handleNavClick("/skanna")}>Skanna</button>
-                <button className="tab" onClick={() => handleNavClick("/historik")}>Historik</button>
-                <button className="tab" onClick={() => handleNavClick("/sparade")}>Sparade</button>
-                <button className="tab" onClick={() => handleNavClick("/statistik")}>Statistik</button>
-                <button className="tab" onClick={() => handleNavClick("/installningar")}>Inställningar</button>
-            </div>
-
+                <nav className="sidebar-nav">
+                    <div className="sidebar-item active">Login</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/historik")}>Historik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
+                </nav>
+            </aside>
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-container">

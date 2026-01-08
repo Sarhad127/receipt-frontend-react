@@ -1,28 +1,13 @@
 .info-section {
     background-color: #2e2e2e;
     color: white;
-    padding: 24px;
+    margin: 50px 50px 50px 25px;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
-    height: 100%;
     overflow: hidden;
-}
-
-.info-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 6px;
-    scrollbar-gutter: stable;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
-
-.info-scroll p{
-    font-size: 0.9rem;
 }
 
 .info-section pre {
@@ -46,61 +31,62 @@
     color: white;
 }
 
-.action-buttons {
-    position: absolute;
-    top: 20px;
-    left: 16px;
-    display: inline-flex;
-    gap: 6px;
+.info-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-gutter: stable;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
-.action-buttons .toggle-btn {
-    background-color: #3a3a3a;
-    color: white;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
+.info-scroll p{
+    font-size: 0.9rem;
 }
 
-.action-buttons .toggle-btn:hover {
-    background-color: #494949;
+.info-scroll pre {
+    max-width: 100%;
+    width: 60%;
+    height: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: whitesmoke;
+    border-radius: 6px;
+    overflow-x: auto;
+    text-align: center;
 }
 
-.action-buttons .toggle-btn:active {
-    background-color: #1f1f1f;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+.receipt-dropdown {
+    background-color: #2f2f2f;
+    color: #e0e0e0;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    width: auto;
+    border-color: #5a5a5a;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.toggle-btn {
-    border: none;
-    background: transparent;
-    color: #aaa;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+.receipt-dropdown:hover {
+    background-color: #343434;
 }
 
-.toggle-btn:hover {
-    color: #fff;
+.receipt-dropdown:focus {
+    outline: none;
+    border-color: #5a5a5a;
+    background-color: #343434;
 }
 
-.toggle-btn.active {
-    background-color: #3a3a3a;
-    color: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
 
-.view-toggle {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: inline-flex;
-    background-color: #1f1f1f;
-    border-radius: 999px;
-    padding: 4px;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+
+.receipt-dto {
+    max-height: 70vh;
+    width: 70%;
+    overflow-y: auto;
 }
 
 .receipt-dto input {
@@ -128,10 +114,10 @@
 
 .receipt-dto p {
     margin: 6px 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+
 }
 
 .receipt-dto p strong {
@@ -145,9 +131,9 @@
 }
 
 .receipt-dto h3 input {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    padding: 6px 10px;
+    padding: 16px 0px;
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #444;
@@ -169,7 +155,7 @@
 .receipt-items-table th {
     text-align: left;
     font-weight: 500;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
     font-size: 0.85rem;
     color: #aaa;
 }
@@ -221,11 +207,87 @@
 }
 
 .receipt-items-table tbody tr td:first-child {
-    padding-left: 4px;
+    padding-left: 0px;
 }
 
 .receipt-items-table tbody tr td:last-child {
     padding-right: 4px;
+}
+
+.action-buttons {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    display: inline-flex;
+    gap: 6px;
+}
+
+.action-buttons .toggle-btn {
+    background-color: #3a3a3a;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.action-buttons .toggle-btn:hover {
+    background-color: #494949;
+}
+
+.action-buttons .toggle-btn:active {
+    background-color: #1f1f1f;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.receipt-items-table tbody tr td button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.receipt-items-table tbody tr td button:hover {
+    background-color: #c0392b;
+}
+
+.receipt-items-table tbody tr td button:active {
+    background-color: #a93226;
+}
+
+.toggle-btn {
+    border: none;
+    background: transparent;
+    color: #aaa;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: #fff;
+}
+
+.toggle-btn.active {
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.view-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    background-color: #1f1f1f;
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -236,6 +298,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.receipt-items-table tbody tr td input[type="number"] {
+    text-align: center;
 }
 
 .right-side-text{

@@ -75,11 +75,7 @@ function LoginPage() {
                     <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
                 </nav>
             </aside>
-            {toastMessage && (
-                <div className="toast-popup">
-                    {toastMessage}
-                </div>
-            )}
+            {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-container">
                 <div className="page-content login-content">

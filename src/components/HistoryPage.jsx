@@ -271,6 +271,7 @@ function HistoryPage() {
 
                 </div>
             </div>
+
             {modalOpen && selectedImage && (
                 <div className="modal-overlay" onClick={() => setModalOpen(false)}>
                     <div className="modal-actions-bar" onClick={e => e.stopPropagation()}>

@@ -150,8 +150,6 @@
     text-overflow: ellipsis;
 }
 
-
-/*--------------------Receiptinformation--------------------*/
 .saved-ocr-info p {
     margin: 2px 0;
     white-space: nowrap;
@@ -239,8 +237,6 @@
     cursor: not-allowed;
 }
 
-
-/*--------------------previous and next buttons--------------------*/
 .receipt-navigation {
     display: flex;
     justify-content: space-between;
@@ -293,8 +289,6 @@
     color: #ff0000;
 }
 
-
-/*--------------------SavedPage Modal--------------------*/
 .saved-modal-main {
     display: flex;
     gap: 20px;
@@ -344,8 +338,6 @@
     align-items: center;
 }
 
-
-/*--------------------Category dropdown--------------------*/
 .inline-edit-input {
     background-color: #2a2a2a;
     border: 1px solid #4a4a4a;
@@ -378,8 +370,6 @@
     color: #ddd;
 }
 
-
-/*--------------------Category dropdown--------------------*/
 .saved-ocr-info-placeholder {
     background-color: #2a2a2a;
     color: #ddd;
@@ -427,8 +417,6 @@
     cursor: pointer;
 }
 
-
-/*--------------------Add item--------------------*/
 .saved-modal-right .add-item {
     margin-top: 12px;
     padding: 8px 14px;
@@ -456,8 +444,6 @@
     transform: translateY(0);
 }
 
-
-/*--------------------Save--------------------*/
 .saved-modal-right .save-receipt {
     margin-top: 10px;
     padding: 8px 16px;
@@ -495,8 +481,6 @@
     transform: none;
 }
 
-
-/*--------------------Remove item red dot--------------------*/
 .saved-modal-right .remove-item {
     width: 12px;
     height: 12px;
