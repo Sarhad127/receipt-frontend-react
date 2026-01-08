@@ -321,3 +321,37 @@
 .date-input label {
     margin-right: 10px;
 }
+
+.export-csv-wrapper {
+    display: inline-flex;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    margin-left: 1.2rem;
+    flex-shrink: 0;
+}
+
+.export-csv-btn {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.export-csv-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.export-csv-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

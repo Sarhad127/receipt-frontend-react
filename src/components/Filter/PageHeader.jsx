@@ -1,4 +1,5 @@
 import './PageHeader.css'
+import { exportReceiptsCSV } from "../utils/exportCSV";
 
 const CATEGORIES = [
     "Alla",
@@ -33,7 +34,9 @@ function PageHeader({
                                        maxAmount,
                                        setMaxAmount,
                                        sortOption,
-                                       setSortOption
+                                       setSortOption,
+                                       receipts,
+                                       ocrDataMap,
                     }) {
     const toggleCategory = (category) => {
         if (category === "Alla") {
@@ -119,6 +122,15 @@ function PageHeader({
                         <div className="list-icon">
                             <span></span><span></span><span></span>
                         </div>
+                    </button>
+                </div>
+
+                <div className="export-csv-wrapper">
+                    <button
+                        className="export-csv-btn"
+                        onClick={() => exportReceiptsCSV(receipts, ocrDataMap)}
+                    >
+                        Exportera CSV för bokföring
                     </button>
                 </div>
             </div>

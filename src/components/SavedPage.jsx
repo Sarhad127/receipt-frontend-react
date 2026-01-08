@@ -239,6 +239,8 @@ function SavedPage() {
                     setMaxAmount={setMaxAmount}
                     sortOption={sortOption}
                     setSortOption={setSortOption}
+                    receipts={receipts}
+                    ocrDataMap={ocrDataMap}
                 />
 
                 <div className="page-content">
@@ -267,16 +269,24 @@ function SavedPage() {
                                         <div className="list-item">
                                             {images[r.id] ? (
                                                 <img src={images[r.id]} alt="Kvitto" className="list-image" />
-                                            ) : <p>Laddar bild...</p>}
-
+                                            ) : (
+                                                <p>Laddar bild...</p>
+                                            )}
                                             <div className="list-info">
-                                                <p>{ocrDataMap[r.id]?.vendorName || "–"}</p>
+                                                <p className="receipt-vendor-style">{ocrDataMap[r.id]?.vendorName || "–"}</p>
+                                                <p className="receipt-total">
+                                                    Total: {ocrDataMap[r.id]?.totalAmount !== undefined
+                                                    ? `${ocrDataMap[r.id].totalAmount} kr`
+                                                    : "–"}
+                                                </p>
+                                                <p className="receipt-category">
+                                                    Kategori: {ocrDataMap[r.id]?.category || "–"}
+                                                </p>
                                             </div>
                                             <span className="list-date">
                                                 <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
                                             </span>
                                         </div>
-
                                     )}
                                 </li>
                             ))}
@@ -293,6 +303,8 @@ function SavedPage() {
                 selectedReceipt={selectedReceipt}
                 selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}
                 setModalOpen={setModalOpen}
+                allReceipts={receipts}
+                ocrDataMap={ocrDataMap}
             />
             {modalOpen && selectedReceipt && editableReceipt && (
                 <EditableReceiptModal
