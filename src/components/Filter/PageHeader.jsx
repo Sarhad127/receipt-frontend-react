@@ -262,12 +262,6 @@ function PageHeader({
                         >
                             Exportera valda kvitton
                         </button>
-                        <button
-                            className="delete-selected-btn"
-                            onClick={handleDeleteSelected}
-                        >
-                            Radera valda kvitton
-                        </button>
                     </div>
                     <div className="export-csv-wrapper">
                         <button
@@ -275,6 +269,17 @@ function PageHeader({
                             onClick={() => exportReceiptsCSV(receipts, ocrDataMap)}
                         >
                             Exportera CSV för bokföring
+                        </button>
+                    </div>
+                    <div className="delete-selections-btn">
+                        <button
+                            className={`delete-selected-btn ${
+                                !selectionMode || selectedReceipts.size === 0 ? "inactive" : ""
+                            }`}
+                            disabled={!selectionMode || selectedReceipts.size === 0}
+                            onClick={handleDeleteSelected}
+                        >
+                            Radera valda kvitton
                         </button>
                     </div>
                 </div>
