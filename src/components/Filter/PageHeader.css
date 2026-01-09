@@ -404,3 +404,58 @@
 .export-selected-btn.inactive:hover {
     background-color: #2f2f2f;
 }
+
+.grid-size-switcher {
+    display: flex;
+    gap: 6px;
+}
+
+.grid-size-btn {
+    border: 1px solid #4a4a4a;
+    background-color: #2a2a2a;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.grid-size-btn:hover {
+    background-color: #3a3a3a;
+}
+
+.grid-size-btn.active {
+    background-color: #4a4a4a;
+}
+
+.grid-size-icon {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2px;
+}
+
+.grid-size-icon span {
+    display: block;
+    background-color: #ddd;
+    border-radius: 1px;
+}
+
+.grid-size-icon.small span {
+    width: 4px;
+    height: 4px;
+}
+
+.grid-size-icon.medium span {
+    width: 6px;
+    height: 6px;
+}
+
+.grid-size-icon.large span {
+    width: 8px;
+    height: 8px;
+}

@@ -41,7 +41,9 @@ function PageHeader({
                                        setSelectionMode,
                                        selectedReceipts,
                                        setSelectedReceipts,
-                                       selectedReceipt
+                                       selectedReceipt,
+                                       setGridSize,
+                                       gridSize
                     }) {
     const toggleCategory = (category) => {
         if (category === "Alla") {
@@ -233,6 +235,24 @@ function PageHeader({
                         >
                             Exportera valda kvitton
                         </button>
+                    </div>
+                    <div className="grid-size-switcher">
+                        {["small", "medium", "large"].map(size => (
+                            <button
+                                key={size}
+                                className={`grid-size-btn ${gridSize === size ? "active" : ""}`}
+                                onClick={() => setGridSize(size)}
+                                title={`Visa ${size} rutnätsstorlek`}
+                            >
+                                <div className={`grid-size-icon ${size}`}>
+                                    {Array.from({ length: 2 }).map((_, i) =>
+                                        Array.from({ length: 2 }).map((_, j) => (
+                                            <span key={`${i}-${j}`}></span>
+                                        ))
+                                    )}
+                                </div>
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

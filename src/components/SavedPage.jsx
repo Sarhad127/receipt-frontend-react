@@ -32,6 +32,7 @@ function SavedPage() {
     const [sortOption, setSortOption] = useState("newest");
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedReceipts, setSelectedReceipts] = useState(new Set());
+    const [gridSize, setGridSize] = useState("medium");
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("savedPageLayout") || "grid";
     });
@@ -248,6 +249,8 @@ function SavedPage() {
                     selectedReceipts={selectedReceipts}
                     setSelectedReceipts={setSelectedReceipts}
                     selectedReceipt={selectedReceipt}
+                    gridSize={gridSize}
+                    setGridSize={setGridSize}
                 />
 
                 <div className="page-content">
