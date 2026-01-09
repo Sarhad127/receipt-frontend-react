@@ -1,3 +1,9 @@
+.page-content.login-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .register-form-container {
     display: flex;
     flex-direction: column;

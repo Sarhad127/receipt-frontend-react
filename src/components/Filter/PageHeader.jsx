@@ -181,9 +181,6 @@ function PageHeader({
                             onChange={e => setMaxAmount(e.target.value)}
                         />
                     </div>
-                </div>
-
-                <div className="advanced-filter-group">
                     <div className="advanced-filter-title">Sortering</div>
                     <select
                         className="sort-dropdown"
@@ -198,40 +195,42 @@ function PageHeader({
                     </select>
                 </div>
 
-                <div className="selection-buttons">
-                    <button onClick={() => {
-                        setSelectionMode(prev => {
-                            const newMode = !prev;
-                            if (newMode) {
-                                setSelectedReceipts(prevSet => {
-                                    const newSet = new Set(prevSet);
-                                    if (selectedReceipt) newSet.add(selectedReceipt.id);
-                                    return newSet;
-                                });
-                            } else {
-                                setSelectedReceipts(new Set());
-                            }
-                            return newMode;
-                        });
-                    }}>
-                        {selectionMode ? "Avsluta val" : "Välj"}
-                    </button>
-
-                    {selectionMode && selectedReceipts.size > 0 && (
-                        <button
-                            className="export-selected-btn"
-                            onClick={() => {
-                                const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
-                                const ocrToExport = {};
-                                receiptsToExport.forEach(r => {
-                                    if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
-                                });
-                                exportReceiptsCSV(receiptsToExport, ocrToExport);
-                            }}
-                        >
-                            Exportera valda kvitton
+                <div className="advanced-filter-group">
+                    <div className="selection-buttons">
+                        <button onClick={() => {
+                            setSelectionMode(prev => {
+                                const newMode = !prev;
+                                if (newMode) {
+                                    setSelectedReceipts(prevSet => {
+                                        const newSet = new Set(prevSet);
+                                        if (selectedReceipt) newSet.add(selectedReceipt.id);
+                                        return newSet;
+                                    });
+                                } else {
+                                    setSelectedReceipts(new Set());
+                                }
+                                return newMode;
+                            });
+                        }}>
+                            {selectionMode ? "Avsluta val" : "Välj"}
                         </button>
-                    )}
+
+                        {selectionMode && selectedReceipts.size > 0 && (
+                            <button
+                                className="export-selected-btn"
+                                onClick={() => {
+                                    const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
+                                    const ocrToExport = {};
+                                    receiptsToExport.forEach(r => {
+                                        if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
+                                    });
+                                    exportReceiptsCSV(receiptsToExport, ocrToExport);
+                                }}
+                            >
+                                Exportera valda kvitton
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

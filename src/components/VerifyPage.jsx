@@ -54,23 +54,21 @@ function VerifyPage() {
 
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
-            <div className="page-container">
-                <div className="page-content login-content">
-                    <div className="register-form-container">
-                        <h2>Verifiera ditt konto</h2>
-                        <p>Vi har skickat en verifieringskod till <strong>{email}</strong></p>
+            <div className="page-content login-content">
+                <div className="register-form-container">
+                    <h2>Verifiera ditt konto</h2>
+                    <p>Vi har skickat en verifieringskod till <strong>{email}</strong></p>
 
-                        <form className="register-form" onSubmit={handleVerify}>
-                            <input
-                                type="text"
-                                placeholder="Verifieringskod"
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                required
-                            />
-                            <button type="submit">Verifiera</button>
-                        </form>
-                    </div>
+                    <form className="register-form" onSubmit={handleVerify}>
+                        <input
+                            type="text"
+                            placeholder="Verifieringskod"
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            required
+                        />
+                        <button type="submit">Verifiera</button>
+                    </form>
                 </div>
             </div>
         </div>

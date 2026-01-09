@@ -78,46 +78,44 @@ function RegisterPage({ onBack }) {
             </aside>
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
-            <div className="page-container">
-                <div className="page-content login-content">
-                    <div className="register-form-container">
-                        <h2>Registrera</h2>
+            <div className="page-content login-content">
+                <div className="register-form-container">
+                    <h2>Registrera</h2>
 
-                        <form className="register-form" onSubmit={handleRegister}>
-                            <input
-                                type="email"
-                                placeholder="E-post"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                placeholder="Lösenord"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                placeholder="Bekräfta Lösenord"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
+                    <form className="register-form" onSubmit={handleRegister}>
+                        <input
+                            type="email"
+                            placeholder="E-post"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Lösenord"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Bekräfta Lösenord"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
 
-                            <button type="submit">Registrera</button>
-                        </form>
+                        <button type="submit">Registrera</button>
+                    </form>
 
-                        <div className="back-label-wrapper">
-                            <span>Har du redan ett konto? </span>
-                            <span
-                                className="back-link"
-                                onClick={onBack}
-                            >
-                                Logga in
-                            </span>
-                        </div>
+                    <div className="back-label-wrapper">
+                        <span>Har du redan ett konto? </span>
+                        <span
+                            className="back-link"
+                            onClick={onBack}
+                        >
+                            Logga in
+                        </span>
                     </div>
                 </div>
             </div>
