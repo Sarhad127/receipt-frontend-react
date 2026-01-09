@@ -212,24 +212,27 @@ function PageHeader({
                                 return newMode;
                             });
                         }}>
-                            {selectionMode ? "Avsluta val" : "Välj"}
+                            {selectionMode ? "Avsluta" : "Välj"}
                         </button>
 
-                        {selectionMode && selectedReceipts.size > 0 && (
-                            <button
-                                className="export-selected-btn"
-                                onClick={() => {
-                                    const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
-                                    const ocrToExport = {};
-                                    receiptsToExport.forEach(r => {
-                                        if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
-                                    });
-                                    exportReceiptsCSV(receiptsToExport, ocrToExport);
-                                }}
-                            >
-                                Exportera valda kvitton
-                            </button>
-                        )}
+                        <button
+                            className={`export-selected-btn ${
+                                !selectionMode || selectedReceipts.size === 0 ? "inactive" : ""
+                            }`}
+                            disabled={!selectionMode || selectedReceipts.size === 0}
+                            onClick={() => {
+                                if (!selectionMode || selectedReceipts.size === 0) return;
+
+                                const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
+                                const ocrToExport = {};
+                                receiptsToExport.forEach(r => {
+                                    if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
+                                });
+                                exportReceiptsCSV(receiptsToExport, ocrToExport);
+                            }}
+                        >
+                            Exportera valda kvitton
+                        </button>
                     </div>
                 </div>
             </div>
