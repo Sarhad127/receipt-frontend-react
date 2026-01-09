@@ -77,78 +77,8 @@
     background-color: #4a4a4a;
 }
 
-.receipt-list.list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 0 20px;
-}
-
-.receipt-item.list {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background-color: rgba(173, 170, 170, 0.09);
-    border-radius: 8px;
-    padding: 10px 16px;
-    gap: 12px;
-    height: max-content;
-    cursor: pointer;
-    text-align: left;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.list-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-}
-
-.list-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-
-.list-info {
-    display: flex;
-    flex-direction: column;
-    color: #ddd;
-    flex: 1;
-}
-
 .empty-state {
     color: #fff;
-}
-
-.receipt-item .receipt-vendor {
-    font-weight: bold;
-    margin-bottom: 2px;
-    text-align: center;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.receipt-item .receipt-amount {
-    font-size: 0.8rem;
-    text-align: center;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.list-date{
-    font-size: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .saved-ocr-info p {
@@ -517,16 +447,4 @@
 .saved-modal-right .remove-item:focus-visible {
     outline: 2px solid #aa5555;
     outline-offset: 2px;
-}
-
-.selected-receipt {
-    border: 2px solid #00bfff;
-    box-shadow: 0 0 8px #00bfff;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.receipt-item:hover {
-    background-color: #4a4a4a;
-    transition: background 0.2s ease;
 }

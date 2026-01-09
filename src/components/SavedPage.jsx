@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
+import "./style/grid/grid.css"
 import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
     from "./api/apis";
 import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
@@ -255,7 +256,7 @@ function SavedPage() {
 
                 <div className="page-content">
                     {receipts.length === 0 ? null : (
-                        <ul className={`receipt-list ${layout} ${selectionMode ? "selection-mode" : ""}`}>
+                        <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
                             {filteredReceipts.map((r, index) => (
                                 <li
                                     key={r.id}

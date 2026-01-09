@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/HistoryPage.css";
 import "./style/AppLayout.css";
+import "./style/grid/grid.css"
 import {fetchHistoryReceipts, fetchHistoryReceiptImage, saveReceipt, deleteHistoryReceipt}
 from "./api/apis";
 import PageHeader, {filterReceipts} from "./Filter/PageHeader.jsx";
@@ -23,6 +24,8 @@ function HistoryPage() {
     const [minAmount, setMinAmount] = useState("");
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
+    const [selectionMode, setSelectionMode] = useState(false);
+    const [gridSize, setGridSize] = useState("medium");
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("historyLayout") || "grid";
     });
@@ -187,6 +190,8 @@ function HistoryPage() {
                         setMaxAmount={setMaxAmount}
                         sortOption={sortOption}
                         setSortOption={setSortOption}
+                        gridSize={gridSize}
+                        setGridSize={setGridSize}
                     />
 
                 <div className="page-content">
@@ -195,7 +200,7 @@ function HistoryPage() {
                             <p>Inga kvitton</p>
                         </div>
                     ) : (
-                        <ul className={`receipt-list ${layout}`}>
+                        <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
                             {filteredReceipts.map((r) => (
                                 <li
                                     key={r.id}
@@ -207,7 +212,7 @@ function HistoryPage() {
                                 >
                                     {layout === "grid" ? (
                                         <>
-                                            <p className="receipt-vendor-with-dot-grid">
+                                            <p className="receipt-vendor">
                                                 {r.vendorName || "–"}{" "}
                                                 {r.saved && <span className="saved-dot"></span>}
                                             </p>
@@ -229,7 +234,7 @@ function HistoryPage() {
                                                 <p>Laddar bild...</p>
                                             )}
                                             <div className="list-info">
-                                                <p className="receipt-vendor-with-dot">
+                                                <p className="receipt-vendor">
                                                     {r.vendorName || "–"} {r.saved && <span className="saved-dot-list"></span>}
                                                 </p>
                                                 <p>Total: {r.totalAmount} {r.currency}</p>
