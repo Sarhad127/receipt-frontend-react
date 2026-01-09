@@ -22,14 +22,36 @@
     transition: all 0.2s ease;
 }
 
-.receipt-list.grid .receipt-vendor {
+.receipt-list.grid .receipt-vendor,
+.receipt-list.grid.small .receipt-vendor,
+.receipt-list.grid.medium .receipt-vendor,
+.receipt-list.grid.large .receipt-vendor {
+    font-weight: 600;
     display: block;
-    width: 100%;
+    text-align: center;
+    font-size: inherit;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
-    font-weight: bold;
+    max-width: 100%;
+}
+
+.receipt-list.grid .receipt-amount,
+.receipt-list.grid.small .receipt-amount,
+.receipt-list.grid.medium .receipt-amount,
+.receipt-list.grid.large .receipt-amount,
+.receipt-list.grid .receipt-date,
+.receipt-list.grid.small .receipt-date,
+.receipt-list.grid.medium .receipt-date,
+.receipt-list.grid.large .receipt-date {
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    font-size: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 /***********************SMALL**************************/
@@ -62,21 +84,16 @@
 .receipt-list.grid.small .receipt-vendor {
     font-size: 0.7rem;
     font-weight: 600;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.small .receipt-amount {
     font-size: 0.7rem;
-    display: flex;
-    justify-content: center;
+
 }
 
 .receipt-list.grid.small .receipt-date {
     font-size: 0.6rem;
     opacity: 0.7;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.small {
@@ -118,20 +135,14 @@
 .receipt-list.grid.medium .receipt-vendor {
     font-size: 0.85rem;
     font-weight: bold;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.medium .receipt-amount {
     font-size: 0.8rem;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.medium .receipt-date {
     font-size: 0.7rem;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.medium .receipt-item:hover {
@@ -168,21 +179,15 @@
 .receipt-list.grid.large .receipt-vendor {
     font-size: 1rem;
     font-weight: 700;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.large .receipt-amount {
     font-size: 0.9rem;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.large .receipt-date {
     font-size: 0.8rem;
     opacity: 0.85;
-    display: flex;
-    justify-content: center;
 }
 
 .receipt-list.grid.large .receipt-item:hover {

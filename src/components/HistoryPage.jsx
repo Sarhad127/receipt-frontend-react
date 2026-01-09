@@ -213,8 +213,8 @@ function HistoryPage() {
                                     {layout === "grid" ? (
                                         <>
                                             <p className="receipt-vendor">
-                                                {r.vendorName || "–"}{" "}
-                                                {r.saved && <span className="saved-dot"></span>}
+                                                <span className={`saved-dot ${r.saved ? "active" : ""}`}></span>
+                                                {r.vendorName || "–"}
                                             </p>
                                             <p className="receipt-amount">
                                                 {r.totalAmount !== undefined ? `${r.totalAmount} ${r.currency}` : "–"}
@@ -235,7 +235,8 @@ function HistoryPage() {
                                             )}
                                             <div className="list-info">
                                                 <p className="receipt-vendor">
-                                                    {r.vendorName || "–"} {r.saved && <span className="saved-dot-list"></span>}
+                                                    {r.vendorName || "–"}
+                                                    <span className={`saved-dot-list ${r.saved ? "active" : ""}`}></span>
                                                 </p>
                                                 <p>Total: {r.totalAmount} {r.currency}</p>
                                             </div>

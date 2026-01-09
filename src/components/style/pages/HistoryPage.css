@@ -10,25 +10,33 @@
 }
 
 .saved-dot {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateY(-50%);
+    display: none;
     width: 12px;
     height: 12px;
-    background-color: green;
     border-radius: 50%;
+    margin-right: 3px;
+    flex-shrink: 0;
+    background-color: #4CAF50;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.saved-dot-list{
-    position: absolute;
-    top: 100%;
-    right: 0;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background-color: green;
+.saved-dot.active {
+    display: inline-block;
+}
+
+.saved-dot-list {
+    display: none;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+    background-color: #4CAF50;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.saved-dot-list.active {
+    display: inline-block;
 }
 
 .expand-modal-btn {
