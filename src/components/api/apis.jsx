@@ -212,6 +212,22 @@ export async function deleteSavedReceipt(receiptId) {
     }
 }
 
+export async function deleteSavedReceipts(receiptIds) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/SavingsController`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(receiptIds)
+    });
+
+    if (!res.ok) throw new Error("Failed to delete selected receipts");
+}
+
 //********************ScanController********************//
 
 export async function uploadReceipt(file) {

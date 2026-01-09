@@ -458,3 +458,23 @@
     width: 8px;
     height: 8px;
 }
+
+.delete-selected-btn {
+    padding: 8px 16px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-selected-btn.inactive {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.delete-selected-btn:not(.inactive):hover {
+    background-color: #c9302c;
+}

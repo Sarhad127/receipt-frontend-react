@@ -244,11 +244,13 @@ function SavedPage() {
                     sortOption={sortOption}
                     setSortOption={setSortOption}
                     receipts={receipts}
+                    setReceipts={setReceipts}
                     ocrDataMap={ocrDataMap}
                     selectionMode={selectionMode}
                     setSelectionMode={setSelectionMode}
                     selectedReceipts={selectedReceipts}
                     setSelectedReceipts={setSelectedReceipts}
+                    setSelectedReceipt={setSelectedReceipt}
                     selectedReceipt={selectedReceipt}
                     gridSize={gridSize}
                     setGridSize={setGridSize}

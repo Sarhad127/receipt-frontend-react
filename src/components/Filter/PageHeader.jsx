@@ -1,5 +1,6 @@
 import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
+import {deleteSavedReceipts} from "../api/apis.jsx";
 
 const CATEGORIES = [
     "Alla",
@@ -41,10 +42,13 @@ function PageHeader({
                                        setSelectionMode,
                                        selectedReceipts,
                                        setSelectedReceipts,
+                                       setSelectedReceipt,
                                        selectedReceipt,
                                        setGridSize,
-                                       gridSize
+                                       gridSize,
+                                       setReceipts
                     }) {
+
     const toggleCategory = (category) => {
         if (category === "Alla") {
             setSelectedCategories([]);
@@ -56,6 +60,19 @@ function PageHeader({
                 ? prev.filter(c => c !== category)
                 : [...prev, category]
         );
+    };
+
+    const handleDeleteSelected = async () => {
+        if (selectedReceipts.size === 0) return;
+
+        try {
+            await deleteSavedReceipts(Array.from(selectedReceipts));
+            setReceipts(prev => prev.filter(r => !selectedReceipts.has(r.id)));
+            setSelectedReceipt(prev => (prev && selectedReceipts.has(prev.id) ? null : prev));
+        } catch (error) {
+            console.error(error);
+            alert("Det gick inte att radera kvittona");
+        }
     };
 
     return (
@@ -244,6 +261,12 @@ function PageHeader({
                             }}
                         >
                             Exportera valda kvitton
+                        </button>
+                        <button
+                            className="delete-selected-btn"
+                            onClick={handleDeleteSelected}
+                        >
+                            Radera valda kvitton
                         </button>
                     </div>
                     <div className="export-csv-wrapper">
