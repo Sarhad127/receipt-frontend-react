@@ -16,8 +16,8 @@
 }
 
 .selected-receipt {
-    border: 2px solid #00bfff;
-    box-shadow: 0 0 8px #00bfff;
+    outline: 2px solid #444;
+    box-shadow: 0 0 6px rgba(68, 68, 68, 0.7);
     border-radius: 6px;
     transition: all 0.2s ease;
 }
