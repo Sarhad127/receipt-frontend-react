@@ -209,6 +209,12 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.receipt-list.list .receipt-vendor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .receipt-list.list {
     display: flex;
     flex-direction: column;
@@ -229,6 +235,13 @@
     text-align: left;
     max-width: 900px;
     margin: 0 auto;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.receipt-item.list:hover {
+    background-color: rgba(173, 170, 170, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .list-item {
