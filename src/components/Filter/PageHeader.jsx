@@ -1,6 +1,7 @@
 import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
 import {deleteSavedReceipts} from "../api/apis.jsx";
+import {useState} from "react";
 
 const CATEGORIES = [
     "Alla",
@@ -48,6 +49,7 @@ function PageHeader({
                                        gridSize,
                                        setReceipts
                     }) {
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const toggleCategory = (category) => {
         if (category === "Alla") {
@@ -277,13 +279,47 @@ function PageHeader({
                                 !selectionMode || selectedReceipts.size === 0 ? "inactive" : ""
                             }`}
                             disabled={!selectionMode || selectedReceipts.size === 0}
-                            onClick={handleDeleteSelected}
+                            onClick={() => {
+                                if (!selectionMode || selectedReceipts.size === 0) return;
+                                setShowDeleteConfirm(true);
+                            }}
                         >
                             Radera valda kvitton
                         </button>
                     </div>
                 </div>
             </div>
+            {showDeleteConfirm && (
+                <div className="delete-confirm-overlay">
+                    <div className="delete-confirm-modal">
+                        <h3 className="delete-confirm-title">Är du säker?</h3>
+
+                        <p className="delete-confirm-text">
+                            Du håller på att radera {selectedReceipts.size} kvitto(n).
+                            Detta går inte att ångra.
+                        </p>
+
+                        <div className="delete-confirm-actions">
+                            <button
+                                className="delete-confirm-btn delete-confirm-cancel"
+                                onClick={() => setShowDeleteConfirm(false)}
+                            >
+                                Nej
+                            </button>
+
+                            <button
+                                className="delete-confirm-btn delete-confirm-confirm"
+                                onClick={async () => {
+                                    await handleDeleteSelected();
+                                    setShowDeleteConfirm(false);
+                                }}
+                            >
+                                Ja, radera
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

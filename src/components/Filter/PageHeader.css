@@ -480,3 +480,57 @@
 .delete-selected-btn:not(.inactive):hover {
     background-color: #c9302c;
 }
+
+.delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.delete-confirm-modal {
+    background: #1f1f1f;
+    padding: 22px 26px;
+    border-radius: 10px;
+    width: 320px;
+    color: #fff;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.delete-confirm-title {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.delete-confirm-text {
+    font-size: 14px;
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+.delete-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.delete-confirm-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-confirm-cancel {
+    background: #444;
+    color: #fff;
+}
+
+.delete-confirm-confirm {
+    background: #d9534f;
+    color: #fff;
+}

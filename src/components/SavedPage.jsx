@@ -33,10 +33,19 @@ function SavedPage() {
     const [sortOption, setSortOption] = useState("newest");
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedReceipts, setSelectedReceipts] = useState(new Set());
-    const [gridSize, setGridSize] = useState("medium");
+
+    const [gridSize, setGridSize] = useState(() => {
+        return localStorage.getItem("savedPageGridSize") || "medium";
+    });
+
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("savedPageLayout") || "grid";
     });
+
+    const handleGridSizeChange = (size) => {
+        setGridSize(size);
+        localStorage.setItem("savedPageGridSize", size);
+    };
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -253,7 +262,7 @@ function SavedPage() {
                     setSelectedReceipt={setSelectedReceipt}
                     selectedReceipt={selectedReceipt}
                     gridSize={gridSize}
-                    setGridSize={setGridSize}
+                    setGridSize={handleGridSizeChange}
                 />
 
                 <div className="page-content">

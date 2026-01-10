@@ -25,10 +25,20 @@ function HistoryPage() {
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
     const [selectionMode, setSelectionMode] = useState(false);
-    const [gridSize, setGridSize] = useState("medium");
+
+    const [gridSize, setGridSize] = useState(() => {
+        return localStorage.getItem("savedPageGridSize") || "medium";
+    });
+
     const [layout, setLayout] = useState(() => {
         return localStorage.getItem("historyLayout") || "grid";
     });
+
+    const handleGridSizeChange = (size) => {
+        setGridSize(size);
+        localStorage.setItem("savedPageGridSize", size);
+    };
+
     const {setUploadedFile,
         setUploadedImage, setOcrData,
         selectedReceiptId: scanSelectedReceiptId,
@@ -191,7 +201,7 @@ function HistoryPage() {
                         sortOption={sortOption}
                         setSortOption={setSortOption}
                         gridSize={gridSize}
-                        setGridSize={setGridSize}
+                        setGridSize={handleGridSizeChange}
                     />
 
                 <div className="page-content">
