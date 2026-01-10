@@ -37,10 +37,6 @@
     max-width: 100%;
 }
 
-.receipt-list.grid.small .receipt-vendor {
-    display: flex;
-}
-
 .receipt-list.grid .receipt-amount,
 .receipt-list.grid.small .receipt-amount,
 .receipt-list.grid.medium .receipt-amount,
