@@ -2,24 +2,38 @@ import React from "react";
 
 export default function HistoryList({ r, image }) {
     return (
-        <div className="list-item">
-            {image ? (
-                <img src={image} alt="Kvitto" className="list-image" />
-            ) : (
-                <p>Laddar bild...</p>
-            )}
-
-            <div className="list-info">
-                <p className="receipt-vendor">
-                    {r.vendorName || "–"}
-                </p>
-                <p>Total: {r.totalAmount} {r.currency}</p>
+        <div className="history-list-row">
+            <div className="col image">
+                {image ? (
+                    <img src={image} alt="Kvitto" className="list-image" />
+                ) : (
+                    <span>–</span>
+                )}
             </div>
 
-            <span className="list-date">
-                <span className={`saved-dot-list ${r.saved ? "active" : ""}`}></span>
+            <div className="col vendor">
+                {r.vendorName || "–"}
+            </div>
+
+            <div className="col date">
                 {new Date(r.createdAt).toLocaleDateString()}
-            </span>
+            </div>
+
+            <div className="col total">
+                {r.totalAmount} {r.currency}
+            </div>
+
+            <div className="col category">
+                {r.category || "–"}
+            </div>
+
+            <div className="col payment">
+                {r.paymentMethod || "–"}
+            </div>
+
+            <div className="col saved-dot-col">
+                <span className={`saved-dot ${r.saved ? "active" : ""}`}></span>
+            </div>
         </div>
     );
 }

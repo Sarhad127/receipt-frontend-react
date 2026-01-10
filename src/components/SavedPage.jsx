@@ -10,6 +10,7 @@ import RightSideSaved from "./right-sidebar/saved/RightSideSaved.jsx";
 import EditableReceiptModal from "./modals/EditableReceiptModal.jsx";
 import SavedGrid from "./grid/savedGrid/savedGrid.jsx";
 import SavedList from "./grid/savedGrid/savedList.jsx";
+import SavedListHeader from "./grid/savedGrid/savedListHeader.jsx";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -268,6 +269,7 @@ function SavedPage() {
                 />
 
                 <div className="page-content">
+                    {layout === "list" && <SavedListHeader />}
                     {receipts.length === 0 ? null : (
                         <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
                             {filteredReceipts.map((r, index) => (
@@ -315,6 +317,7 @@ function SavedPage() {
                     )}
                 </div>
             </div>
+
             <RightSideSaved
                 selectedReceipt={selectedReceipt}
                 selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}

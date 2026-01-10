@@ -10,6 +10,7 @@ import { useScan } from "../context/ScanContext.jsx";
 import RightSideHistory from "./right-sidebar/history/RightSideHistory.jsx";
 import HistoryList from "./grid/historyGrid/historyList.jsx";
 import HistoryGrid from "./grid/historyGrid/historyGrid.jsx";
+import HistoryListHeader from "./grid/historyGrid/historyListHeader";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -212,31 +213,35 @@ function HistoryPage() {
                             <p>Inga kvitton</p>
                         </div>
                     ) : (
-                        <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
-                            {filteredReceipts.map((r) => (
-                                <li
-                                    key={r.id}
-                                    className={`receipt-item ${layout} ${selectedReceiptId === r.id ? "selected-receipt" : ""}`}
-                                    onClick={() => {
-                                        setSelectedImage(images[r.id]);
-                                        setSelectedReceiptId(r.id);
-                                    }}
-                                >
-                                    {layout === "grid" ? (
-                                        <HistoryGrid
-                                            r={r}
-                                            image={images[r.id]}
-                                            isSelected={selectedReceiptId === r.id}
-                                        />
-                                    ) : (
-                                        <HistoryList
-                                            r={r}
-                                            image={images[r.id]}
-                                        />
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                        <>
+                            {layout === "list" && <HistoryListHeader />}
+
+                            <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
+                                {filteredReceipts.map((r) => (
+                                    <li
+                                        key={r.id}
+                                        className={`receipt-item ${layout} ${selectedReceiptId === r.id ? "selected-receipt" : ""}`}
+                                        onClick={() => {
+                                            setSelectedImage(images[r.id]);
+                                            setSelectedReceiptId(r.id);
+                                        }}
+                                    >
+                                        {layout === "grid" ? (
+                                            <HistoryGrid
+                                                r={r}
+                                                image={images[r.id]}
+                                                isSelected={selectedReceiptId === r.id}
+                                            />
+                                        ) : (
+                                            <HistoryList
+                                                r={r}
+                                                image={images[r.id]}
+                                            />
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
                     )}
                 </div>
             </div>

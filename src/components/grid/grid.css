@@ -16,6 +16,15 @@
     justify-content: flex-start;
 }
 
+.receipt-list.list .receipt-item {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
 .selected-receipt {
     outline: 2px solid #444;
     box-shadow: 0 0 6px rgba(68, 68, 68, 0.7);
@@ -220,7 +229,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 0 20px;
+    margin-top: 20px;
 }
 
 .receipt-item.list {
@@ -265,4 +274,64 @@
     flex-direction: column;
     color: #ddd;
     flex: 1;
+}
+
+.history-list-header,
+.history-list-row {
+    display: grid;
+    grid-template-columns: 80px 2fr 1fr 1fr 1fr 1fr 40px;
+    align-items: center;
+    gap: 12px;
+    color: #ddd;
+}
+
+.history-list-header {
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255,255,255,0.15);
+    opacity: 0.7;
+}
+
+.history-list-row {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.history-list-row:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+.col.image img {
+    width: 60px;
+    border-radius: 6px;
+}
+
+.receipt-list.list .history-list-row {
+    width: 100%;
+    background-color: rgba(173, 170, 170, 0.09);
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.receipt-list.list .history-list-row:hover {
+    background-color: rgba(129, 126, 126, 0.35);
+}
+
+.history-list-header {
+    padding: 10px 20px;
+}
+
+.receipt-list.list .list-item {
+    display: contents;
+}
+
+.receipt-list.list .receipt-item.selected-receipt {
+    background-color: rgba(129, 126, 126, 0.35);
+    box-shadow: 0 0 0 2px rgba(173,170,170,0.5);
+}
+
+.col.saved-dot-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
 }
