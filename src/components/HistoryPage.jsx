@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/HistoryPage.css";
 import "./style/AppLayout.css";
-import "./style/grid/grid.css"
+import "./grid/grid.css"
 import {fetchHistoryReceipts, fetchHistoryReceiptImage, saveReceipt, deleteHistoryReceipt}
 from "./api/apis";
 import PageHeader, {filterReceipts} from "./Filter/PageHeader.jsx";
 import { useScan } from "../context/ScanContext.jsx";
 import RightSideHistory from "./right-sidebar/history/RightSideHistory.jsx";
+import HistoryList from "./grid/historyGrid/historyList.jsx";
+import HistoryGrid from "./grid/historyGrid/historyGrid.jsx";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -221,39 +223,16 @@ function HistoryPage() {
                                     }}
                                 >
                                     {layout === "grid" ? (
-                                        <>
-                                            <p className="receipt-vendor">
-                                                <span className={`saved-dot ${r.saved ? "active" : ""}`}></span>
-                                                {r.vendorName || "–"}
-                                            </p>
-                                            <p className="receipt-amount">
-                                                {r.totalAmount !== undefined ? `${r.totalAmount} ${r.currency}` : "–"}
-                                            </p>
-                                            <p className="receipt-date">{new Date(r.createdAt).toLocaleDateString()}</p>
-                                            {images[r.id] ? (
-                                                <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
-                                            ) : (
-                                                <p>Laddar bild...</p>
-                                            )}
-                                        </>
+                                        <HistoryGrid
+                                            r={r}
+                                            image={images[r.id]}
+                                            isSelected={selectedReceiptId === r.id}
+                                        />
                                     ) : (
-                                        <div className="list-item">
-                                            {images[r.id] ? (
-                                                <img src={images[r.id]} alt="Kvitto" className="list-image" />
-                                            ) : (
-                                                <p>Laddar bild...</p>
-                                            )}
-                                            <div className="list-info">
-                                                <p className="receipt-vendor">
-                                                    {r.vendorName || "–"}
-                                                </p>
-                                                <p>Total: {r.totalAmount} {r.currency}</p>
-                                            </div>
-                                            <span className="list-date">
-                                                    <span className={`saved-dot-list ${r.saved ? "active" : ""}`}></span>
-                                                    {new Date(r.createdAt).toLocaleDateString()}
-                                        </span>
-                                        </div>
+                                        <HistoryList
+                                            r={r}
+                                            image={images[r.id]}
+                                        />
                                     )}
                                 </li>
                             ))}

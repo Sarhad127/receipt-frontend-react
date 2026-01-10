@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SavedPage.css";
 import "./style/AppLayout.css";
-import "./style/grid/grid.css"
+import "./grid/grid.css"
 import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
     from "./api/apis";
 import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
 import RightSideSaved from "./right-sidebar/saved/RightSideSaved.jsx";
 import EditableReceiptModal from "./modals/EditableReceiptModal.jsx";
+import SavedGrid from "./grid/savedGrid/savedGrid.jsx";
+import SavedList from "./grid/savedGrid/savedList.jsx";
 
 function SavedPage() {
     const navigate = useNavigate();
@@ -289,41 +291,18 @@ function SavedPage() {
                                         }
                                     }}
                                 >
-                                {layout === "grid" ? (
-                                        <>
-                                            <p className="receipt-vendor">{ocrDataMap[r.id]?.vendorName || "–"}</p>
-                                            <p className="receipt-amount">
-                                                {ocrDataMap[r.id]?.totalAmount !== undefined
-                                                    ? `${ocrDataMap[r.id].totalAmount} kr`
-                                                    : "–"}
-                                            </p>
-                                            <p className="receipt-date">{new Date(r.createdAt).toLocaleDateString()}</p>
-                                            {images[r.id] ? (
-                                                <img src={images[r.id]} alt="Kvitto" className="receipt-image" />
-                                            ) : <p>Laddar bild...</p>}
-                                        </>
+                                    {layout === "grid" ? (
+                                        <SavedGrid
+                                            r={r}
+                                            image={images[r.id]}
+                                            ocrData={ocrDataMap[r.id]}
+                                        />
                                     ) : (
-                                        <div className="list-item">
-                                            {images[r.id] ? (
-                                                <img src={images[r.id]} alt="Kvitto" className="list-image" />
-                                            ) : (
-                                                <p>Laddar bild...</p>
-                                            )}
-                                            <div className="list-info">
-                                                <p className="receipt-vendor-style">{ocrDataMap[r.id]?.vendorName || "–"}</p>
-                                                <p className="receipt-total">
-                                                    Total: {ocrDataMap[r.id]?.totalAmount !== undefined
-                                                    ? `${ocrDataMap[r.id].totalAmount} kr`
-                                                    : "–"}
-                                                </p>
-                                                <p className="receipt-category">
-                                                    Kategori: {ocrDataMap[r.id]?.category || "–"}
-                                                </p>
-                                            </div>
-                                            <span className="list-date">
-                                                <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
-                                            </span>
-                                        </div>
+                                        <SavedList
+                                            r={r}
+                                            image={images[r.id]}
+                                            ocrData={ocrDataMap[r.id]}
+                                        />
                                     )}
                                 </li>
                             ))}
