@@ -14,10 +14,6 @@ function LoginPage() {
     const [toastMessage, setToastMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const isLoggedIn = () => {
-        return !!localStorage.getItem("jwt") || !!sessionStorage.getItem("jwt");
-    };
-
     if (showRegister) {
         return <RegisterPage onBack={() => setShowRegister(false)} />;
     }
@@ -46,47 +42,14 @@ function LoginPage() {
         }
     };
 
-    const handleNavClick = (path) => {
-        if (!isLoggedIn()) {
-            setToastMessage("Logga in för att komma åt den här sidan");
-            setTimeout(() => setToastMessage(""), 2000);
-            return;
-        }
-        navigate(path);
-    };
-
     return (
         <div className="page-wrapper">
-            <aside className="sidebar">
-                <div className="sidebar-logo">
-                    <img
-                        src="/src/components/style/icons/receipt-icon.png"
-                        alt="Kvitto ikon"
-                    />
-                    <span>Huskvitton</span>
-                </div>
-
-                <nav className="sidebar-nav">
-                    <div className="sidebar-item active">Login</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/historik")}>Historik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
-                </nav>
-            </aside>
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-content login-content">
                 <div className="login-form-container">
-                    <div className="login-title-container">
-                        <img
-                            src="/src/components/style/icons/receipt-icon.png"
-                            alt="Kvitto ikon"
-                            className="login-title-icon"
-                        />
-                        <h1 className="login-titel">Huskvitton</h1>
-                    </div>
+
+                    <h1 className="login-titel">Huskvitton</h1>
 
                     <h2>Logga in</h2>
 

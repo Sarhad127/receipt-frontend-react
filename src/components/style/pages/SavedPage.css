@@ -78,7 +78,10 @@
 }
 
 .empty-state {
+    display: flex;
     color: #fff;
+    justify-content: center;
+    align-items: center;
 }
 
 .saved-ocr-info p {

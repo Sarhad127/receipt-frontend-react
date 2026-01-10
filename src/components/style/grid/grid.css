@@ -37,6 +37,10 @@
     max-width: 100%;
 }
 
+.receipt-list.grid.small .receipt-vendor {
+    display: flex;
+}
+
 .receipt-list.grid .receipt-amount,
 .receipt-list.grid.small .receipt-amount,
 .receipt-list.grid.medium .receipt-amount,
@@ -210,9 +214,9 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.receipt-list.list .receipt-vendor {
+.list-date{
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
 }
 

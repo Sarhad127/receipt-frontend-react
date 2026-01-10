@@ -11,19 +11,6 @@ function VerifyPage() {
     const [verificationCode, setVerificationCode] = useState("");
     const [toastMessage, setToastMessage] = useState("");
 
-    const isLoggedIn = () => {
-        return !!localStorage.getItem("jwt") || !!sessionStorage.getItem("jwt");
-    };
-
-    const handleNavClick = (path) => {
-        if (!isLoggedIn()) {
-            setToastMessage("Logga in för att komma åt den här sidan");
-            setTimeout(() => setToastMessage(""), 2000);
-            return;
-        }
-        navigate(path);
-    };
-
     const handleVerify = async (e) => {
         e.preventDefault();
 
@@ -43,21 +30,18 @@ function VerifyPage() {
 
     return (
         <div className="page-wrapper">
-            <div className="page-tabs login-tabs">
-                <button className="tab active">Verifiera</button>
-                <button className="tab" onClick={() => handleNavClick("/skanna")}>Skanna</button>
-                <button className="tab" onClick={() => handleNavClick("/historik")}>Historik</button>
-                <button className="tab" onClick={() => handleNavClick("/sparade")}>Sparade</button>
-                <button className="tab" onClick={() => handleNavClick("/statistik")}>Statistik</button>
-                <button className="tab" onClick={() => handleNavClick("/installningar")}>Inställningar</button>
-            </div>
-
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-content login-content">
                 <div className="register-form-container">
+
+                    <h1 className="login-titel">Huskvitton</h1>
+
                     <h2>Verifiera ditt konto</h2>
-                    <p>Vi har skickat en verifieringskod till <strong>{email}</strong></p>
+
+                    <div className="verify-title-container">
+                        <p>Vi har skickat en verifieringskod till <strong>{email}</strong></p>
+                    </div>
 
                     <form className="register-form" onSubmit={handleVerify}>
                         <input

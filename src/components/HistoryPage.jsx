@@ -246,12 +246,12 @@ function HistoryPage() {
                                             <div className="list-info">
                                                 <p className="receipt-vendor">
                                                     {r.vendorName || "–"}
-                                                    <span className={`saved-dot-list ${r.saved ? "active" : ""}`}></span>
                                                 </p>
                                                 <p>Total: {r.totalAmount} {r.currency}</p>
                                             </div>
                                             <span className="list-date">
-                                            <strong>{new Date(r.createdAt).toLocaleDateString()}</strong>
+                                                    <span className={`saved-dot-list ${r.saved ? "active" : ""}`}></span>
+                                                    {new Date(r.createdAt).toLocaleDateString()}
                                         </span>
                                         </div>
                                     )}

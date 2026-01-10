@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style/AppLayout.css";
 import "./style/pages/RegisterPage.css";
-import {registerUser, resendCode} from "./api/apis";
+import { registerUser, resendCode } from "./api/apis";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage({ onBack }) {
@@ -10,10 +10,6 @@ function RegisterPage({ onBack }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [toastMessage, setToastMessage] = useState("");
-
-    const isLoggedIn = () => {
-        return !!localStorage.getItem("jwt") || !!sessionStorage.getItem("jwt");
-    };
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -28,7 +24,6 @@ function RegisterPage({ onBack }) {
             await registerUser(email, password);
             navigate("/verify", { state: { email } });
         } catch (err) {
-
             if (err.message.includes("already exists") || err.message.includes("enabled=false")) {
                 try {
                     await resendCode(email);
@@ -47,39 +42,15 @@ function RegisterPage({ onBack }) {
         }
     };
 
-    const handleNavClick = (path) => {
-        if (!isLoggedIn()) {
-            setToastMessage("Logga in för att komma åt den här sidan");
-            setTimeout(() => setToastMessage(""), 2000);
-            return;
-        }
-        navigate(path);
-    };
-
     return (
         <div className="page-wrapper">
-            <aside className="sidebar">
-                <div className="sidebar-logo">
-                    <img
-                        src="/src/components/style/icons/receipt-icon.png"
-                        alt="Kvitto ikon"
-                    />
-                    <span>Huskvitton</span>
-                </div>
-
-                <nav className="sidebar-nav">
-                    <div className="sidebar-item active">Login</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/historik")}>Historik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
-                </nav>
-            </aside>
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-content login-content">
                 <div className="register-form-container">
+
+                    <h1 className="login-titel">Huskvitton</h1>
+
                     <h2>Registrera</h2>
 
                     <form className="register-form" onSubmit={handleRegister}>
