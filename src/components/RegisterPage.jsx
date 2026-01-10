@@ -11,33 +11,41 @@ function RegisterPage({ onBack }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [toastMessage, setToastMessage] = useState("");
 
+    const showToast = (msg) => {
+        setToastMessage(msg);
+        setTimeout(() => setToastMessage(""), 3000);
+    };
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setToastMessage("Lösenorden matchar inte!");
-            setTimeout(() => setToastMessage(""), 3000);
+            showToast("Lösenorden matchar inte!");
             return;
         }
 
         try {
             await registerUser(email, password);
+            showToast("Verifieringsmail skickat!");
             navigate("/verify", { state: { email } });
+
         } catch (err) {
-            if (err.message.includes("already exists") || err.message.includes("enabled=false")) {
+            const msg = err.message || "";
+
+            if (msg.includes("redan registrerad")) {
                 try {
                     await resendCode(email);
-                    setToastMessage("Verifieringskod skickad igen!");
-                    setTimeout(() => setToastMessage(""), 3000);
+                    showToast("Verifieringskod skickad igen!");
                     navigate("/verify", { state: { email } });
                 } catch (resendErr) {
-                    console.log(resendErr.message);
-                    setToastMessage("Kunde inte skicka verifieringskod, försök igen.");
-                    setTimeout(() => setToastMessage(""), 3000);
+                    console.error(resendErr);
+                    showToast(resendErr.message || "Kunde inte skicka verifieringskod, försök igen.");
                 }
+
+            } else if (msg.includes("är redan verifierat")) {
+                showToast("E-postadressen är redan registrerad");
             } else {
-                setToastMessage(err.message);
-                setTimeout(() => setToastMessage(""), 3000);
+                showToast(msg);
             }
         }
     };
@@ -48,9 +56,7 @@ function RegisterPage({ onBack }) {
 
             <div className="page-content login-content">
                 <div className="register-form-container">
-
                     <h1 className="login-titel">Huskvitton</h1>
-
                     <h2>Registrera</h2>
 
                     <form className="register-form" onSubmit={handleRegister}>

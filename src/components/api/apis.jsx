@@ -7,44 +7,43 @@ function getToken() {
 //********************AuthController********************//
 
 export async function registerUser(email, password) {
-    const response = await fetch(
-        `${API_BASE}/AuthController/register`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        }
-    );
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Registration failed");
+    const res = await fetch(`${API_BASE}/AuthController/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        throw new Error(data.message || "Registration failed");
     }
-    return;
 }
 
 export async function resendCode(email) {
     const res = await fetch(`${API_BASE}/AuthController/resend-code?email=${encodeURIComponent(email)}`, {
-        method: "POST"
+        method: "POST",
     });
+
+    const data = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-        const text = await res.text().catch(() => "Failed to resend code");
-        throw new Error(text);
+        throw new Error(data.message || "Failed to resend code");
     }
 }
 
 export async function verifyUser(email, code) {
-    const response = await fetch(`${API_BASE}/AuthController/verify`, {
+    const res = await fetch(`${API_BASE}/AuthController/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, code }),
     });
-    if (!response.ok) {
-        const text = await response.text().catch(() => "Verification failed");
-        throw new Error(text);
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        throw new Error(data.message || "Verification failed");
     }
-    return;
 }
 
 //********************HistoryController********************//
@@ -113,7 +112,17 @@ export async function loginUser({ email, password, rememberMe }) {
         body: JSON.stringify({ email, password, rememberMe }),
     });
     if (!response.ok) {
-        throw new Error("Invalid credentials");
+        let errorMessage = "Inloggningen misslyckades";
+        try {
+            const errorBody = await response.json();
+            errorMessage = errorBody.message || errorMessage;
+        } catch {
+            // backend returned no JSON
+        }
+        throw {
+            status: response.status,
+            message: errorMessage,
+        };
     }
     return response.json();
 }

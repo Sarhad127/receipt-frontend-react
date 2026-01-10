@@ -28,16 +28,28 @@ function LoginPage() {
                 navigate("/verify", { state: { email } });
                 return;
             }
-
             if (rememberMe) {
                 localStorage.setItem("jwt", data.token);
             } else {
                 sessionStorage.setItem("jwt", data.token);
             }
-
             navigate("/skanna");
+
         } catch (err) {
-            setToastMessage(err.message);
+
+            let message = "Något gick fel. Försök igen.";
+
+            if (err.status === 401) {
+                message = "Fel lösenord.";
+            } else if (err.status === 404) {
+                message = "E-postadressen är inte registrerad.";
+            } else if (err.status === 403) {
+                message = "Kontot är inte verifierat.";
+            } else if (err.message) {
+                message = err.message;
+            }
+
+            setToastMessage(message);
             setTimeout(() => setToastMessage(""), 3000);
         }
     };
