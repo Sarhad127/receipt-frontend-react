@@ -10,7 +10,7 @@ import {
     fetchUserInfo
 } from "../api/apis.jsx";
 
-import "./css/ScanModal.css";
+import "./css/ScanModalLeftPanel.css";
 import "./css/ScanModalRightPanel.css";
 import "./css/BothSides.css";
 

@@ -293,12 +293,14 @@ input[type="number"] {
 }
 
 .right-side-text{
-    margin: 0;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
+
 .right-side-text h2{
-    margin: 0 0 10px 0;
-    padding: 0;
+    margin: 0;
 }
 
 @media (max-width: 1024px) {
