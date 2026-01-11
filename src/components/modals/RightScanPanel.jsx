@@ -186,7 +186,6 @@ function RightScanPanel({
                                     </tbody>
                                 </table>
                             )}
-
                         </div>
                     )
                 ) : (
