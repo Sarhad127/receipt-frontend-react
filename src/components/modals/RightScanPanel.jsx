@@ -55,7 +55,7 @@ function RightScanPanel({
                     ) : (
                         <div className="receipt-dto">
 
-                            <p>
+                            <p style={{ marginTop: 20}} >
                                 <strong style={{ fontSize: "1.2rem" }}>Kategori:</strong>
                                 <select
                                     className="receipt-dropdown"
