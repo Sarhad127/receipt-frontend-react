@@ -183,10 +183,16 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
 
                 <div className="left-modal-side">
                     <div className="scroll-inner">
-                        <h2>Ladda upp kvitto</h2>
-                        <input type="file" accept="image/*" onChange={handleUpload} />
-                        <p>Dra och släpp fil här eller klicka för att välja bild</p>
+                        {!uploadedImage && (
+                            <div className="left-side-info">
+                                <h2>Ladda upp kvitto</h2>
+                                <div className="upload-box">
+                                    <span>Dra & släpp eller klicka för att ladda upp</span>
+                                    <input type="file" accept="image/*" onChange={handleUpload} />
+                                </div>
 
+                            </div>
+                        )}
                         {uploadedImage && (
                             <img
                                 src={uploadedImage}

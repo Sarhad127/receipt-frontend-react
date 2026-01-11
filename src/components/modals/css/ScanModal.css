@@ -41,14 +41,20 @@
 }
 
 .left-modal-side input[type="file"] {
-    margin: 5px 0;
-    background-color: transparent;
-    color: white;
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+}
+
+.upload-box {
     border: 2px dashed #555;
     border-radius: 6px;
-    padding: 20px;
-    cursor: pointer;
-    text-align: center;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
 .left-modal-side input[type="file"]::file-selector-button {
@@ -61,7 +67,6 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 30px 10px 10px 10px;
     color: white;
     max-height: none;
     overflow: visible;
@@ -71,10 +76,18 @@
     width: auto;
     max-width: 100%;
     height: auto;
-    max-height: 60vh;
-    margin-top: 15px;
+    max-height: 70vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 8px;
     object-fit: contain;
+}
+
+.left-side-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 @media (max-width: 1024px) {
