@@ -17,24 +17,12 @@
     z-index: 20;
 }
 
-.sidebar-logo {
+.sidebar-title{
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 24px;
-    padding-right: 1rem;
-}
-
-.sidebar-logo img {
-    width: 32px;
-    height: 32px;
-}
-
-.sidebar-logo span {
     color: white;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
 }
 
 .sidebar-nav {

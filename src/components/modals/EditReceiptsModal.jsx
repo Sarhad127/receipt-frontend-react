@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { FaTrash } from "react-icons/fa";
 import {deleteSavedReceipt} from "../api/apis.jsx";
 
-export default function EditableReceiptModal({
+export default function EditReceiptsModal({
                                                  selectedReceipt,
                                                  editableReceipt,
                                                  images,

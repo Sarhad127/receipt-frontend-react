@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./style/AppLayout.css";
-import "./style/pages/LoginPage.css";
-import RegisterPage from "./RegisterPage";
+import "../style/AppLayout.css";
+import "./css/LoginPage.css";
+import RegisterPage from "./RegisterPage.jsx";
 import { useNavigate } from "react-router-dom";
-import { loginUser, resendCode } from "./api/apis";
+import { loginUser, resendCode } from "../api/apis.jsx";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -15,7 +15,12 @@ function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
 
     if (showRegister) {
-        return <RegisterPage onBack={() => setShowRegister(false)} />;
+        return (
+            <RegisterPage
+                onBack={() => setShowRegister(false)}
+                onSuccess={() => setShowRegister(false)}
+            />
+        );
     }
 
     const handleLogin = async (e) => {
@@ -33,7 +38,7 @@ function LoginPage() {
             } else {
                 sessionStorage.setItem("jwt", data.token);
             }
-            navigate("/skanna");
+            navigate("/kvitton");
 
         } catch (err) {
 

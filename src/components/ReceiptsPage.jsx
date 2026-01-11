@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "./style/pages/SavedPage.css";
+import "./style/pages/ReceiptsPage.css";
 import "./style/AppLayout.css";
 import "./grid/grid.css"
 import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
     from "./api/apis";
-import PageHeader, { filterReceipts } from "./Filter/PageHeader.jsx";
+import PageHeader, { filterReceipts } from "./header/PageHeader.jsx";
 import RightSideSaved from "./right-sidebar/saved/RightSideSaved.jsx";
-import EditableReceiptModal from "./modals/EditableReceiptModal.jsx";
+import EditReceiptsModal from "./modals/EditReceiptsModal.jsx";
 import SavedGrid from "./grid/savedGrid/savedGrid.jsx";
 import SavedList from "./grid/savedGrid/savedList.jsx";
 import SavedListHeader from "./grid/savedGrid/savedListHeader.jsx";
+import ScanReceiptsModal from "./modals/ScanReceiptsModal.jsx";
 
-function SavedPage() {
+function ReceiptsPage() {
     const navigate = useNavigate();
     const [receipts, setReceipts] = useState([]);
     const [images, setImages] = useState({});
@@ -36,6 +37,7 @@ function SavedPage() {
     const [sortOption, setSortOption] = useState("newest");
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedReceipts, setSelectedReceipts] = useState(new Set());
+    const [scanOpen, setScanOpen] = useState(false);
 
     const [gridSize, setGridSize] = useState(() => {
         return localStorage.getItem("savedPageGridSize") || "medium";
@@ -217,18 +219,12 @@ function SavedPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-                <div className="sidebar-logo">
-                    <img
-                        src="/src/components/style/icons/receipt-icon.png"
-                        alt="Kvitto ikon"
-                    />
-                    <span>Huskvitton</span>
-                </div>
+
+                <h1 className="sidebar-title">Huskvitton</h1>
 
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => navigate("/skanna")}>Skanna</div>
+                    <div className="sidebar-item active">Kvitton</div>
                     <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
-                    <div className="sidebar-item active">Sparade</div>
                     <div className="sidebar-item" onClick={() => navigate("/statistik")}>Statistik</div>
                     <div className="sidebar-item" onClick={() => navigate("/installningar")}>Inställningar</div>
                 </nav>
@@ -318,6 +314,14 @@ function SavedPage() {
                 </div>
             </div>
 
+            <button
+                className="fab-upload"
+                onClick={() => setScanOpen(true)}
+                title="Skanna / Ladda upp kvitto"
+            >
+                <span className="fab-icon">+</span>
+            </button>
+
             <RightSideSaved
                 selectedReceipt={selectedReceipt}
                 selectedImage={selectedReceipt ? images[selectedReceipt.id] : null}
@@ -326,7 +330,7 @@ function SavedPage() {
                 ocrDataMap={ocrDataMap}
             />
             {modalOpen && selectedReceipt && editableReceipt && (
-                <EditableReceiptModal
+                <EditReceiptsModal
                     selectedReceipt={selectedReceipt}
                     editableReceipt={editableReceipt}
                     images={images}
@@ -360,8 +364,11 @@ function SavedPage() {
                     </div>
                 </div>
             )}
+
+            <ScanReceiptsModal open={scanOpen} onClose={() => setScanOpen(false)} />
+
         </div>
     );
 }
 
-export default SavedPage;
+export default ReceiptsPage;

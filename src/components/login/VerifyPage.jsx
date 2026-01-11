@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./style/AppLayout.css";
-import "./style/pages/RegisterPage.css";
-import { verifyUser } from "./api/apis";
+import "../style/AppLayout.css";
+import "./css/RegisterPage.css";
+import "./css/VerifyPage.css";
+import { verifyUser } from "../api/apis.jsx";
 
 function VerifyPage() {
     const navigate = useNavigate();

@@ -114,7 +114,7 @@ const RightSideHistory = ({
                 </>
             ) : (
                 <p className="right-panel-placeholder">
-                    Välj ett kvitto för att visa här
+                    Välj ett kvitto för att visa statistik här
                 </p>
             )}
         </div>

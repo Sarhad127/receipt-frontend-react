@@ -5,7 +5,7 @@ import "./style/AppLayout.css";
 import "./grid/grid.css"
 import {fetchHistoryReceipts, fetchHistoryReceiptImage, saveReceipt, deleteHistoryReceipt}
 from "./api/apis";
-import PageHeader, {filterReceipts} from "./Filter/PageHeader.jsx";
+import PageHeader, {filterReceipts} from "./header/PageHeader.jsx";
 import { useScan } from "../context/ScanContext.jsx";
 import RightSideHistory from "./right-sidebar/history/RightSideHistory.jsx";
 import HistoryList from "./grid/historyGrid/historyList.jsx";
@@ -166,18 +166,12 @@ function HistoryPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-                <div className="sidebar-logo">
-                    <img
-                        src="/src/components/style/icons/receipt-icon.png"
-                        alt="Kvitto ikon"
-                    />
-                    <span>Huskvitton</span>
-                </div>
+
+                <h1 className="sidebar-title">Huskvitton</h1>
 
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => handleNavClick("/skanna")}>Skanna</div>
+                    <div className="sidebar-item" onClick={() => handleNavClick("/kvitton")}>Kvitton</div>
                     <div className="sidebar-item active">Historik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/sparade")}>Sparade</div>
                     <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
                     <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
                 </nav>
@@ -208,14 +202,13 @@ function HistoryPage() {
                     />
 
                 <div className="page-content">
+                    {layout === "list" && <HistoryListHeader />}
                     {receipts.length === 0 ? (
                         <div className="empty-state">
                             <p>Inga kvitton</p>
                         </div>
                     ) : (
                         <>
-                            {layout === "list" && <HistoryListHeader />}
-
                             <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
                                 {filteredReceipts.map((r) => (
                                     <li

@@ -15,15 +15,12 @@ function SettingsPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-                <div className="sidebar-logo">
-                    <img src="/src/components/style/icons/receipt-icon.png" alt="Kvitto ikon" />
-                    <span>Huskvitton</span>
-                </div>
+
+                <h1 className="sidebar-title">Huskvitton</h1>
 
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => navigate("/skanna")}>Skanna</div>
+                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>Kvitton</div>
                     <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
-                    <div className="sidebar-item" onClick={() => navigate("/sparade")}>Sparade</div>
                     <div className="sidebar-item" onClick={() => navigate("/statistik")}>Statistik</div>
                     <div className="sidebar-item active">Inställningar</div>
                 </nav>

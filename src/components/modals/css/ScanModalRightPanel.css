@@ -1,5 +1,8 @@
+.right-modal-side {
+    background-color: #2e2e2e;
+}
 
-.info-section pre {
+.right-modal-side pre {
     font-size: 12px;
     overflow: auto;
     max-height: 100%;
@@ -12,7 +15,7 @@
     word-break: break-word;
 }
 
-.info-section h2 {
+.right-modal-side h2 {
     margin-bottom: 16px;
     margin-top: 50px;
     font-size: 1.4rem;
@@ -149,15 +152,11 @@
     color: #aaa;
 }
 
-.receipt-items-table td {
-    padding: 0;
-}
-
 .receipt-items-table input {
     background-color: #2f2f2f;
     border: 1px solid transparent;
     padding: 4px 6px;
-    border-radius: 6px;
+    border-radius: 0px;
     color: #e0e0e0;
     font-size: 0.85rem;
     line-height: 1.4;
@@ -303,7 +302,7 @@ input[type="number"] {
 }
 
 @media (max-width: 1024px) {
-    .info-section {
+    .right-modal-side {
         padding: 16px;
         border-radius: 12px;
         height: auto;
@@ -342,7 +341,7 @@ input[type="number"] {
 }
 
 @media (max-width: 600px) {
-    .info-section {
+    .right-modal-side {
         padding: 10px;
         border-radius: 8px;
     }

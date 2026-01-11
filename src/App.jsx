@@ -1,14 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScanProvider } from "./context/ScanContext.jsx";
 
-import LoginPage from "./components/LoginPage.jsx";
-import ScanPage from "./components/ScanPage.jsx";
+import LoginPage from "./components/login/LoginPage.jsx";
 import HistoryPage from "./components/HistoryPage.jsx";
-import SavedPage from "./components/SavedPage.jsx";
+import ReceiptsPage from "./components/ReceiptsPage.jsx";
 import SettingsPage from "./components/SettingsPage.jsx";
 import StatisticsPage from "./components/StatisticsPage.jsx";
+
 import "./App.css";
-import VerifyPage from "./components/VerifyPage.jsx";
 
 function App() {
     return (
@@ -16,10 +15,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    <Route path="/verify" element={<VerifyPage />} />
-                    <Route path="/skanna" element={<ScanPage />} />
+                    <Route path="/kvitton" element={<ReceiptsPage />} />
                     <Route path="/historik" element={<HistoryPage />} />
-                    <Route path="/sparade" element={<SavedPage />} />
                     <Route path="/statistik" element={<StatisticsPage />} />
                     <Route path="/installningar" element={<SettingsPage />} />
                 </Routes>

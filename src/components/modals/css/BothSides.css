@@ -1,0 +1,13 @@
+.left-modal-side, .right-modal-side {
+    display: flex;
+    flex-direction: row;
+    color: #ddd;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    align-items: stretch;
+    overflow: hidden;
+    position: relative;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
