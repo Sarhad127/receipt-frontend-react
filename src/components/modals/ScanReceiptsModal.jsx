@@ -13,6 +13,8 @@ import {
 import "./css/ScanModalLeftPanel.css";
 import "./css/ScanModalRightPanel.css";
 import "./css/BothSides.css";
+import RightScanPanel from "./RightScanPanel.jsx";
+import LeftScanPanel from "./LeftScanPanel.jsx";
 
 function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
     const {
@@ -177,234 +179,31 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
     if (!open) return null;
 
     return (
-        <div className="scan-modal-backdrop">
+        <div className="receipt-scanning-modal">
             <button className="scan-modal-close" onClick={onClose}>✕</button>
             <div className="scan-modal">
 
-                <div className="left-modal-side">
-                    <div className="scroll-inner">
-                        {!uploadedImage && (
-                            <div className="left-side-info">
-                                <h2>Ladda upp kvitto</h2>
-                                <div className="upload-box">
-                                    <span>Dra & släpp eller klicka för att ladda upp</span>
-                                    <input type="file" accept="image/*" onChange={handleUpload} />
-                                </div>
+                <LeftScanPanel
+                    uploadedImage={uploadedImage}
+                    onUpload={handleUpload}
+                />
 
-                            </div>
-                        )}
-                        {uploadedImage && (
-                            <img
-                                src={uploadedImage}
-                                alt="Uploaded receipt"
-                                className="uploaded-image"
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div className="right-modal-side">
-                    <div>
-                        <div className="action-buttons">
-                            <button className="toggle-btn" onClick={handleNewScan}>Ny Kvitto</button>
-                            <button className="toggle-btn" onClick={handleRescan}>Skanna igen</button>
-                            <button
-                                className="toggle-btn"
-                                onClick={handleSave}
-                                disabled={saving || !selectedReceiptId}
-                            >
-                                Spara
-                            </button>
-                            <button className="toggle-btn" onClick={handleDelete}>Radera</button>
-                        </div>
-
-                        <div className="view-toggle">
-                            <button
-                                className={`toggle-btn ${viewMode === "dto" ? "active" : ""}`}
-                                onClick={() => setViewMode("dto")}
-                            >
-                                Kvittodetaljer
-                            </button>
-                            <button
-                                className={`toggle-btn ${viewMode === "raw" ? "active" : ""}`}
-                                onClick={() => setViewMode("raw")}
-                            >
-                                Raw OCR
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="info-scroll">
-                        {editableReceipt ? (
-                            viewMode === "raw" ? (
-                                <pre>{ocrData.ocr?.ocr_text || "Inget OCR-resultat"}</pre>
-                            ) : (
-                                <div className="receipt-dto">
-                                    <p>
-                                        <strong style={{ fontSize: "1.2rem" }}>Kategori:</strong>
-                                        <select
-                                            className="receipt-dropdown"
-                                            value={editableReceipt.category || ""}
-                                            onChange={e => handleInputChange("category", e.target.value)}
-                                        >
-                                            <option value="">Välj kategori</option>
-                                            {CATEGORIES.map(cat => (
-                                                <option key={cat} value={cat}>{cat}</option>
-                                            ))}
-                                        </select>
-                                    </p>
-
-                                    <h3>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.vendorName || ""}
-                                            onChange={e =>
-                                                handleInputChange("vendorName", e.target.value)
-                                            }
-                                        />
-                                    </h3>
-
-                                    <p><strong>Org.nr:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.vendorOrgNumber || ""}
-                                            onChange={e =>
-                                                handleInputChange("vendorOrgNumber", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Adress:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.vendorAddress || ""}
-                                            onChange={e =>
-                                                handleInputChange("vendorAddress", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Kvittonr:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.receiptNumber || ""}
-                                            onChange={e =>
-                                                handleInputChange("receiptNumber", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Datum:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.receiptDate || ""}
-                                            onChange={e =>
-                                                handleInputChange("receiptDate", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Betalmetod:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.paymentMethod || ""}
-                                            onChange={e =>
-                                                handleInputChange("paymentMethod", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Valuta:</strong>
-                                        <input
-                                            type="text"
-                                            value={editableReceipt.currency || ""}
-                                            onChange={e =>
-                                                handleInputChange("currency", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Total:</strong>
-                                        <input
-                                            type="number"
-                                            value={editableReceipt.totalAmount ?? ""}
-                                            onChange={e =>
-                                                handleInputChange("totalAmount", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    <p><strong>Moms:</strong>
-                                        <input
-                                            type="number"
-                                            value={editableReceipt.vatAmount ?? ""}
-                                            onChange={e =>
-                                                handleInputChange("vatAmount", e.target.value)
-                                            }
-                                        />
-                                    </p>
-
-                                    {editableReceipt.items?.length > 0 && (
-                                        <table className="receipt-items-table">
-                                            <thead>
-                                            <tr>
-                                                <th>Artikel</th>
-                                                <th>Antal</th>
-                                                <th>Enhetspris</th>
-                                                <th>Totalt</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {editableReceipt.items.map((item, index) => (
-                                                <tr key={index}>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            value={item.itemName}
-                                                            onChange={e => handleItemChange(index, "itemName", e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            value={item.itemQuantity}
-                                                            onChange={e => handleItemChange(index, "itemQuantity", e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            value={item.itemUnitPrice}
-                                                            onChange={e => handleItemChange(index, "itemUnitPrice", e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            value={item.itemTotalPrice}
-                                                            readOnly
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" onClick={() => handleItemRemove(index)}>
-                                                            Ta bort
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
-                            )
-                        ) : (
-                            <div className="right-side-text">
-                                <h2>Skannad information</h2>
-                                <p>Här visas all OCR-skannad information från kvittot.</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                <RightScanPanel
+                    editableReceipt={editableReceipt}
+                    ocrData={ocrData}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    saving={saving}
+                    selectedReceiptId={selectedReceiptId}
+                    CATEGORIES={CATEGORIES}
+                    onNewScan={handleNewScan}
+                    onRescan={handleRescan}
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                    onFieldChange={handleInputChange}
+                    onItemChange={handleItemChange}
+                    onItemRemove={handleItemRemove}
+                />
             </div>
         </div>
     );

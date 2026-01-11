@@ -1,4 +1,4 @@
-.scan-modal-backdrop {
+.receipt-scanning-modal {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.45);
@@ -9,7 +9,7 @@
     z-index: 1000;
 }
 
-.left-modal-side, .right-modal-side {
+.left-modal-side {
     display: flex;
     flex-direction: row;
     color: #ddd;
