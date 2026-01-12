@@ -96,6 +96,16 @@ function ReceiptsPage() {
         };
     }, []);
 
+    useEffect(() => {
+        if (modalOpen && selectedReceipt && !editableReceipt) {
+            const ocr = ocrDataMap[selectedReceipt.id];
+            if (ocr) {
+                setEditableReceipt(JSON.parse(JSON.stringify(ocr)));
+                setOcrData(ocr);
+            }
+        }
+    }, [modalOpen, selectedReceipt, editableReceipt, ocrDataMap]);
+
     const recalcTotal = (receipt) => {
         if (!receipt.items) return 0;
         return receipt.items.reduce((sum, item) => sum + (item.itemTotalPrice || 0), 0);
@@ -117,7 +127,6 @@ function ReceiptsPage() {
 
     const closeModal = () => {
         setModalOpen(false);
-        setSelectedReceipt(null);
         setEditableReceipt(null);
         setOcrData(null);
         setEditingField(null);
