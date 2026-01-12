@@ -11,6 +11,10 @@ import RightSideHistory from "./right-sidebar/history/RightSideHistory.jsx";
 import HistoryList from "./grid/historyGrid/historyList.jsx";
 import HistoryGrid from "./grid/historyGrid/historyGrid.jsx";
 import HistoryListHeader from "./grid/historyGrid/historyListHeader";
+import receiptsIcon from "./icons/receipt.png";
+import historyIcon from "./icons/history.png";
+import statsIcon from "./icons/analytics.png";
+import settingsIcon from "./icons/settings.png";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -159,21 +163,28 @@ function HistoryPage() {
         localStorage.setItem("historyLayout", newLayout);
     };
 
-    const handleNavClick = (path) => {
-        navigate(path);
-    };
-
     return (
         <div className="page-wrapper">
+
             <aside className="sidebar">
-
                 <h1 className="sidebar-title">Huskvitton</h1>
-
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => handleNavClick("/kvitton")}>Kvitton</div>
-                    <div className="sidebar-item active">Historik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/statistik")}>Statistik</div>
-                    <div className="sidebar-item" onClick={() => handleNavClick("/installningar")}>Inställningar</div>
+                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>
+                        <img src={receiptsIcon} alt="Kvitton" className="sidebar-icon" />
+                        Kvitton
+                    </div>
+                    <div className="sidebar-item active" onClick={() => navigate("/historik")}>
+                        <img src={historyIcon} alt="Historik" className="sidebar-icon" />
+                        Historik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/statistik")}>
+                        <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
+                        Statistik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
+                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
+                        Inställningar
+                    </div>
                 </nav>
             </aside>
 

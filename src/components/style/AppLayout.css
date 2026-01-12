@@ -32,6 +32,8 @@
 }
 
 .sidebar-item {
+    display: flex;
+    align-items: center;
     padding: 10px 14px;
     color: #bbb;
     border-radius: 2px;
@@ -48,6 +50,12 @@
 .sidebar-item.active {
     background-color: #3a3a3a;
     color: white;
+}
+
+.sidebar-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
 }
 
 /* -------------------- Main area (middle + header) -------------------- */

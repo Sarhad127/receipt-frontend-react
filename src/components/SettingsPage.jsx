@@ -2,6 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/pages/SettingsPage.css";
 import "./style/AppLayout.css";
+import receiptsIcon from "./icons/receipt.png";
+import historyIcon from "./icons/history.png";
+import statsIcon from "./icons/analytics.png";
+import settingsIcon from "./icons/settings.png";
 
 function SettingsPage() {
     const navigate = useNavigate();
@@ -15,14 +19,24 @@ function SettingsPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-
                 <h1 className="sidebar-title">Huskvitton</h1>
-
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>Kvitton</div>
-                    <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
-                    <div className="sidebar-item" onClick={() => navigate("/statistik")}>Statistik</div>
-                    <div className="sidebar-item active">Inställningar</div>
+                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>
+                        <img src={receiptsIcon} alt="Kvitton" className="sidebar-icon" />
+                        Kvitton
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/historik")}>
+                        <img src={historyIcon} alt="Historik" className="sidebar-icon" />
+                        Historik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/statistik")}>
+                        <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
+                        Statistik
+                    </div>
+                    <div className="sidebar-item active" onClick={() => navigate("/installningar")}>
+                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
+                        Inställningar
+                    </div>
                 </nav>
             </aside>
 

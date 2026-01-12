@@ -12,6 +12,11 @@ import SavedGrid from "./grid/savedGrid/savedGrid.jsx";
 import SavedList from "./grid/savedGrid/savedList.jsx";
 import SavedListHeader from "./grid/savedGrid/savedListHeader.jsx";
 import ScanReceiptsModal from "./modals/ScanReceiptsModal.jsx";
+import receiptsIcon from "./icons/receipt.png";
+import historyIcon from "./icons/history.png";
+import statsIcon from "./icons/analytics.png";
+import settingsIcon from "./icons/settings.png";
+import addReceiptIcon from "./icons/addReceipt.png";
 
 function ReceiptsPage() {
     const navigate = useNavigate();
@@ -221,12 +226,25 @@ function ReceiptsPage() {
             <aside className="sidebar">
                 <h1 className="sidebar-title">Huskvitton</h1>
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item active">Kvitton</div>
-                    <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
-                    <div className="sidebar-item" onClick={() => navigate("/statistik")}>Statistik</div>
-                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>Inställningar</div>
+                    <div className="sidebar-item active" onClick={() => navigate("/kvitton")}>
+                        <img src={receiptsIcon} alt="Kvitton" className="sidebar-icon" />
+                        Kvitton
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/historik")}>
+                        <img src={historyIcon} alt="Historik" className="sidebar-icon" />
+                        Historik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/statistik")}>
+                        <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
+                        Statistik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
+                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
+                        Inställningar
+                    </div>
                 </nav>
             </aside>
+
 
             <div className="main-area">
 
@@ -315,7 +333,7 @@ function ReceiptsPage() {
                     onClick={() => setScanOpen(true)}
                     title="Skanna / Ladda upp kvitto"
                 >
-                    <span className="fab-icon">+</span>
+                    <img src={addReceiptIcon} alt="Lägg till kvitto" className="fab-icon-img" />
                 </button>
             </div>
 

@@ -2,6 +2,7 @@ import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
 import {deleteSavedReceipts} from "../api/apis.jsx";
 import {useState} from "react";
+import searchIcon from "../icons/search.png";
 
 const CATEGORIES = [
     "Alla",
@@ -80,13 +81,16 @@ function PageHeader({
     return (
         <div className="page-header">
             <div className="page-header-row">
-                <input
-                    type="text"
-                    className="receipt-search"
-                    placeholder="Sök butik, artikel, betalning..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                />
+                <div className="search-wrapper">
+                    <img src={searchIcon} alt="Sök" className="search-icon" />
+                    <input
+                        type="text"
+                        className="receipt-search"
+                        placeholder="Sök butik, artikel, betalning..."
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                </div>
 
                 <div className="quick-date-filter">
                     <select

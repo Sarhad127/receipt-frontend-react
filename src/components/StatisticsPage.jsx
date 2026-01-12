@@ -5,6 +5,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 import "./style/AppLayout.css";
 import "./style/pages/StatisticsPage.css";
 import { Cell } from "recharts";
+import receiptsIcon from "./icons/receipt.png";
+import historyIcon from "./icons/history.png";
+import statsIcon from "./icons/analytics.png";
+import settingsIcon from "./icons/settings.png";
 
 const COLORS = [
     "#82ca9d", "#8884d8", "#ffc658", "#d0ed57", "#a4de6c",
@@ -83,14 +87,24 @@ function StatisticsPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-
                 <h1 className="sidebar-title">Huskvitton</h1>
-
                 <nav className="sidebar-nav">
-                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>Kvitton</div>
-                    <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
-                    <div className="sidebar-item active">Statistik</div>
-                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>Inställningar</div>
+                    <div className="sidebar-item" onClick={() => navigate("/kvitton")}>
+                        <img src={receiptsIcon} alt="Kvitton" className="sidebar-icon" />
+                        Kvitton
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/historik")}>
+                        <img src={historyIcon} alt="Historik" className="sidebar-icon" />
+                        Historik
+                    </div>
+                    <div className="sidebar-item active" onClick={() => navigate("/statistik")}>
+                        <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
+                        Statistik
+                    </div>
+                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
+                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
+                        Inställningar
+                    </div>
                 </nav>
             </aside>
 
