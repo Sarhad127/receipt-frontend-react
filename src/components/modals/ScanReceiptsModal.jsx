@@ -16,6 +16,41 @@ import "./css/BothSides.css";
 import RightScanPanel from "./RightScanPanel.jsx";
 import LeftScanPanel from "./LeftScanPanel.jsx";
 
+function resizeImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = () => {
+            let { width, height } = img;
+
+            if (width > height) {
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width = Math.round((width * maxHeight) / height);
+                    height = maxHeight;
+                }
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob(
+                (blob) => resolve(blob),
+                "image/jpeg",
+                quality
+            );
+        };
+        img.onerror = reject;
+    });
+}
+
 function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
     const {
         uploadedFile,
@@ -110,10 +145,14 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
         if (!file) return;
 
         setUploadedFile(file);
-        setUploadedImage(URL.createObjectURL(file));
 
+        const compressedBlob = await resizeImage(file, 800, 800, 0.7);
+        const compressedUrl = URL.createObjectURL(compressedBlob);
+
+        setUploadedImage(compressedUrl);
+        
         try {
-            const result = await uploadReceipt(file);
+            const result = await uploadReceipt(compressedBlob);
             setOcrData(result);
             if (result.receiptId) setSelectedReceiptId(result.receiptId);
         } catch (err) {

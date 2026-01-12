@@ -305,13 +305,6 @@ function PageHeader({
 
                         <div className="delete-confirm-actions">
                             <button
-                                className="delete-confirm-btn delete-confirm-cancel"
-                                onClick={() => setShowDeleteConfirm(false)}
-                            >
-                                Nej
-                            </button>
-
-                            <button
                                 className="delete-confirm-btn delete-confirm-confirm"
                                 onClick={async () => {
                                     await handleDeleteSelected();
@@ -319,6 +312,12 @@ function PageHeader({
                                 }}
                             >
                                 Ja, radera
+                            </button>
+                            <button
+                                className="delete-confirm-btn delete-confirm-cancel"
+                                onClick={() => setShowDeleteConfirm(false)}
+                            >
+                                Nej
                             </button>
                         </div>
                     </div>
