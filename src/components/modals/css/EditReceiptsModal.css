@@ -28,7 +28,6 @@
 .saved-modal-main {
     display: flex;
     gap: 8px;
-    padding: 8px;
     flex: 1;
     overflow: hidden;
 }
@@ -47,9 +46,7 @@
     height: 100%;
     object-fit: contain;
     border-radius: 6px;
-    margin-bottom: 15px;
-    cursor: zoom-in;
-    background-color: #1f1f1f;
+    background: var(--bg-primary, #111);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,7 +145,7 @@
     flex-direction: column;
     gap: 5px;
     align-items: center;
-    padding: 20px 0;
+    padding: 20px 10px;
 }
 
 .saved-ocr-info p {
@@ -221,6 +218,19 @@
     width: 70%;
 }
 
+.edit-receipt {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9aa0a6;
+    padding: 12px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .receipt-item-row {
     display: flex;
     align-items: center;
@@ -230,9 +240,18 @@
 
 .header-row {
     font-weight: bold;
-    border-bottom: 1px solid #555;
     color: #ccc;
-    padding-bottom: 5px;
+}
+
+.separator-row {
+    margin: 6px 0 8px;
+}
+
+.separator-row .separator-line {
+    width: 100%;
+    height: 1px;
+    background: #555;
+    margin-left: 24px;
 }
 
 .cell {
@@ -281,6 +300,17 @@
 .item-name {
     flex: 3 0 0;
     text-align: left;
+}
+
+.header-row .header-text {
+    cursor: default;
+    background: none !important;
+    font-weight: 600;
+    color: #ccc;
+}
+
+.header-row .inline-edit-span:hover {
+    background: none;
 }
 
 .item-quantity,

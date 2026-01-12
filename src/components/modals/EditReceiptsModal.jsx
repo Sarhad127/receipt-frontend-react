@@ -12,7 +12,6 @@ export default function EditReceiptsModal({
                                                  ocrDataMap,
                                                  setEditableReceipt,
                                                  setOcrData,
-                                                 setModalOpen,
                                                  saving,
                                                  setCurrentIndex,
                                                  setReceipts,
@@ -86,12 +85,14 @@ export default function EditReceiptsModal({
                                 src={images[selectedReceipt.id]}
                                 alt="Kvitto"
                                 className="saved-modal-image"
-                                onClick={() => setModalOpen(false)}
                             />
                         )}
                     </div>
 
                     <div className="saved-modal-right">
+                        <div className="edit-receipt">
+                            Redigera kvitto
+                        </div>
                         <div className="saved-ocr-info" ref={editableRef}>
                             {[
                                 "vendorName",
@@ -168,13 +169,23 @@ export default function EditReceiptsModal({
 
                         {editableReceipt.items && editableReceipt.items.length > 0 && (
                             <ul className="saved-ocr-items">
-
                                 <li className="receipt-item-row header-row">
-                                    <div className="cell remove-btn">{/* empty placeholder */}</div>
-                                    <div className="cell item-name">Artikelnamn</div>
-                                    <div className="cell item-quantity">Antal</div>
-                                    <div className="cell item-unit-price">Pris/st</div>
-                                    <div className="cell item-total">Totalt</div>
+                                    <div className="cell remove-btn"></div>
+                                    <div className="cell item-name">
+                                        <span className="inline-edit-span header-text">Artikel</span>
+                                    </div>
+                                    <div className="cell item-quantity">
+                                        <span className="inline-edit-span header-text">Antal</span>
+                                    </div>
+                                    <div className="cell item-unit-price">
+                                        <span className="inline-edit-span header-text">Pris/st</span>
+                                    </div>
+                                    <div className="cell item-total">
+                                        <span className="inline-edit-span header-text">Total</span>
+                                    </div>
+                                </li>
+                                <li className="receipt-item-row separator-row" aria-hidden="true">
+                                    <div className="separator-line"></div>
                                 </li>
 
                                 {editableReceipt.items.map((item, idx) => (
@@ -249,7 +260,7 @@ export default function EditReceiptsModal({
                                             )}
                                         </div>
                                         <div className="cell item-total">
-                                            <span>= {item.itemTotalPrice}</span>
+                                            <span>{item.itemTotalPrice}</span>
                                         </div>
                                     </li>
                                 ))}
