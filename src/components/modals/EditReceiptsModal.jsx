@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { FaTrash } from "react-icons/fa";
 import {deleteSavedReceipt} from "../api/apis.jsx";
+import '../modals/css/EditReceiptsModal.css'
 
 export default function EditReceiptsModal({
                                                  selectedReceipt,
@@ -88,7 +89,9 @@ export default function EditReceiptsModal({
                                 onClick={() => setModalOpen(false)}
                             />
                         )}
+                    </div>
 
+                    <div className="saved-modal-right">
                         <div className="saved-ocr-info" ref={editableRef}>
                             {[
                                 "vendorName",
@@ -155,9 +158,7 @@ export default function EditReceiptsModal({
                                 </p>
                             ))}
                         </div>
-                    </div>
 
-                    <div className="saved-modal-right">
                         <div className="article-title-modal">
                             <strong>Artiklar</strong>
                             <p className="article-hint">
@@ -167,60 +168,100 @@ export default function EditReceiptsModal({
 
                         {editableReceipt.items && editableReceipt.items.length > 0 && (
                             <ul className="saved-ocr-items">
+
+                                <li className="receipt-item-row header-row">
+                                    <div className="cell remove-btn">{/* empty placeholder */}</div>
+                                    <div className="cell item-name">Artikelnamn</div>
+                                    <div className="cell item-quantity">Antal</div>
+                                    <div className="cell item-unit-price">Pris/st</div>
+                                    <div className="cell item-total">Totalt</div>
+                                </li>
+
                                 {editableReceipt.items.map((item, idx) => (
                                     <li key={idx} className="receipt-item-row">
-                                        <button
-                                            className="remove-item"
-                                            onClick={() => handleItemRemove(idx)}
-                                            title="Ta bort"
-                                        >
-                                            ×
-                                        </button>
-
-                                        {["itemName", "itemQuantity", "itemUnitPrice"].map(subField => (
-                                            editingField === `item-${idx}-${subField}` ? (
+                                        <div className="cell remove-btn">
+                                            <button
+                                                className="remove-item"
+                                                onClick={() => handleItemRemove(idx)}
+                                                title="Ta bort"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                        <div className="cell item-name">
+                                            {editingField === `item-${idx}-itemName` ? (
                                                 <input
-                                                    key={subField}
-                                                    type={subField === "itemName" ? "text" : "number"}
-                                                    value={item[subField]}
-                                                    placeholder={{
-                                                        itemName: "Artikelnamn",
-                                                        itemQuantity: "Antal",
-                                                        itemUnitPrice: "Pris/st"
-                                                    }[subField]}
-                                                    onChange={e => handleItemChange(
-                                                        idx,
-                                                        subField,
-                                                        subField === "itemName" ? e.target.value : parseFloat(e.target.value)
-                                                    )}
+                                                    type="text"
+                                                    value={item.itemName}
+                                                    placeholder="Artikelnamn"
+                                                    onChange={e => handleItemChange(idx, "itemName", e.target.value)}
                                                     onBlur={() => setEditingField(null)}
                                                     autoFocus
                                                     className="inline-edit-input"
                                                 />
                                             ) : (
                                                 <span
-                                                    key={subField}
-                                                    onClick={() => setEditingField(`item-${idx}-${subField}`)}
+                                                    onClick={() => setEditingField(`item-${idx}-itemName`)}
                                                     className="inline-edit-span"
                                                 >
-                                                    {item[subField] || {
-                                                        itemName: "Artikelnamn",
-                                                        itemQuantity: "Antal",
-                                                        itemUnitPrice: "Pris/st"
-                                                    }[subField]}
-                                                </span>
-                                            )
-                                        ))}
-
-                                        <span className="item-total">= {item.itemTotalPrice}</span>
+                                              {item.itemName || "Artikelnamn"}
+                                            </span>
+                                            )}
+                                        </div>
+                                        <div className="cell item-quantity">
+                                            {editingField === `item-${idx}-itemQuantity` ? (
+                                                <input
+                                                    type="number"
+                                                    value={item.itemQuantity}
+                                                    placeholder="Antal"
+                                                    onChange={e => handleItemChange(idx, "itemQuantity", parseFloat(e.target.value) || 0)}
+                                                    onBlur={() => setEditingField(null)}
+                                                    autoFocus
+                                                    className="inline-edit-input"
+                                                />
+                                            ) : (
+                                                <span
+                                                    onClick={() => setEditingField(`item-${idx}-itemQuantity`)}
+                                                    className="inline-edit-span"
+                                                >
+                                              {item.itemQuantity || "Antal"}
+                                            </span>
+                                            )}
+                                        </div>
+                                        <div className="cell item-unit-price">
+                                            {editingField === `item-${idx}-itemUnitPrice` ? (
+                                                <input
+                                                    type="number"
+                                                    value={item.itemUnitPrice}
+                                                    placeholder="Pris/st"
+                                                    onChange={e => handleItemChange(idx, "itemUnitPrice", parseFloat(e.target.value) || 0)}
+                                                    onBlur={() => setEditingField(null)}
+                                                    autoFocus
+                                                    className="inline-edit-input"
+                                                />
+                                            ) : (
+                                                <span
+                                                    onClick={() => setEditingField(`item-${idx}-itemUnitPrice`)}
+                                                    className="inline-edit-span"
+                                                >
+                                              {item.itemUnitPrice || "Pris/st"}
+                                            </span>
+                                            )}
+                                        </div>
+                                        <div className="cell item-total">
+                                            <span>= {item.itemTotalPrice}</span>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
                         )}
-                        <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
-                        <button className="save-receipt" onClick={handleSave} disabled={saving}>
-                            {saving ? "Sparar..." : "Spara"}
-                        </button>
+
+                        <div className="right-panel-bottom-buttons">
+                            <button className="add-item" onClick={handleItemAdd}>Lägg till artikel</button>
+                            <button className="save-receipt" onClick={handleSave} disabled={saving}>
+                                {saving ? "Sparar..." : "Spara"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

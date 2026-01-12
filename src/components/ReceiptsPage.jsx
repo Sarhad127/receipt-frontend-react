@@ -219,9 +219,7 @@ function ReceiptsPage() {
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
-
                 <h1 className="sidebar-title">Huskvitton</h1>
-
                 <nav className="sidebar-nav">
                     <div className="sidebar-item active">Kvitton</div>
                     <div className="sidebar-item" onClick={() => navigate("/historik")}>Historik</div>
@@ -312,15 +310,14 @@ function ReceiptsPage() {
                         </div>
                     )}
                 </div>
+                <button
+                    className="fab-upload"
+                    onClick={() => setScanOpen(true)}
+                    title="Skanna / Ladda upp kvitto"
+                >
+                    <span className="fab-icon">+</span>
+                </button>
             </div>
-
-            <button
-                className="fab-upload"
-                onClick={() => setScanOpen(true)}
-                title="Skanna / Ladda upp kvitto"
-            >
-                <span className="fab-icon">+</span>
-            </button>
 
             <RightSideSaved
                 selectedReceipt={selectedReceipt}
@@ -356,17 +353,7 @@ function ReceiptsPage() {
                 />
             )}
 
-            {imageModalOpen && images[selectedReceipt?.id] && (
-                <div className="image-modal-overlay" onClick={() => setImageModalOpen(false)}>
-                    <div className="image-modal-content" onClick={e => e.stopPropagation()}>
-                        <button className="image-modal-close" onClick={() => setImageModalOpen(false)}>×</button>
-                        <img src={images[selectedReceipt.id]} alt="Förstorad kvittobild" className="image-modal-image" />
-                    </div>
-                </div>
-            )}
-
             <ScanReceiptsModal open={scanOpen} onClose={() => setScanOpen(false)} />
-
         </div>
     );
 }
