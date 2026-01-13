@@ -45,7 +45,7 @@ const RightSideHistory = ({
                         <button
                             className="action-btn"
                             onClick={() =>
-                                navigate("/skanna", {
+                                navigate("/kvitton", {
                                     state: { receiptId: selectedReceiptId }
                                 })
                             }

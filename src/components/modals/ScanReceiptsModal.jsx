@@ -150,7 +150,7 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
         const compressedUrl = URL.createObjectURL(compressedBlob);
 
         setUploadedImage(compressedUrl);
-        
+
         try {
             const result = await uploadReceipt(compressedBlob);
             setOcrData(result);
