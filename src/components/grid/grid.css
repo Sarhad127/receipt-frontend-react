@@ -28,7 +28,6 @@
 .selected-receipt {
     outline: 2px solid #444;
     box-shadow: 0 0 6px rgba(68, 68, 68, 0.7);
-    border-radius: 6px;
     transition: all 0.2s ease;
 }
 
@@ -212,7 +211,6 @@
     width: 180px;
     height: 200px;
     background-color: #2a2a2a;
-    border-radius: 8px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -228,8 +226,16 @@
 .receipt-list.list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0;
     margin-top: 20px;
+}
+
+.receipt-list.list .receipt-item:nth-child(odd) {
+    background-color: #1f1f1f;
+}
+
+.receipt-list.list .receipt-item:nth-child(even) {
+    background-color: #151515;
 }
 
 .receipt-item.list {
@@ -237,7 +243,6 @@
     align-items: center;
     width: 100%;
     background-color: rgba(173, 170, 170, 0.09);
-    border-radius: 8px;
     padding: 10px 16px;
     gap: 12px;
     height: max-content;
@@ -307,7 +312,6 @@
 .receipt-list.list .history-list-row {
     width: 100%;
     background-color: rgba(173, 170, 170, 0.09);
-    border-radius: 8px;
     padding: 10px 16px;
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
