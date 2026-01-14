@@ -42,6 +42,9 @@
     --btn-border-overlay-hover: rgba(0, 0, 0, 0.2);
 
     --border-light: #ddd;
+
+    --row-bg-odd: #ffffff;
+    --row-bg-even: #f3f4f6;
 }
 
 :root[data-theme="dark"] {
@@ -86,4 +89,7 @@
     --btn-border-overlay-hover: rgba(255, 255, 255, 0.25);
 
     --border-light: rgba(255,255,255,0.05);
+
+    --row-bg-odd: #2a2a2a;
+    --row-bg-even: #343434;
 }
