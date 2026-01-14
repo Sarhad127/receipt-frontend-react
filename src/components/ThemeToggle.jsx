@@ -1,6 +1,5 @@
-import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "./utils/theme.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ThemeToggle() {
     const [theme, setTheme] = useState(
@@ -13,13 +12,21 @@ export default function ThemeToggle() {
         setTheme(newTheme);
     };
 
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setTheme(document.documentElement.getAttribute("data-theme"));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <button
-            className="theme-toggle-btn"
+            className={`theme-switch ${theme === "dark" ? "dark" : "light"}`}
             onClick={handleToggle}
             aria-label="Toggle theme"
         >
-            {theme === "dark" ? <FaSun /> : <FaMoon />}
+            <div className="switch-thumb" />
         </button>
     );
 }

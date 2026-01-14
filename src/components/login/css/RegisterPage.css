@@ -17,7 +17,7 @@
 }
 
 .register-form-container h2{
-    color: #ddd;
+    color: var(--text-secondary);
 }
 
 .register-form {
@@ -31,27 +31,27 @@
     padding: 10px;
     border-radius: 2px;
     border: 1px solid #555;
-    background-color: #3a3a3a;
-    color: #ddd;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
 }
 
 .register-form button {
     padding: 10px;
     border-radius: 2px;
     border: none;
-    background-color: #444;
-    color: white;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .register-form button:hover {
-    background-color: #555;
+    background-color: var(--bg-button-hover);
 }
 
 .back-label-wrapper {
     font-size: 14px;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .back-link {

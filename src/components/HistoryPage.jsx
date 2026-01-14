@@ -14,7 +14,6 @@ import HistoryListHeader from "./grid/historyGrid/historyListHeader";
 import receiptsIcon from "./icons/receipt.png";
 import historyIcon from "./icons/history.png";
 import statsIcon from "./icons/analytics.png";
-import settingsIcon from "./icons/settings.png";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -180,10 +179,6 @@ function HistoryPage() {
                     <div className="sidebar-item" onClick={() => navigate("/statistik")}>
                         <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
                         Statistik
-                    </div>
-                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
-                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
-                        Inställningar
                     </div>
                 </nav>
             </aside>

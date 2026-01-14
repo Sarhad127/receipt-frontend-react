@@ -6,3 +6,7 @@
     color: #ddd;
     gap: 10px;
 }
+
+.register-form-container p{
+    gap: 10px;
+}

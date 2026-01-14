@@ -8,7 +8,6 @@ import { Cell } from "recharts";
 import receiptsIcon from "./icons/receipt.png";
 import historyIcon from "./icons/history.png";
 import statsIcon from "./icons/analytics.png";
-import settingsIcon from "./icons/settings.png";
 
 const COLORS = [
     "#82ca9d", "#8884d8", "#ffc658", "#d0ed57", "#a4de6c",
@@ -100,10 +99,6 @@ function StatisticsPage() {
                     <div className="sidebar-item active" onClick={() => navigate("/statistik")}>
                         <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
                         Statistik
-                    </div>
-                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
-                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
-                        Inställningar
                     </div>
                 </nav>
             </aside>

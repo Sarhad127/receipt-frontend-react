@@ -15,7 +15,6 @@ import ScanReceiptsModal from "./modals/ScanReceiptsModal.jsx";
 import receiptsIcon from "./icons/receipt.png";
 import historyIcon from "./icons/history.png";
 import statsIcon from "./icons/analytics.png";
-import settingsIcon from "./icons/settings.png";
 import addReceiptIcon from "./icons/addReceipt.png";
 
 function ReceiptsPage() {
@@ -246,10 +245,6 @@ function ReceiptsPage() {
                     <div className="sidebar-item" onClick={() => navigate("/statistik")}>
                         <img src={statsIcon} alt="Statistik" className="sidebar-icon" />
                         Statistik
-                    </div>
-                    <div className="sidebar-item" onClick={() => navigate("/installningar")}>
-                        <img src={settingsIcon} alt="Inställningar" className="sidebar-icon" />
-                        Inställningar
                     </div>
                 </nav>
             </aside>

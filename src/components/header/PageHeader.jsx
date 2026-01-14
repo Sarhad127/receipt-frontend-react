@@ -1,8 +1,10 @@
 import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
 import {deleteSavedReceipts} from "../api/apis.jsx";
-import {useState} from "react";
+import React, {useState} from "react";
 import searchIcon from "../icons/search.png";
+import ThemeToggle from "../ThemeToggle.jsx";
+import {useNavigate} from "react-router-dom";
 
 const CATEGORIES = [
     "Alla",
@@ -76,6 +78,14 @@ function PageHeader({
             console.error(error);
             alert("Det gick inte att radera kvittona");
         }
+    };
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("jwt");
+        sessionStorage.removeItem("jwt");
+        navigate("/");
     };
 
     return (
@@ -171,6 +181,16 @@ function PageHeader({
                             </div>
                         </button>
                     ))}
+                </div>
+
+                <div className="theme-switcher">
+                    <ThemeToggle />
+                </div>
+
+                <div className="advanced-filter-logout">
+                    <button className="logout-button" onClick={handleLogout}>
+                        Logga ut
+                    </button>
                 </div>
             </div>
 
