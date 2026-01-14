@@ -10,6 +10,7 @@ body {
 }
 
 body {
-    background-color: #1e1e1e;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
     font-family: Arial, sans-serif;
 }

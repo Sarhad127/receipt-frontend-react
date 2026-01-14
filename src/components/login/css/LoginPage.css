@@ -20,11 +20,11 @@
     font-size: 2rem;
     text-align: center;
     margin: 0;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .login-form-container h2{
-    color: #ddd;
+    color: var(--text-secondary);
 }
 
 .login-form {
@@ -38,22 +38,22 @@
     padding: 10px;
     border-radius: 2px;
     border: 1px solid #555;
-    background-color: #3a3a3a;
-    color: #ddd;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
 }
 
 .login-form button {
     padding: 10px;
     border-radius: 2px;
     border: none;
-    background-color: #444;
-    color: white;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .login-form button:hover {
-    background-color: #555;
+    background-color: var(--bg-button-hover);
 }
 
 .login-checkbox-wrapper {
@@ -71,7 +71,7 @@
     gap: 8px;
     justify-content: flex-start;
     width: 100%;
-    color: #ccc;
+    color: var(--text-muted);
     font-size: 13px;
     cursor: pointer;
 }
@@ -87,11 +87,11 @@
     top: 80px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(50, 50, 50, 0.95);
-    color: #fff;
+    background-color: var(--bg-toast);
+    color: var(--text-primary);
     padding: 12px 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-card);
     font-size: 14px;
     z-index: 9999;
     opacity: 0.95;
@@ -100,18 +100,18 @@
 
 .register-label-wrapper {
     font-size: 14px;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .register-link {
-    color: #1e90ff;
+    color: var(--link);
     cursor: pointer;
     font-weight: 500;
     text-decoration: underline;
 }
 
 .register-link:hover {
-    color: #0d6efd;
+    color: var(--link-hover);
 }
 
 @media (max-width: 1280px) {

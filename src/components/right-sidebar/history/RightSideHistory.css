@@ -21,17 +21,17 @@
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    background: rgba(0, 0, 0, 0.45);
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--btn-bg-overlay);
+    color: var(--btn-text-overlay);
+    border: 1px solid var(--btn-border-overlay);
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .expand-btn-on-image:hover {
-    background: rgba(0, 0, 0, 0.65);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: var(--btn-bg-overlay-hover);
+    border-color: var(--btn-border-overlay-hover);
 }
 
 .right-panel-actions {
@@ -45,9 +45,9 @@
 .action-btn {
     padding: 6px 10px;
     border-radius: 6px;
-    border: 1px solid #444;
-    background: #2f2f2f;
-    color: #e5e5e5;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    color: var(--btn-text);
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
@@ -56,9 +56,9 @@
 }
 
 .action-btn:hover {
-    background: #3a3a3a;
-    border-color: #555;
-    color: #fff;
+    background: var(--btn-bg-hover);
+    border-color: var(--btn-border-hover);
+    color: var(--btn-text-hover);
 }
 
 .action-btn:disabled {
@@ -67,20 +67,20 @@
 }
 
 .action-btn.danger {
-    background: #2a2a2a;
-    border-color: #6a2a2a;
-    color: #ffb3b3;
+    background: var(--btn-danger-bg);
+    border-color: var(--btn-danger-border);
+    color: var(--btn-danger-text);
 }
 
 .action-btn.danger:hover {
-    background: #3a1f1f;
-    border-color: #8a3a3a;
-    color: #fff;
+    background: var(--btn-danger-bg-hover);
+    border-color: var(--btn-danger-border-hover);
+    color: var(--btn-danger-text-hover);
 }
 
 .right-panel-placeholder {
     margin: auto;
-    color: #999;
+    color: var(--text-secondary);
     font-style: italic;
     text-align: center;
 }
@@ -88,7 +88,7 @@
 .right-panel-info {
     margin-top: 16px;
     font-size: 12px;
-    color: #ddd;
+    color: var(--text-secondary);
     flex-shrink: 0;
 }
 
@@ -96,21 +96,21 @@
     margin: 12px 0 8px;
     font-size: 13px;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .info-row {
     display: flex;
     justify-content: space-between;
     padding: 4px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-light);
 }
 
 .info-row span {
-    color: #aaa;
+    color: var(--text-secondary);
 }
 
 .info-row strong {
     font-weight: 500;
-    color: #eee;
+    color: var(--text-primary);
 }

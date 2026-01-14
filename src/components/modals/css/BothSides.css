@@ -1,3 +1,4 @@
+/*------------------------------MODAL------------------------*/
 .receipt-scanning-modal {
     position: fixed;
     inset: 0;
@@ -9,11 +10,23 @@
     z-index: 1000;
 }
 
+.scan-modal {
+    width: 80vw;
+    height: 80vh;
+    background: var(--bg-page);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+/*------------------------------LEFT PANEL------------------------*/
 .left-modal-side {
     display: flex;
     flex-direction: row;
-    color: #ddd;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-card);
     align-items: stretch;
     overflow: hidden;
     position: relative;
@@ -21,6 +34,7 @@
     width: 100%;
     height: 100%;
     justify-content: center;
+    background-color: var(--bg-card);
 }
 
 .scan-modal-close {
@@ -30,22 +44,12 @@
     background: none;
     border: none;
     font-size: 24px;
-    color: white;
+    color: var(--text-primary);
     cursor: pointer;
     opacity: 0.8;
+    transition: opacity 0.2s ease;
 }
 
 .scan-modal-close:hover {
     opacity: 1;
-}
-
-.scan-modal {
-    width: 80vw;
-    height: 80vh;
-    background: var(--bg-primary, #111);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
 }

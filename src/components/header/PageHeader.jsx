@@ -108,7 +108,6 @@ function PageHeader({
                         <option value="lastMonth">Förra månaden</option>
                     </select>
                 </div>
-
                 <div className="date-filter">
                     <div className="date-input">
                         <label>Från</label>

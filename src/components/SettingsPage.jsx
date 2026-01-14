@@ -6,6 +6,7 @@ import receiptsIcon from "./icons/receipt.png";
 import historyIcon from "./icons/history.png";
 import statsIcon from "./icons/analytics.png";
 import settingsIcon from "./icons/settings.png";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 function SettingsPage() {
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ function SettingsPage() {
 
             <div className="page-container">
                 <div className="page-content">
+                    <ThemeToggle />
                     <button className="logout-button" onClick={handleLogout}>
                         Logga ut
                     </button>

@@ -22,20 +22,23 @@
 }
 
 .receipt-search {
-    background-color: #2a2a2a;
-    color: #bbb;
-    border: 1px solid #4a4a4a;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
     border-radius: 4px;
     padding: 12px 0 12px 40px;
     width: 100%;
     box-sizing: border-box;
 }
 
+.receipt-search::placeholder {
+    color: var(--text-muted);
+}
+
 .receipt-search:focus {
     outline: none;
-    background-color: #333;
-    border-color: #666;
-    color: #fff;
+    background-color: var(--bg-card);
+    border-color: var(--bg-button);
 }
 
 .quick-date-filter {
@@ -43,7 +46,7 @@
     flex-direction: row;
     align-items: center;
     font-size: 0.8rem;
-    color: #bbb;
+    color: var(--text-secondary);
     margin-left: 1.2rem;
     gap: 6px;
     padding: 0;
@@ -53,24 +56,18 @@
     line-height: 1;
 }
 
-.quick-date-filter select:hover {
-    background-color: #3a3a3a;
-}
-
 .quick-date-filter select:focus {
     outline: none;
-    background-color: #333;
-    border-color: #666;
-    color: #fff;
+    border-color: var(--bg-button);
 }
 
 .quick-date-filter select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #2a2a2a;
-    color: #bbb;
-    border: 1px solid #4a4a4a;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     padding: 6px 40px 6px 12px;
     font-size: 12px;
@@ -87,15 +84,15 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: whitesmoke;
+    color: var(--text-secondary);
     font-size: 0.8rem;
     margin-left: 1.2rem;
 }
 
 .date-filter input[type="date"] {
-    background-color: #2a2a2a;
-    color: #bbb;
-    border: 1px solid #4a4a4a;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
     border-radius: 14px;
     padding: 6px 10px;
     font-size: 12px;
@@ -104,17 +101,17 @@
 
 .date-filter input[type="date"]:focus {
     outline: none;
-    background-color: #333;
-    border-color: #666;
-    color: #fff;
+    background-color: var(--bg-input-focus);
+    color: var(--text-primary);
+    border-color: var(--border-input-focus);
 }
 
 .layout-switcher {
     display: inline-flex;
-    border: 1px solid #4a4a4a;
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     overflow: hidden;
-    background-color: #2a2a2a;
+    background-color: var(--bg-input);
     margin-left: 1.2rem;
     flex-shrink: 0;
 }
@@ -122,7 +119,7 @@
 .switch-btn {
     border: none;
     background: none;
-    color: #ddd;
+    color: var(--text-secondary);
     padding: 6px 12px;
     font-size: 0;
     cursor: pointer;
@@ -134,11 +131,12 @@
 }
 
 .switch-btn:hover {
-    background-color: #3a3a3a;
+    background-color: var(--bg-card);
 }
 
 .switch-btn.active {
-    background-color: #4a4a4a;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
 }
 
 .grid-icon {
@@ -152,7 +150,6 @@
     display: block;
     width: 6px;
     height: 6px;
-    background-color: #ddd;
     border-radius: 1px;
 }
 
@@ -167,7 +164,6 @@
     display: block;
     width: 16px;
     height: 2px;
-    background-color: #ddd;
     border-radius: 1px;
 }
 
@@ -217,6 +213,12 @@
     background-color: #fff;
 }
 
+.quick-date-filter select:hover,
+.sort-dropdown:hover,
+.grid-size-btn:hover {
+    background-color: var(--bg-card);
+}
+
 .advanced-filters {
     display: flex;
     flex-direction: row;
@@ -244,7 +246,7 @@
 
 .advanced-filter-title {
     font-size: 12px;
-    color: #bbb;
+    color: var(--text-muted);
     font-weight: 600;
 }
 
@@ -259,26 +261,26 @@
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: #ddd;
+    color: var(--text-secondary);
     cursor: pointer;
 }
 
 .category-checkbox input {
-    accent-color: #666;
+    accent-color: var(--bg-button);
     cursor: pointer;
 }
 
 .category-checkbox:hover {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .sort-dropdown {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #2a2a2a;
-    color: #bbb;
-    border: 1px solid #4a4a4a;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     padding: 6px 40px 6px 12px;
     font-size: 12px;
@@ -290,15 +292,11 @@
     transition: background-color 0.2s, color 0.2s;
 }
 
-.sort-dropdown:hover {
-    background-color: #3a3a3a;
-}
-
 .sort-dropdown:focus {
     outline: none;
-    background-color: #333;
-    border-color: #666;
-    color: #fff;
+    background-color: var(--bg-input-focus);
+    border-color: var(--border-input-focus);
+    color: var(--text-primary);
 }
 
 .amount-range {
@@ -309,9 +307,9 @@
 
 .amount-range input {
     width: 90px;
-    background-color: #2a2a2a;
-    color: #bbb;
-    border: 1px solid #4a4a4a;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
     border-radius: 10px;
     padding: 6px 10px;
     font-size: 12px;
@@ -322,6 +320,24 @@
     background-color: #333;
     border-color: #666;
     color: #fff;
+}
+
+.amount-range input[type="number"] {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.amount-range input[type="number"]:focus {
+    outline: none;
+    background-color: var(--bg-input-focus);
+    color: var(--text-primary);
+    border-color: var(--border-input-focus);
 }
 
 .range-separator {
@@ -342,13 +358,12 @@
     display: inline-flex;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #2a2a2a;
     flex-shrink: 0;
 }
 
 .export-csv-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
     font-weight: 500;
     padding: 6px 12px;
     border: none;
@@ -360,7 +375,7 @@
 }
 
 .export-csv-btn:hover {
-    background-color: #45a049;
+    background-color: var(--bg-button-hover);
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
@@ -387,9 +402,9 @@
 }
 
 .selection-buttons button:first-child {
-    background-color: white;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
 }
 
 .selection-buttons button:first-child:hover {
@@ -398,17 +413,17 @@
 }
 
 .selection-buttons .export-selected-btn {
-    background-color: #27ae60;
-    color: white;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
 }
 
 .selection-buttons .export-selected-btn:hover {
-    background-color: #1e8449;
+    background-color: var(--bg-button-hover);
 }
 
 .export-selected-btn.inactive {
-    background-color: #2f2f2f;
-    color: #777;
+    background-color: var(--bg-input);
+    color: var(--text-muted);
     text-decoration: line-through;
     cursor: not-allowed;
     opacity: 0.6;
@@ -425,9 +440,15 @@
     margin-left: 1.2rem;
 }
 
+.grid-icon span,
+.list-icon span,
+.grid-size-icon span {
+    background-color: var(--text-secondary);
+}
+
 .grid-size-btn {
-    border: 1px solid #4a4a4a;
-    background-color: #2a2a2a;
+    border: 1px solid var(--border-input);
+    background-color: var(--bg-input);
     width: 32px;
     height: 32px;
     padding: 4px;
@@ -439,12 +460,8 @@
     transition: all 0.2s ease;
 }
 
-.grid-size-btn:hover {
-    background-color: #3a3a3a;
-}
-
 .grid-size-btn.active {
-    background-color: #4a4a4a;
+    background-color: var(--bg-button);
 }
 
 .grid-size-icon {
@@ -456,7 +473,6 @@
 
 .grid-size-icon span {
     display: block;
-    background-color: #ddd;
     border-radius: 1px;
 }
 
@@ -500,7 +516,7 @@
 .delete-confirm-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -508,12 +524,12 @@
 }
 
 .delete-confirm-modal {
-    background: #1f1f1f;
+    background: var(--bg-card);
     padding: 22px 26px;
     border-radius: 10px;
     width: 320px;
-    color: #fff;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-card);
 }
 
 .delete-confirm-title {
@@ -523,7 +539,7 @@
 
 .delete-confirm-text {
     font-size: 14px;
-    color: #bbb;
+    color: var(--text-secondary);
     margin-bottom: 20px;
 }
 
@@ -542,11 +558,11 @@
 }
 
 .delete-confirm-cancel {
-    background: #444;
-    color: #fff;
+    background: var(--bg-input);
+    color: var(--text-primary);
 }
 
 .delete-confirm-confirm {
-    background: #d9534f;
-    color: #fff;
+    background-color: #d9534f;
+    color: white;
 }

@@ -14,3 +14,34 @@
     background-color: #e74c3c;
     transform: translateY(-2px);
 }
+
+/* -------------------- Theme Toggle Button -------------------- */
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-input);
+    background-color: var(--bg-button);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 18px;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--bg-button-hover);
+    transform: translateY(-1px);
+}
+
+.theme-toggle-btn:active {
+    transform: translateY(1px);
+}
+
+.theme-toggle-btn:focus {
+    outline: 2px solid var(--border-input-focus);
+    outline-offset: 2px;
+}

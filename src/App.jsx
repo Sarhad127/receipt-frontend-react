@@ -8,6 +8,7 @@ import SettingsPage from "./components/SettingsPage.jsx";
 import StatisticsPage from "./components/StatisticsPage.jsx";
 
 import "./App.css";
+import './components/style/ThemeColor.css';
 
 function App() {
     return (
