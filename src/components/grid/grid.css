@@ -223,14 +223,6 @@
     margin-top: 20px;
 }
 
-.receipt-list.list .receipt-item:nth-child(odd) {
-    background-color: #1f1f1f;
-}
-
-.receipt-list.list .receipt-item:nth-child(even) {
-    background-color: #151515;
-}
-
 .receipt-item.list {
     display: flex;
     align-items: center;
@@ -325,6 +317,7 @@
     background-color: var(--btn-bg);
     border: 1px solid var(--border-input-focus);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .col.saved-dot-col {
