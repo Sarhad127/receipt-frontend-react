@@ -6,9 +6,11 @@
     --bg-button: #2563eb;
     --bg-button-hover: #1d4ed8;
     --bg-toast: rgba(255, 255, 255, 0.95);
+    --bg-header: #1E40AF;
+    --btn-surface: #d7d7da;
 
     --text-primary: #111827;
-    --text-secondary: #4b5563;
+    --text-secondary: #2B2B2B;
     --text-muted: #6b7280;
     --text-inverse: #ffffff;
     --link: #2563eb;
@@ -48,6 +50,7 @@
     --bg-input: #3a3a3a;
     --bg-button: #444;
     --bg-button-hover: #555;
+    --btn-surface: #444;
     --bg-toast: rgba(50, 50, 50, 0.95);
 
     --text-primary: #ffffff;
