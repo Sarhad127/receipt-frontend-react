@@ -237,6 +237,31 @@ function ReceiptsPage() {
         [receipts, ocrDataMap, searchTerm, fromDate, toDate, quickDate, selectedCategories, minAmount, maxAmount, sortOption]
     );
 
+    useEffect(() => {
+        switch (sortOption) {
+            case "newest":
+                setListSortKey("createdAt");
+                setListSortDir("desc");
+                break;
+            case "oldest":
+                setListSortKey("createdAt");
+                setListSortDir("asc");
+                break;
+            case "highest":
+                setListSortKey("totalAmount");
+                setListSortDir("desc");
+                break;
+            case "lowest":
+                setListSortKey("totalAmount");
+                setListSortDir("asc");
+                break;
+            case "vendorAZ":
+                setListSortKey("vendorName");
+                setListSortDir("asc");
+                break;
+        }
+    }, [sortOption]);
+
     const sortedReceipts = React.useMemo(() => {
         const arr = [...filteredReceipts];
         if (!listSortKey) return arr;
