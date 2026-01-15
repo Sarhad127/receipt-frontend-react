@@ -4,6 +4,7 @@ import "./css/LoginPage.css";
 import RegisterPage from "./RegisterPage.jsx";
 import { useNavigate } from "react-router-dom";
 import { loginUser, resendCode } from "../api/apis.jsx";
+import receiptBg from "./images/receipt-bg.jpg";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -64,9 +65,48 @@ function LoginPage() {
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-content login-content">
-                <div className="login-form-container">
+                <div
+                    className="left-login-panel"
+                    style={{
+                        backgroundImage: `
+                                          linear-gradient(135deg, rgba(12, 24, 48, 0.95), rgba(28, 64, 120, 0.95)),
+                                          url(${receiptBg})
+                                        `
+                    }}
+                >
 
-                    <h1 className="login-titel">Huskvitton</h1>
+                <div className="left-panel-overlay">
+
+                        <h1 className="left-title">Huskvitton</h1>
+
+                        <div className="feature-list">
+                            <div className="feature-item">
+                                <span>📁</span>
+                                <p>Spara alla dina kvitton på ett ställe</p>
+                            </div>
+
+                            <div className="feature-item">
+                                <span>🔍</span>
+                                <p>Hitta gamla kvitton på sekunder</p>
+                            </div>
+
+                            <div className="feature-item">
+                                <span>📊</span>
+                                <p>Få tydlig överblick över dina utgifter</p>
+                            </div>
+
+                            <div className="feature-item">
+                                <span>🔐</span>
+                                <p>Säker lagring med trygg inloggning</p>
+                            </div>
+                        </div>
+                        <p className="left-footer-text">
+                            Organisera ditt kvittokaos - enkelt och smart.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="login-form-container">
 
                     <h2>Logga in</h2>
 

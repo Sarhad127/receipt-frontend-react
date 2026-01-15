@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../style/AppLayout.css";
 import "./css/RegisterPage.css";
-import "./css/VerifyPage.css";
 import { registerUser, resendCode, verifyUser } from "../api/apis.jsx";
+import receiptBg from "./images/receipt-bg.jpg";
 
 function RegisterPage({ onBack, onSuccess }) {
     const [email, setEmail] = useState("");
@@ -73,8 +73,42 @@ function RegisterPage({ onBack, onSuccess }) {
             {toastMessage && <div className="toast-popup">{toastMessage}</div>}
 
             <div className="page-content login-content">
+                <div
+                    className="left-login-panel"
+                    style={{
+                        backgroundImage: `
+                                          linear-gradient(135deg, rgba(12, 24, 48, 0.95), rgba(28, 64, 120, 0.95)),
+                                          url(${receiptBg})
+                                        `
+                    }}
+                >
+
+                    <div className="left-panel-overlay">
+                        <h1 className="left-title">Huskvitton</h1>
+                        <div className="feature-list">
+                            <div className="feature-item">
+                                <span>📁</span>
+                                <p>Spara alla dina kvitton på ett ställe</p>
+                            </div>
+                            <div className="feature-item">
+                                <span>🔍</span>
+                                <p>Hitta gamla kvitton på sekunder</p>
+                            </div>
+                            <div className="feature-item">
+                                <span>📊</span>
+                                <p>Få tydlig överblick över dina utgifter</p>
+                            </div>
+                            <div className="feature-item">
+                                <span>🔐</span>
+                                <p>Säker lagring med trygg inloggning</p>
+                            </div>
+                        </div>
+                        <p className="left-footer-text">
+                            Organisera ditt kvittokaos - enkelt och smart.
+                        </p>
+                    </div>
+                </div>
                 <div className="register-form-container">
-                    <h1 className="login-titel">Huskvitton</h1>
 
                     {!showVerify ? (
                         <>
@@ -87,6 +121,7 @@ function RegisterPage({ onBack, onSuccess }) {
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
+
                                 <input
                                     type="password"
                                     placeholder="Lösenord"
@@ -94,6 +129,7 @@ function RegisterPage({ onBack, onSuccess }) {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
+
                                 <input
                                     type="password"
                                     placeholder="Bekräfta Lösenord"
@@ -103,6 +139,7 @@ function RegisterPage({ onBack, onSuccess }) {
                                 />
                                 <button type="submit">Registrera</button>
                             </form>
+
                             <div className="back-label-wrapper">
                                 <span>Har du redan ett konto? </span>
                                 <span className="back-link" onClick={onBack}>Logga in</span>
@@ -111,7 +148,13 @@ function RegisterPage({ onBack, onSuccess }) {
                     ) : (
                         <>
                             <h2>Verifiera ditt konto</h2>
-                            <p>Vi har skickat en verifieringskod till <strong>{email}</strong></p>
+
+                            <div className="verify-title-container">
+                                <p>Vi har skickat en verifieringskod till</p>
+                                <p className="verify-email">{email}</p>
+                            </div>
+
+
                             <form className="register-form" onSubmit={handleVerify}>
                                 <input
                                     type="text"

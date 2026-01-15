@@ -7,6 +7,7 @@
 .register-form-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 26px;
     width: 450px;
@@ -63,6 +64,21 @@
 
 .back-link:hover {
     color: #0d6efd;
+}
+
+.verify-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: var(--text-primary);
+    gap: 6px;
+}
+
+.verify-email {
+    color: var(--text-secondary);
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 @media (max-width: 1280px) {

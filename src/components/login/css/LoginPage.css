@@ -1,26 +1,87 @@
 .page-content.login-content {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.login-form-container {
+/**********************  --  LEFT PANEl  --  ***********************/
+
+.left-login-panel{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 26px;
     width: 450px;
     height: 600px;
+    background-color: gray;
+
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px 0 0 12px;
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.left-panel-overlay {
+    width: 85%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 24px;
+}
+
+.left-title {
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.08);
+    padding: 10px 12px;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+}
+
+.feature-item span {
+    font-size: 18px;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.left-footer-text {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/**********************  --  RIGHT PANEl  --  ***********************/
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    width: 450px;
+    height: 600px;
     padding: 42px 36px;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-
-.login-titel {
-    font-size: 2rem;
-    text-align: center;
-    margin: 0;
-    color: var(--text-primary);
 }
 
 .login-form-container h2{
