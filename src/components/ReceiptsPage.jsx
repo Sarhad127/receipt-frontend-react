@@ -324,12 +324,24 @@ function ReceiptsPage() {
                                             r={r}
                                             image={images[r.id]}
                                             ocrData={ocrDataMap[r.id]}
+                                            onExpand={(id) => {
+                                                setSelectedReceipt(receipts.find(rec => rec.id === id));
+                                                setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[id])));
+                                                setOcrData(ocrDataMap[id]);
+                                                setModalOpen(true);
+                                            }}
                                         />
                                     ) : (
                                         <SavedList
                                             r={r}
                                             image={images[r.id]}
                                             ocrData={ocrDataMap[r.id]}
+                                            onExpand={(id) => {
+                                                setSelectedReceipt(receipts.find(rec => rec.id === id));
+                                                setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[id])));
+                                                setOcrData(ocrDataMap[id]);
+                                                setModalOpen(true);
+                                            }}
                                         />
                                     )}
                                 </li>

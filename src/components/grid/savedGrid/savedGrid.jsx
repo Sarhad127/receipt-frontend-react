@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SavedGrid({ r, image, ocrData }) {
+export default function SavedGrid({ r, image, ocrData, onExpand }) {
     return (
         <>
             <p className="receipt-vendor">
@@ -18,7 +18,19 @@ export default function SavedGrid({ r, image, ocrData }) {
             </p>
 
             {image ? (
-                <img src={image} alt="Kvitto" className="receipt-image" />
+                <>
+                    <img src={image} alt="Kvitto" className="receipt-image" />
+                    <button
+                        className="expand-pil"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onExpand?.(r.id);
+                        }}
+                        title="Förstora"
+                    >
+                        ⤢
+                    </button>
+                </>
             ) : (
                 <p>Laddar bild...</p>
             )}

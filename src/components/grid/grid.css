@@ -53,6 +53,73 @@
     max-width: 100%;
 }
 
+.expand-pil {
+    position: absolute;
+    font-size: 1rem;
+    color: var(--btn-text-overlay);
+    cursor: pointer;
+    z-index: 10;
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    background: var(--btn-bg-overlay);
+    border: 1px solid var(--btn-border-overlay);
+    border-radius: 6px;
+    padding: 2px 6px;
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+}
+
+.expand-pil:hover {
+    background: var(--btn-bg-overlay-hover);
+    border-color: var(--btn-border-overlay-hover);
+    color: var(--btn-text-overlay);
+    transform: scale(1.2);
+}
+
+.receipt-list.grid.small .expand-pil {
+    bottom: 6px;
+    left: 10px;
+}
+
+.receipt-list.grid.medium .expand-pil {
+    bottom: 10px;
+    left: 14px;
+}
+
+.receipt-list.grid.large .expand-pil {
+    bottom: 12px;
+    left: 14px;
+}
+
+.expand-pil-list {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    font-size: 1rem;
+    color: var(--btn-text-overlay);
+    cursor: pointer;
+    z-index: 10;
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    background: var(--btn-bg-overlay);
+    border: 1px solid var(--btn-border-overlay);
+    border-radius: 6px;
+    padding: 2px 4px;
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+}
+
+.expand-pil-list:hover {
+    background: var(--btn-bg-overlay-hover);
+    border-color: var(--btn-border-overlay-hover);
+    color: var(--btn-text-overlay);
+    transform: scale(1.2);
+}
+
 /***********************SMALL**************************/
 
 .receipt-list.grid.small {
