@@ -1,4 +1,5 @@
 import React from "react";
+import "../receiptHeader.css";
 
 export default function SavedListHeader({ onSort, currentSort, currentSortDir }) {
     const columns = [
@@ -20,19 +21,19 @@ export default function SavedListHeader({ onSort, currentSort, currentSortDir })
 
     return (
         <div className="history-list-header">
-            {columns.map((col) => (
-                <div
-                    key={col.key}
-                    className="col"
-                    style={{ cursor: "pointer", userSelect: "none" }}
-                    onClick={() => handleClick(col.key)}
-                >
-                    {col.label}
-                    {currentSort === col.key && (
-                        <span>{currentSortDir === "asc" ? " ↑" : " ↓"}</span>
-                    )}
-                </div>
-            ))}
+            {columns.map((col) => {
+                const isActive = currentSort === col.key;
+
+                return (
+                    <div
+                        key={col.key}
+                        className={`col ${isActive ? "active-sort" : ""}`}
+                        onClick={() => handleClick(col.key)}
+                    >
+                        <span>{col.label}↑↓</span>
+                    </div>
+                );
+            })}
         </div>
     );
 }
