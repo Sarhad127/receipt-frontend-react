@@ -520,42 +520,31 @@
     transform: translateY(-1px);
 }
 
-.theme-switch {
-    position: relative;
-    width: 50px;
-    height: 24px;
-    border-radius: 12px;
-    border: 1px solid var(--border-input);
-    background-color: var(--bg-button-hover);
+.theme-toggle {
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    padding: 2px;
+    padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    color: #f39c12;
+    transition: color 0.3s ease;
 }
 
-.theme-switch .switch-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: var(--text-inverse);
-    transition: transform 0.3s ease, background-color 0.3s ease;
+.theme-toggle:hover {
+    opacity: 0.8;
 }
 
-.theme-switch.dark {
-    background-color: #333;
+.theme-toggle .sun-and-moon.dark {
+    color: #f5f6fa;
 }
 
-.theme-switch.dark .switch-thumb {
-    transform: translateX(26px);
+.sun-and-moon {
+    transition: transform 0.5s ease, color 0.5s ease;
 }
-
-.theme-switch.light {
-    background-color: #ccc;
-}
-
-.theme-switch.light .switch-thumb {
-    transform: translateX(0);
+.sun-and-moon.dark {
+    transform: rotate(40deg);
 }
 
 .delete-selected-btn {
