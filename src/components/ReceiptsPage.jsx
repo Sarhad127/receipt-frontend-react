@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./style/pages/ReceiptsPage.css";
 import "./style/AppLayout.css";
-import "./grid/grid.css"
-import {fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo}
+import "./grid/grid.css";
+import { fetchSavedReceipts, fetchReceiptImage, fetchSavedReceiptData, saveReceiptInfo }
     from "./api/apis";
 import PageHeader, { filterReceipts } from "./header/PageHeader.jsx";
 import RightSideSaved from "./right-sidebar/saved/RightSideSaved.jsx";
@@ -45,13 +45,11 @@ function ReceiptsPage() {
     const [scanOpen, setScanOpen] = useState(false);
     const [historyReceiptId, setHistoryReceiptId] = useState(null);
 
-    const [gridSize, setGridSize] = useState(() => {
-        return localStorage.getItem("savedPageGridSize") || "medium";
-    });
+    const [gridSize, setGridSize] = useState(() => localStorage.getItem("savedPageGridSize") || "medium");
+    const [layout, setLayout] = useState(() => localStorage.getItem("savedPageLayout") || "grid");
 
-    const [layout, setLayout] = useState(() => {
-        return localStorage.getItem("savedPageLayout") || "grid";
-    });
+    const [listSortKey, setListSortKey] = useState("createdAt");
+    const [listSortDir, setListSortDir] = useState("desc");
 
     const handleGridSizeChange = (size) => {
         setGridSize(size);
@@ -200,9 +198,9 @@ function ReceiptsPage() {
     const goToNext = () => {
         if (!selectedReceipt) return;
 
-        const currentFilteredIndex = filteredReceipts.findIndex(r => r.id === selectedReceipt.id);
-        if (currentFilteredIndex < filteredReceipts.length - 1) {
-            const nextReceipt = filteredReceipts[currentFilteredIndex + 1];
+        const currentFilteredIndex = sortedReceipts.findIndex(r => r.id === selectedReceipt.id);
+        if (currentFilteredIndex < sortedReceipts.length - 1) {
+            const nextReceipt = sortedReceipts[currentFilteredIndex + 1];
             setSelectedReceipt(nextReceipt);
             setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[nextReceipt.id])));
             setOcrData(ocrDataMap[nextReceipt.id]);
@@ -213,9 +211,9 @@ function ReceiptsPage() {
     const goToPrev = () => {
         if (!selectedReceipt) return;
 
-        const currentFilteredIndex = filteredReceipts.findIndex(r => r.id === selectedReceipt.id);
+        const currentFilteredIndex = sortedReceipts.findIndex(r => r.id === selectedReceipt.id);
         if (currentFilteredIndex > 0) {
-            const prevReceipt = filteredReceipts[currentFilteredIndex - 1];
+            const prevReceipt = sortedReceipts[currentFilteredIndex - 1];
             setSelectedReceipt(prevReceipt);
             setEditableReceipt(JSON.parse(JSON.stringify(ocrDataMap[prevReceipt.id])));
             setOcrData(ocrDataMap[prevReceipt.id]);
@@ -239,6 +237,50 @@ function ReceiptsPage() {
         [receipts, ocrDataMap, searchTerm, fromDate, toDate, quickDate, selectedCategories, minAmount, maxAmount, sortOption]
     );
 
+    const sortedReceipts = React.useMemo(() => {
+        const arr = [...filteredReceipts];
+        if (!listSortKey) return arr;
+
+        arr.sort((a, b) => {
+            const ocrA = ocrDataMap[a.id] || {};
+            const ocrB = ocrDataMap[b.id] || {};
+
+            let valA, valB;
+
+            switch (listSortKey) {
+                case "vendorName":
+                    valA = ocrA.vendorName || "";
+                    valB = ocrB.vendorName || "";
+                    break;
+                case "totalAmount":
+                    valA = ocrA.totalAmount || 0;
+                    valB = ocrB.totalAmount || 0;
+                    break;
+                case "category":
+                    valA = ocrA.category || "";
+                    valB = ocrB.category || "";
+                    break;
+                case "paymentMethod":
+                    valA = ocrA.paymentMethod || "";
+                    valB = ocrB.paymentMethod || "";
+                    break;
+                case "createdAt":
+                    valA = new Date(a.createdAt).getTime();
+                    valB = new Date(b.createdAt).getTime();
+                    break;
+                default:
+                    valA = "";
+                    valB = "";
+            }
+
+            if (valA < valB) return listSortDir === "asc" ? -1 : 1;
+            if (valA > valB) return listSortDir === "asc" ? 1 : -1;
+            return 0;
+        });
+
+        return arr;
+    }, [filteredReceipts, listSortKey, listSortDir, ocrDataMap]);
+
     return (
         <div className="page-wrapper">
             <aside className="sidebar">
@@ -259,9 +301,7 @@ function ReceiptsPage() {
                 </nav>
             </aside>
 
-
             <div className="main-area">
-
                 <PageHeader
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
@@ -295,16 +335,26 @@ function ReceiptsPage() {
                 />
 
                 <div className="page-content">
-                    {layout === "list" && <SavedListHeader />}
+                    {layout === "list" && (
+                        <SavedListHeader
+                            currentSort={listSortKey}
+                            currentSortDir={listSortDir}
+                            onSort={(key, dir) => {
+                                setListSortKey(key);
+                                setListSortDir(dir);
+                            }}
+                        />
+                    )}
+
                     {receipts.length === 0 ? null : (
                         <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
-                            {filteredReceipts.map((r, index) => (
+                            {sortedReceipts.map((r, index) => (
                                 <li
                                     key={r.id}
                                     className={`receipt-item ${layout} ${
                                         selectionMode
-                                            ? (selectedReceipts.has(r.id) ? "selected-receipt" : "")
-                                            : (selectedReceipt?.id === r.id ? "selected-receipt" : "")
+                                            ? selectedReceipts.has(r.id) ? "selected-receipt" : ""
+                                            : selectedReceipt?.id === r.id ? "selected-receipt" : ""
                                     }`}
                                     onClick={() => {
                                         if (selectionMode) {
@@ -348,7 +398,7 @@ function ReceiptsPage() {
                             ))}
                         </ul>
                     )}
-                    {filteredReceipts.length === 0 && (
+                    {sortedReceipts.length === 0 && (
                         <div className="empty-state">
                             <p>Inga kvitton</p>
                         </div>
@@ -370,13 +420,14 @@ function ReceiptsPage() {
                 allReceipts={receipts}
                 ocrDataMap={ocrDataMap}
             />
+
             {modalOpen && selectedReceipt && editableReceipt && (
                 <EditReceiptsModal
                     selectedReceipt={selectedReceipt}
                     editableReceipt={editableReceipt}
                     images={images}
                     currentIndex={currentIndex}
-                    filteredReceipts={filteredReceipts}
+                    filteredReceipts={sortedReceipts}
                     ocrDataMap={ocrDataMap}
                     setEditableReceipt={setEditableReceipt}
                     setOcrData={setOcrData}
