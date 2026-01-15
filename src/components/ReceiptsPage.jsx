@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import "./style/pages/ReceiptsPage.css";
 import "./style/AppLayout.css";
 import "./grid/grid.css"
@@ -19,6 +19,7 @@ import addReceiptIcon from "./icons/addReceipt.png";
 
 function ReceiptsPage() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [receipts, setReceipts] = useState([]);
     const [images, setImages] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
@@ -42,6 +43,7 @@ function ReceiptsPage() {
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedReceipts, setSelectedReceipts] = useState(new Set());
     const [scanOpen, setScanOpen] = useState(false);
+    const [historyReceiptId, setHistoryReceiptId] = useState(null);
 
     const [gridSize, setGridSize] = useState(() => {
         return localStorage.getItem("savedPageGridSize") || "medium";
@@ -55,6 +57,14 @@ function ReceiptsPage() {
         setGridSize(size);
         localStorage.setItem("savedPageGridSize", size);
     };
+
+    useEffect(() => {
+        if (location.state?.scanOpen) {
+            setScanOpen(true);
+            setHistoryReceiptId(location.state.prefillReceiptId);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state, navigate]);
 
     useEffect(() => {
         const loadReceipts = async () => {
@@ -375,7 +385,11 @@ function ReceiptsPage() {
                 />
             )}
 
-            <ScanReceiptsModal open={scanOpen} onClose={() => setScanOpen(false)} />
+            <ScanReceiptsModal
+                open={scanOpen}
+                onClose={() => setScanOpen(false)}
+                historyReceiptId={historyReceiptId}
+            />
         </div>
     );
 }

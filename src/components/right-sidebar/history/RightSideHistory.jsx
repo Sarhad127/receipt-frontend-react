@@ -46,7 +46,7 @@ const RightSideHistory = ({
                             className="action-btn"
                             onClick={() =>
                                 navigate("/kvitton", {
-                                    state: { receiptId: selectedReceiptId }
+                                    state: { scanOpen: true, prefillReceiptId: selectedReceiptId }
                                 })
                             }
                         >

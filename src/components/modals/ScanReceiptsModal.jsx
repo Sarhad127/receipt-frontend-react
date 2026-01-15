@@ -103,11 +103,10 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
     useEffect(() => {
         if (!historyReceiptId) return;
 
-        setSelectedReceiptId(historyReceiptId);
-
         const load = async () => {
             try {
                 const file = await fetchHistoryReceiptFile(historyReceiptId);
+                setUploadedFile(file);
                 setUploadedImage(URL.createObjectURL(file));
 
                 const ocr = await rescanReceipt(historyReceiptId, file);
@@ -116,13 +115,14 @@ function ScanReceiptsModal({ open, onClose, historyReceiptId = null }) {
                 if (ocr.receipt) {
                     setEditableReceipt(JSON.parse(JSON.stringify(ocr.receipt)));
                 }
+                setSelectedReceiptId(historyReceiptId);
             } catch (e) {
                 console.error(e);
             }
         };
 
         load();
-    }, [historyReceiptId, setOcrData, setSelectedReceiptId, setUploadedImage]);
+    }, [historyReceiptId, setUploadedFile, setUploadedImage, setOcrData, setSelectedReceiptId]);
 
     const handleInputChange = (field, value) => {
         setEditableReceipt(prev => ({ ...prev, [field]: value }));
