@@ -1,6 +1,6 @@
 import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
-import {deleteSavedReceipts, deleteHistoryReceiptss} from "../api/apis.jsx";
+import {deleteSavedReceipts, deleteMultipleHistoryReceipts} from "../api/apis.jsx";
 import React, {useState} from "react";
 import searchIcon from "../icons/search.png";
 import ThemeToggle from "../ThemeToggle.jsx";
@@ -75,7 +75,7 @@ function PageHeader({
 
         try {
             if (isHistoryPage && deleteHistoryReceipts) {
-                await deleteHistoryReceiptss(Array.from(selectedReceipts));
+                await deleteMultipleHistoryReceipts(Array.from(selectedReceipts));
             } else {
                 await deleteSavedReceipts(Array.from(selectedReceipts));
             }

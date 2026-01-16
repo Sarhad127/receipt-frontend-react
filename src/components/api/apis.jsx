@@ -103,7 +103,7 @@ export async function fetchHistoryReceiptImage(receiptId) {
     return URL.createObjectURL(blob);
 }
 
-export async function deleteHistoryReceiptss(receiptIds) {
+export async function deleteMultipleHistoryReceipts(receiptIds) {
     const token = getToken();
     if (!token) throw new Error("No token");
 
