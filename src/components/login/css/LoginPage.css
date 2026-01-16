@@ -1,0 +1,213 @@
+.page-content.login-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/**********************  --  LEFT PANEl  --  ***********************/
+
+.left-login-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    width: 450px;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px 0 0 12px;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.left-panel-overlay {
+    width: 85%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 24px;
+}
+
+.left-title {
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.08);
+    padding: 10px 12px;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+}
+
+.feature-item span {
+    font-size: 18px;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.left-footer-text {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/**********************  --  RIGHT PANEl  --  ***********************/
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    width: 450px;
+    height: 600px;
+    padding: 42px 36px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.login-form-container h2{
+    color: var(--text-secondary);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+}
+
+.login-form input {
+    padding: 10px;
+    border-radius: 2px;
+    border: 1px solid #555;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.login-form button {
+    padding: 10px;
+    border-radius: 2px;
+    border: none;
+    background-color: var(--bg-button);
+    color: var(--text-inverse);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-form button:hover {
+    background-color: var(--bg-button-hover);
+}
+
+.login-checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+    width: 100%;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.remember-me input {
+    transform: scale(1.3);
+    transform-origin: left center;
+    flex-shrink: 0;
+}
+
+.toast-popup {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-toast);
+    color: var(--text-primary);
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+}
+
+.register-label-wrapper {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.register-link {
+    color: var(--link);
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.register-link:hover {
+    color: var(--link-hover);
+}
+
+@media (max-width: 1280px) {
+    .login-form-container {
+        width: 360px;
+        height: auto;
+        padding: 30px 24px;
+        gap: 20px;
+    }
+
+    .login-form-container h2 {
+        font-size: 20px;
+    }
+
+    .login-form input {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .login-form button,
+    .register-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .remember-me {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .remember-me input {
+        transform: scale(1.2);
+    }
+
+    .toast-popup {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}

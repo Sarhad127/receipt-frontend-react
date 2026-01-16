@@ -1,0 +1,328 @@
+.right-modal-side {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.right-modal-side pre {
+    font-size: 12px;
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+    background-color: var(--bg-card);
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.right-modal-side h2 {
+    margin-bottom: 16px;
+    margin-top: 50px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.info-scroll {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-scroll p{
+    font-size: 0.9rem;
+}
+
+.info-scroll pre {
+    width: 50%;
+    display: block;
+    text-align: center;
+    border-radius: 2px;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.receipt-dropdown {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    width: auto;
+    border: 1px solid var(--border-input);
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.receipt-dropdown:hover {
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-dropdown:focus {
+    outline: none;
+    border-color: var(--border-input-focus);
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-dto {
+    width: 90%;
+    height: 95%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border-radius: 12px;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.receipt-dto::-webkit-scrollbar {
+    display: none;
+}
+
+.receipt-dto input {
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 4px 8px;
+    border-radius: 2px;
+    color: var(--text-primary);
+    width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.receipt-dto input:hover {
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-dto input:focus,
+.receipt-items-table input:focus {
+    outline: none;
+    border-color: var(--border-input-focus);
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-dto p {
+    margin: 2px 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.receipt-dto p strong {
+    min-width: 110px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.receipt-dto h3 {
+    margin: 10px 0;
+}
+
+.receipt-dto h3 input {
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 16px 0px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-input);
+    border-radius: 0;
+    text-align: center;
+}
+
+.receipt-dto h3 input:focus {
+    border-bottom-color: var(--border-input-focus);
+    background-color: transparent;
+}
+
+.receipt-items-table {
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    margin-top: 10px;
+}
+
+.receipt-items-table th {
+    font-weight: 500;
+    padding-bottom: 10px;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.receipt-items-table input {
+    background-color: var(--bg-input);
+    border: 1px solid transparent;
+    padding: 4px 6px;
+    border-radius: 0px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.receipt-items-table input:hover {
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-items-table input:focus {
+    outline: none;
+    border-color: var(--border-input-focus);
+    background-color: var(--bg-input-focus);
+}
+
+.receipt-items-table input[readonly] {
+    background-color: var(--bg-card);
+    color: var(--text-muted);
+    cursor: default;
+}
+
+.receipt-items-table td:first-child input {
+    width: 100%;
+    min-width: 160px;
+}
+
+.receipt-items-table td:not(:first-child) input {
+    width: 72px;
+    text-align: right;
+}
+
+.receipt-items-table input[readonly] {
+    background-color: #2a2a2a;
+    color: #aaa;
+    cursor: default;
+}
+
+.receipt-items-table tbody tr {
+    background-color: rgba(255,255,255,0.02);
+    border-radius: 8px;
+}
+
+.receipt-items-table tbody tr td:first-child {
+    padding-left: 0px;
+}
+
+.receipt-items-table tbody tr td:last-child {
+    padding-right: 4px;
+}
+
+.receipt-items-table tbody tr td button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.receipt-items-table tbody tr td button:hover {
+    background-color: #c0392b;
+}
+
+.receipt-items-table tbody tr td button:active {
+    background-color: #a93226;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.receipt-items-table tbody tr td input[type="number"] {
+    text-align: center;
+}
+
+.right-side-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.right-side-text h2{
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.right-toolbar {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 16px;
+    border-bottom: 1px solid var(--border-input);
+    background-color: var(--bg-card);
+}
+
+.action-buttons {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.action-buttons .toggle-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.action-buttons .toggle-btn:hover {
+    background-color: var(--btn-bg-hover);
+    color: var(--btn-text-hover);
+}
+
+.action-buttons .toggle-btn:active {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.toggle-btn {
+    border: none;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: var(--btn-bg-hover);
+    color: var(--btn-text-hover);
+}
+
+.toggle-btn.active {
+    background-color: var(--bg-button);
+    color: var(--btn-text);
+}
+
+.view-toggle {
+    display: inline-flex;
+    background-color: var(--bg-card);
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--btn-border-overlay);
+}

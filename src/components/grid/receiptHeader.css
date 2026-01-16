@@ -1,0 +1,20 @@
+.history-list-header .col {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+    transition: color 0.2s ease;
+}
+
+.history-list-header .col span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    color: var(--text-primary);
+}
+
+.history-list-header .col:hover span {
+    color: var(--link);
+}

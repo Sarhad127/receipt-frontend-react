@@ -1,0 +1,97 @@
+
+:root[data-theme="light"] {
+    --bg-page: #f5f6f8;
+    --bg-card: #ffffff;
+    --bg-input: #fafafa;
+    --bg-input-sidebar-hover: rgba(239, 239, 239, 0.88);
+    --bg-button: #2563eb;
+    --bg-button-hover: #1d4ed8;
+    --bg-toast: rgba(255, 255, 255, 0.95);
+    --bg-header: linear-gradient(90deg, #1E3A8A, #3d33ec);
+    --btn-surface: #d7d7da;
+
+    --text-primary: #111827;
+    --text-secondary: #2B2B2B;
+    --text-muted: #6b7280;
+    --text-inverse: #ffffff;
+    --link: #2563eb;
+    --link-hover: #1d4ed8;
+
+    --border-input: #d1d5db;
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    --bg-input-focus: #f3f4f6;
+    --border-input-focus: #3b82f6;
+
+    --btn-bg: #e5e5e5;
+    --btn-bg-hover: #dcdcdc;
+    --btn-text: #333;
+    --btn-text-hover: #000;
+    --btn-border: #ccc;
+
+    --btn-danger-bg: #ffdddd;
+    --btn-danger-bg-hover: #ffcccc;
+    --btn-danger-text: #900;
+    --btn-danger-text-hover: #700;
+    --btn-danger-border: #cc6666;
+    --btn-danger-border-hover: #aa4444;
+
+    --btn-bg-overlay: rgba(0, 0, 0, 0.1);
+    --btn-bg-overlay-hover: rgba(0, 0, 0, 0.2);
+    --btn-text-overlay: #333;
+    --btn-border-overlay: rgba(0, 0, 0, 0.1);
+    --btn-border-overlay-hover: rgba(0, 0, 0, 0.2);
+
+    --border-light: #ddd;
+
+    --row-bg-odd: #ffffff;
+    --row-bg-even: #f3f4f6;
+}
+
+:root[data-theme="dark"] {
+    --bg-page: #1f1f1f;
+    --bg-card: #2a2a2a;
+    --bg-input: #3a3a3a;
+    --bg-input-sidebar-hover: #3a3a3a;
+    --bg-button: #444;
+    --bg-button-hover: #555;
+    --btn-surface: #444;
+    --bg-toast: rgba(50, 50, 50, 0.95);
+
+    --text-primary: #ffffff;
+    --text-secondary: #dddddd;
+    --text-muted: #cccccc;
+    --text-inverse: #ffffff;
+    --link: #1e90ff;
+    --link-hover: #0d6efd;
+
+    --border-input: #555;
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+    --bg-input-focus: #333333;
+    --border-input-focus: #666666;
+
+    --btn-bg: #2f2f2f;
+    --btn-bg-hover: #3a3a3a;
+    --btn-text: #e5e5e5;
+    --btn-text-hover: #fff;
+    --btn-border: #444;
+
+    --btn-danger-bg: #2a2a2a;
+    --btn-danger-bg-hover: #3a1f1f;
+    --btn-danger-text: #ffb3b3;
+    --btn-danger-text-hover: #fff;
+    --btn-danger-border: #6a2a2a;
+    --btn-danger-border-hover: #8a3a3a;
+
+    --btn-bg-overlay: rgba(0, 0, 0, 0.45);
+    --btn-bg-overlay-hover: rgba(0, 0, 0, 0.65);
+    --btn-text-overlay: rgba(255, 255, 255, 0.9);
+    --btn-border-overlay: rgba(255, 255, 255, 0.12);
+    --btn-border-overlay-hover: rgba(255, 255, 255, 0.25);
+
+    --border-light: rgba(255,255,255,0.05);
+
+    --row-bg-odd: #2a2a2a;
+    --row-bg-even: #343434;
+}

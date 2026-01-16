@@ -1,0 +1,116 @@
+.image-container {
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 16px;
+}
+
+.right-panel-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.expand-btn-on-image {
+    position: absolute;
+    bottom: 8px;
+    left: 5px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: var(--btn-bg-overlay);
+    color: var(--btn-text-overlay);
+    border: 1px solid var(--btn-border-overlay);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.expand-btn-on-image:hover {
+    background: var(--btn-bg-overlay-hover);
+    border-color: var(--btn-border-overlay-hover);
+}
+
+.right-panel-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.action-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.action-btn:hover {
+    background: var(--btn-bg-hover);
+    border-color: var(--btn-border-hover);
+    color: var(--btn-text-hover);
+}
+
+.action-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.action-btn.danger {
+    background: var(--btn-danger-bg);
+    border-color: var(--btn-danger-border);
+    color: var(--btn-danger-text);
+}
+
+.action-btn.danger:hover {
+    background: var(--btn-danger-bg-hover);
+    border-color: var(--btn-danger-border-hover);
+    color: var(--btn-danger-text-hover);
+}
+
+.right-panel-placeholder {
+    margin: auto;
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+}
+
+.right-panel-info {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.right-panel-info h4 {
+    margin: 12px 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.info-row span {
+    color: var(--text-secondary);
+}
+
+.info-row strong {
+    font-weight: 500;
+    color: var(--text-primary);
+}
