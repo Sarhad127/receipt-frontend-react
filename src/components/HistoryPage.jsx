@@ -32,6 +32,8 @@ function HistoryPage() {
     const [maxAmount, setMaxAmount] = useState("");
     const [sortOption, setSortOption] = useState("newest");
     const [selectionMode, setSelectionMode] = useState(false);
+    const [listSortKey, setListSortKey] = useState("createdAt");
+    const [listSortDir, setListSortDir] = useState("desc");
 
     const [gridSize, setGridSize] = useState(() => {
         return localStorage.getItem("savedPageGridSize") || "medium";
@@ -158,10 +160,69 @@ function HistoryPage() {
         sortOption
     });
 
+    const sortedReceipts = React.useMemo(() => {
+        const arr = [...filteredReceipts];
+
+        arr.sort((a, b) => {
+            let valA, valB;
+
+            switch (listSortKey) {
+                case "vendorName":
+                    valA = a.vendorName || "";
+                    valB = b.vendorName || "";
+                    break;
+                case "totalAmount":
+                    valA = a.totalAmount || 0;
+                    valB = b.totalAmount || 0;
+                    break;
+                case "createdAt":
+                    valA = new Date(a.receiptDate || a.createdAt).getTime();
+                    valB = new Date(b.receiptDate || b.createdAt).getTime();
+                    break;
+                default:
+                    valA = "";
+                    valB = "";
+            }
+
+            if (valA < valB) return listSortDir === "asc" ? -1 : 1;
+            if (valA > valB) return listSortDir === "asc" ? 1 : -1;
+            return 0;
+        });
+
+        return arr;
+    }, [filteredReceipts, listSortKey, listSortDir]);
+
     const handleLayoutChange = (newLayout) => {
         setLayout(newLayout);
         localStorage.setItem("historyLayout", newLayout);
     };
+
+    useEffect(() => {
+        switch (sortOption) {
+            case "newest":
+                setListSortKey("createdAt");
+                setListSortDir("desc");
+                break;
+            case "oldest":
+                setListSortKey("createdAt");
+                setListSortDir("asc");
+                break;
+            case "highest":
+                setListSortKey("totalAmount");
+                setListSortDir("desc");
+                break;
+            case "lowest":
+                setListSortKey("totalAmount");
+                setListSortDir("asc");
+                break;
+            case "vendorAZ":
+                setListSortKey("vendorName");
+                setListSortDir("asc");
+                break;
+            default:
+                break;
+        }
+    }, [sortOption]);
 
     return (
         <div className="page-wrapper">
@@ -213,7 +274,16 @@ function HistoryPage() {
                     />
 
                 <div className="page-content">
-                    {layout === "list" && <HistoryListHeader />}
+                    {layout === "list" && (
+                        <HistoryListHeader
+                            currentSort={listSortKey}
+                            currentSortDir={listSortDir}
+                            onSort={(key, dir) => {
+                                setListSortKey(key);
+                                setListSortDir(dir);
+                            }}
+                        />
+                    )}
                     {receipts.length === 0 ? (
                         <div className="empty-state">
                             <p>Inga kvitton</p>
@@ -221,7 +291,7 @@ function HistoryPage() {
                     ) : (
                         <>
                             <ul className={`receipt-list ${layout} ${gridSize} ${selectionMode ? "selection-mode" : ""}`}>
-                                {filteredReceipts.map((r) => (
+                                {sortedReceipts.map((r) => (
                                     <li
                                         key={r.id}
                                         className={`receipt-item ${layout} ${selectedReceiptId === r.id ? "selected-receipt" : ""}`}
