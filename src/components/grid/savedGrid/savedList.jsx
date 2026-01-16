@@ -33,7 +33,7 @@ export default function SavedList({ r, image, ocrData, onExpand }) {
 
             <div className="col total">
                 {ocrData?.totalAmount !== undefined
-                    ? `${ocrData.totalAmount} kr`
+                    ? `${Number(ocrData.totalAmount).toFixed(2)} kr`
                     : "–"}
             </div>
 

@@ -14,6 +14,7 @@ import HistoryListHeader from "./grid/historyGrid/historyListHeader";
 import receiptsIcon from "./icons/receipt.png";
 import historyIcon from "./icons/history.png";
 import statsIcon from "./icons/analytics.png";
+import receiptsHeaderIcon from "./icons/title-icon.png";
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -166,7 +167,11 @@ function HistoryPage() {
         <div className="page-wrapper">
 
             <aside className="sidebar">
-                <h1 className="sidebar-title">Huskvitton</h1>
+                <h1 className="sidebar-title">
+                    <img src={receiptsHeaderIcon} alt="Huskvitton" className="sidebar-header-icon" />
+                    Huskvitton
+                </h1>
+                <div className="sidebar-divider"></div>
                 <nav className="sidebar-nav">
                     <div className="sidebar-item" onClick={() => navigate("/kvitton")}>
                         <img src={receiptsIcon} alt="Kvitton" className="sidebar-icon" />

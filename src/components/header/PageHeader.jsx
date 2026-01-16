@@ -53,6 +53,7 @@ function PageHeader({
                                        setReceipts
                     }) {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showAdvancedFilters, setShowAdvancedFilters] = useState(true);
 
     const toggleCategory = (category) => {
         if (category === "Alla") {
@@ -194,6 +195,18 @@ function PageHeader({
                 </div>
             </div>
 
+            <div className="toggle-advanced-filters">
+                <button
+                    onClick={() => setShowAdvancedFilters(prev => !prev)}
+                    className="toggle-advanced-btn"
+                    aria-label="Toggle advanced filters"
+                >
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            {showAdvancedFilters && (
             <div className="advanced-filters">
                 <div className="advanced-filter-group">
                     <div className="advanced-filter-title">Kategori</div>
@@ -312,6 +325,7 @@ function PageHeader({
                     </div>
                 </div>
             </div>
+            )}
             {showDeleteConfirm && (
                 <div className="delete-confirm-overlay">
                     <div className="delete-confirm-modal">
