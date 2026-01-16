@@ -362,6 +362,7 @@ function ReceiptsPage() {
                     selectedReceipt={selectedReceipt}
                     gridSize={gridSize}
                     setGridSize={handleGridSizeChange}
+                    isHistoryPage={false}
                 />
 
                 <div className="page-content">

@@ -1,6 +1,6 @@
 import './PageHeader.css'
 import { exportReceiptsCSV } from "../utils/exportCSV";
-import {deleteSavedReceipts} from "../api/apis.jsx";
+import {deleteSavedReceipts, deleteHistoryReceiptss} from "../api/apis.jsx";
 import React, {useState} from "react";
 import searchIcon from "../icons/search.png";
 import ThemeToggle from "../ThemeToggle.jsx";
@@ -50,7 +50,9 @@ function PageHeader({
                                        selectedReceipt,
                                        setGridSize,
                                        gridSize,
-                                       setReceipts
+                                       setReceipts,
+                                       isHistoryPage = false,
+                                       deleteHistoryReceipts,
                     }) {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [showAdvancedFilters, setShowAdvancedFilters] = useState(true);
@@ -72,9 +74,15 @@ function PageHeader({
         if (selectedReceipts.size === 0) return;
 
         try {
-            await deleteSavedReceipts(Array.from(selectedReceipts));
+            if (isHistoryPage && deleteHistoryReceipts) {
+                await deleteHistoryReceiptss(Array.from(selectedReceipts));
+            } else {
+                await deleteSavedReceipts(Array.from(selectedReceipts));
+            }
+
             setReceipts(prev => prev.filter(r => !selectedReceipts.has(r.id)));
             setSelectedReceipt(prev => (prev && selectedReceipts.has(prev.id) ? null : prev));
+            setSelectedReceipts(new Set());
         } catch (error) {
             console.error(error);
             alert("Det gick inte att radera kvittona");
@@ -282,33 +290,39 @@ function PageHeader({
                             {selectionMode ? "Avsluta" : "Välj"}
                         </button>
 
-                        <button
-                            className={`export-selected-btn ${
-                                !selectionMode || selectedReceipts.size === 0 ? "inactive" : ""
-                            }`}
-                            disabled={!selectionMode || selectedReceipts.size === 0}
-                            onClick={() => {
-                                if (!selectionMode || selectedReceipts.size === 0) return;
+                        {!isHistoryPage && (
+                            <button
+                                className={`export-selected-btn ${
+                                    !selectionMode || selectedReceipts.size === 0 ? "inactive" : ""
+                                }`}
+                                disabled={!selectionMode || selectedReceipts.size === 0}
+                                onClick={() => {
+                                    if (!selectionMode || selectedReceipts.size === 0) return;
 
-                                const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
-                                const ocrToExport = {};
-                                receiptsToExport.forEach(r => {
-                                    if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
-                                });
-                                exportReceiptsCSV(receiptsToExport, ocrToExport);
-                            }}
-                        >
-                            Exportera valda kvitton
-                        </button>
+                                    const receiptsToExport = receipts.filter(r => selectedReceipts.has(r.id));
+                                    const ocrToExport = {};
+                                    receiptsToExport.forEach(r => {
+                                        if (ocrDataMap[r.id]) ocrToExport[r.id] = ocrDataMap[r.id];
+                                    });
+                                    exportReceiptsCSV(receiptsToExport, ocrToExport);
+                                }}
+                            >
+                                Exportera valda kvitton
+                            </button>
+                        )}
                     </div>
-                    <div className="export-csv-wrapper">
-                        <button
-                            className="export-csv-btn"
-                            onClick={() => exportReceiptsCSV(receipts, ocrDataMap)}
-                        >
-                            Exportera CSV för bokföring
-                        </button>
-                    </div>
+
+                    {!isHistoryPage && (
+                        <div className="export-csv-wrapper">
+                            <button
+                                className="export-csv-btn"
+                                onClick={() => exportReceiptsCSV(receipts, ocrDataMap)}
+                            >
+                                Exportera CSV för bokföring
+                            </button>
+                        </div>
+                    )}
+
                     <div className="delete-selections-btn">
                         <button
                             className={`delete-selected-btn ${

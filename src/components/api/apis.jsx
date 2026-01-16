@@ -103,6 +103,24 @@ export async function fetchHistoryReceiptImage(receiptId) {
     return URL.createObjectURL(blob);
 }
 
+export async function deleteHistoryReceiptss(receiptIds) {
+    const token = getToken();
+    if (!token) throw new Error("No token");
+
+    const res = await fetch(`${API_BASE}/HistoryController`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(receiptIds)
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to delete selected history receipts");
+    }
+}
+
 //********************LoginController********************//
 
 export async function loginUser({ email, password, rememberMe }) {

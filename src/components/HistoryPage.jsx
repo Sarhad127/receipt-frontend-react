@@ -34,6 +34,7 @@ function HistoryPage() {
     const [selectionMode, setSelectionMode] = useState(false);
     const [listSortKey, setListSortKey] = useState("createdAt");
     const [listSortDir, setListSortDir] = useState("desc");
+    const [selectedReceipts, setSelectedReceipts] = useState(new Set());
 
     const [gridSize, setGridSize] = useState(() => {
         return localStorage.getItem("savedPageGridSize") || "medium";
@@ -271,6 +272,15 @@ function HistoryPage() {
                         setSortOption={setSortOption}
                         gridSize={gridSize}
                         setGridSize={handleGridSizeChange}
+                        selectionMode={selectionMode}
+                        setSelectionMode={setSelectionMode}
+                        selectedReceipts={selectedReceipts}
+                        setSelectedReceipts={setSelectedReceipts}
+                        selectedReceipt={receipts.find(r => r.id === selectedReceiptId)}
+                        setSelectedReceipt={setSelectedReceiptId}
+                        isHistoryPage={true}
+                        deleteHistoryReceipts={deleteHistoryReceipt}
+                        setReceipts={setReceipts}
                     />
 
                 <div className="page-content">
@@ -294,17 +304,33 @@ function HistoryPage() {
                                 {sortedReceipts.map((r) => (
                                     <li
                                         key={r.id}
-                                        className={`receipt-item ${layout} ${selectedReceiptId === r.id ? "selected-receipt" : ""}`}
+                                        className={`receipt-item ${layout} ${
+                                            selectionMode
+                                                ? selectedReceipts.has(r.id) ? "selected-receipt" : ""
+                                                : selectedReceiptId === r.id ? "selected-receipt" : ""
+                                        }`}
                                         onClick={() => {
-                                            setSelectedImage(images[r.id]);
-                                            setSelectedReceiptId(r.id);
+                                            if (selectionMode) {
+                                                setSelectedReceipts(prev => {
+                                                    const newSet = new Set(prev);
+                                                    if (newSet.has(r.id)) newSet.delete(r.id);
+                                                    else newSet.add(r.id);
+                                                    return newSet;
+                                                });
+                                            } else {
+                                                setSelectedImage(images[r.id]);
+                                                setSelectedReceiptId(r.id);
+                                            }
                                         }}
                                     >
                                         {layout === "grid" ? (
                                             <HistoryGrid
                                                 r={r}
                                                 image={images[r.id]}
-                                                isSelected={selectedReceiptId === r.id}
+                                                isSelected={selectionMode
+                                                    ? selectedReceipts.has(r.id)
+                                                    : selectedReceiptId === r.id
+                                                }
                                             />
                                         ) : (
                                             <HistoryList
